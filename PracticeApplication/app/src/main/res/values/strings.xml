@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">ProtoBoard</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_search">Search</string>
+
+    <string name="title_activity_which_type_of_project">WhichTypeOfProject</string>
+    <string name="title_activity_which_type_project">Type of project</string>
+    <string name="title_activity_load_saved_board">Load a board</string>
+    <string name="title_activity_empty_board">Empty Board</string>
+    <string name="title_activity_ltboard">LTSpice Board</string>
+    <string name="title_activity_vector_board">Vector Board</string>
+    <string name="title_activity_bread_board">Bread Board</string>
+
+    <string name="new_board_button">New</string>
+    <string name="load_board_button">Load</string>
+    <string name="noSavedButton">No projects saved?</string>
+
+    <string name="TODOload_board">TODO:Insert Loaded files if there are any and if there aren\'t then redirect to the create new board page</string>
+    <string name="TODOEmptyBoard">TODO:Insert building options for this</string>
+    <string name="TODOVectorBoard">TODO:Insert images for board\nallow for zooming\nthe real work starts here</string>
+    <string name="TODOBreadBoard">TODO:Insert images for board\nallow for zooming\nthe real work starts here</string>
+    <string name="TODOLTBoard">TODO:Insert option to pick file</string>
+
+</resources>

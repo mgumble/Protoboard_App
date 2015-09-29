@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.emilie.practiceapplication" >
+
+    <uses-sdk android:minSdkVersion="11" />
+
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name=".MyActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".WhichTypeProjectActivity"
+            android:label="@string/title_activity_which_type_project"
+            android:parentActivityName=".MyActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.emilie.practiceapplication.MyActivity" />
+        </activity>
+        <activity
+            android:name=".LoadSavedBoardActivity"
+            android:label="@string/title_activity_load_saved_board"
+            android:parentActivityName=".MyActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.emilie.practiceapplication.MyActivity" />
+        </activity>
+        <activity
+            android:name=".EmptyBoardActivity"
+            android:label="@string/title_activity_empty_board"
+            android:parentActivityName=".WhichTypeProjectActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.emilie.practiceapplication.WhichTypeProjectActivity" />
+        </activity>
+        <activity
+            android:name=".LTBoardActivity"
+            android:label="@string/title_activity_ltboard"
+            android:parentActivityName=".WhichTypeProjectActivity" >
+            <meta-data
+                android:name="com.google.android.apps.drive.APP_ID"
+                android:value="id=silicon-stock-107722"
+                 />
+            <intent-filter>
+                <action android:name="com.google.android.apps.drive.DRIVE_OPEN" />
+                <data android:mimeType="application/vnd.google-apps.drive-sdk.silicon-stock-107722" />
+                <data android:mimeType="image/png" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".VectorBoardActivity"
+            android:label="@string/title_activity_vector_board"
+            android:parentActivityName=".EmptyBoardActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.emilie.practiceapplication.EmptyBoardActivity" />
+        </activity>
+        <activity
+            android:name=".BreadBoardActivity"
+            android:label="@string/title_activity_bread_board"
+            android:parentActivityName=".EmptyBoardActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.emilie.practiceapplication.EmptyBoardActivity" />
+        </activity>
+    </application>
+
+</manifest>

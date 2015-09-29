@@ -1,0 +1,33 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.example.emilie.practiceapplication.WhichTypeProjectActivity"
+    android:background="#608984">
+
+    <Button
+        android:layout_width="200dp"
+        android:layout_height="75dp"
+        android:text="Empty Board"
+        android:onClick="emptyBoard"
+        android:id="@+id/empty_board_button"
+        android:background="#64b28d"
+
+        android:layout_above="@+id/LT_button"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="24dp" />
+
+    <Button
+        android:layout_width="200dp"
+        android:layout_height="75dp"
+        android:text="Board from LTSpice"
+        android:onClick="LTBoard"
+        android:id="@+id/LT_button"
+        android:background="#64b28d"
+
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/empty_board_button"
+        android:layout_marginBottom="188dp" />
+</RelativeLayout>
