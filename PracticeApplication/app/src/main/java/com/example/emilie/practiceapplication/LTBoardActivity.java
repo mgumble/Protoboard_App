@@ -4,18 +4,17 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.ListView;
+
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.drive.Drive;
 import com.google.android.gms.drive.Metadata;
-import com.google.android.gms.drive.query.Query;
 import com.google.android.gms.drive.widget.DataBufferAdapter;
 
 
@@ -59,26 +58,26 @@ public class LTBoardActivity extends Activity implements
              */
             @Override
             public void onScroll(AbsListView view, int first, int visible, int total) {
-                if (mNextPageToken != null && first + visible + 5 < total) {
-                    retrieveNextPage();
-                }
+//                if (mNextPageToken != null && first + visible + 5 < total) {
+//                    retrieveNextPage();
+//                }
             }
         });
     }
 
-    private void retrieveNextPage() {
-        // if there are no more results to retrieve,
-        // return silently.
-        if (!mHasMore) {
-            return;
-        }
-        // retrieve the results for the next page.
-        Query query = new Query.Builder()
-                .setPageToken(mNextPageToken)
-                .build();
-        Drive.DriveApi.query(getGoogleApiClient(), query)
-                .setResultCallback(metadataBufferCallback);
-    }
+//    private void retrieveNextPage() {
+//        // if there are no more results to retrieve,
+//        // return silently.
+//        if (!mHasMore) {
+//            return;
+//        }
+//        // retrieve the results for the next page.
+//        Query query = new Query.Builder()
+//                .setPageToken(mNextPageToken)
+//                .build();
+//        Drive.DriveApi.query(getGoogleApiClient(), query)
+//                .setResultCallback(metadataBufferCallback);
+//    }
 
     @Override
     protected void onStart() {
@@ -117,20 +116,20 @@ public class LTBoardActivity extends Activity implements
         return true;
     }
 
-    @Override
-    public void onConnected(Bundle connectionHint) {
-       // super.onConnected(connectionHint);
-        IntentSender intentSender = Drive.DriveApi
-                .newOpenFileActivityBuilder()
-                .setMimeType(new String[] { "text/plain", "text/html" })
-                .build(getGoogleApiClient());
-        try {
-            startIntentSenderForResult(
-                    intentSender, REQUEST_CODE_OPENER, null, 0, 0, 0);
-        } catch (IntentSender.SendIntentException e) {
-            Log.w(TAG, "Unable to send intent", e);
-        }
-    }
+//    @Override
+//    public void onConnected(Bundle connectionHint) {
+//       // super.onConnected(connectionHint);
+//        IntentSender intentSender = Drive.DriveApi
+//                .newOpenFileActivityBuilder()
+//                .setMimeType(new String[] { "text/plain", "text/html" })
+//                .build(getGoogleApiClient());
+//        try {
+//            startIntentSenderForResult(
+//                    intentSender, REQUEST_CODE_OPENER, null, 0, 0, 0);
+//        } catch (IntentSender.SendIntentException e) {
+//            Log.w(TAG, "Unable to send intent", e);
+//        }
+//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
