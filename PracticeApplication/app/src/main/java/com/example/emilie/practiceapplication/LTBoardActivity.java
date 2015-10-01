@@ -1,158 +1,128 @@
 package com.example.emilie.practiceapplication;
 
 import android.app.Activity;
-import android.content.Intent;
-import android.content.IntentSender;
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.AbsListView;
-import android.widget.AbsListView.OnScrollListener;
-import android.widget.ListView;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.drive.Drive;
-import com.google.android.gms.drive.Metadata;
-import com.google.android.gms.drive.widget.DataBufferAdapter;
+import com.dropbox.client2.DropboxAPI;
+import com.dropbox.client2.android.AndroidAuthSession;
+import com.dropbox.client2.session.AppKeyPair;
+import com.dropbox.client2.session.Session.AccessType;
+import com.dropbox.client2.session.TokenPair;
 
+import java.util.ArrayList;
 
-public class LTBoardActivity extends Activity implements
-        GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener {
+public class LTBoardActivity extends Activity implements OnClickListener {
 
-    private GoogleApiClient mGoogleApiClient;
-    protected static final int RESOLVE_CONNECTION_REQUEST_CODE = 1;
-    private DataBufferAdapter<Metadata> mResultsAdapter;
-    private String mNextPageToken;
-    private boolean mHasMore;
-    private ListView mListView;
+    private LinearLayout container;
+    private DropboxAPI dropboxApi;
+    private boolean isUserLoggedIn;
+    private Button loginBtn;
+    private Button uploadFileBtn;
+    private Button listFilesBtn;
+
+    private final static String DROPBOX_FILE_DIR = "/AndroidDropboxImplementationExample/";
+    private final static String DROPBOX_NAME = "dropbox_prefs";
+    private final static String ACCESS_KEY = "nc8y7ktqwyuzjx7";
+    private final static String ACCESS_SECRET = "e1t1p8msv1j4t42";
+    private final static AccessType ACCESS_TYPE = AccessType.DROPBOX;
+    private DropboxAPI<AndroidAuthSession> mDBApi;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .addApi(Drive.API)
-                .addScope(Drive.SCOPE_FILE)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .setAccountName("emilie.featherston@gmail.com")
-                .build();
-
         setContentView(R.layout.activity_ltboard);
-        mHasMore = true; // initial request assumes there are files results.
 
-        mListView = (ListView) findViewById(R.id.listViewResults);
-        mResultsAdapter = new ResultsAdapter(this);
-        mListView.setAdapter(mResultsAdapter);
-        mListView.setOnScrollListener(new OnScrollListener() {
+        loginBtn = (Button) findViewById(R.id.loginBtn);
+        loginBtn.setOnClickListener(this);
+        uploadFileBtn = (Button) findViewById(R.id.uploadFileBtn);
+        uploadFileBtn.setOnClickListener(this);
+        listFilesBtn = (Button) findViewById(R.id.listFilesBtn);
+        listFilesBtn.setOnClickListener(this);
+        container = (LinearLayout) findViewById(R.id.container_files);
 
-            @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
-            }
+        loggedIn(false);
 
-            /**
-             * Handles onScroll to retrieve next pages of results
-             * if there are more results items to display.
-             */
-            @Override
-            public void onScroll(AbsListView view, int first, int visible, int total) {
-//                if (mNextPageToken != null && first + visible + 5 < total) {
-//                    retrieveNextPage();
-//                }
-            }
-        });
-    }
-
-//    private void retrieveNextPage() {
-//        // if there are no more results to retrieve,
-//        // return silently.
-//        if (!mHasMore) {
-//            return;
-//        }
-//        // retrieve the results for the next page.
-//        Query query = new Query.Builder()
-//                .setPageToken(mNextPageToken)
-//                .build();
-//        Drive.DriveApi.query(getGoogleApiClient(), query)
-//                .setResultCallback(metadataBufferCallback);
-//    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        mGoogleApiClient.connect();
+        AppKeyPair appKeyPair = new AppKeyPair(ACCESS_KEY, ACCESS_SECRET);
+        AndroidAuthSession session = new AndroidAuthSession(appKeyPair);;
+        mDBApi = new DropboxAPI<AndroidAuthSession>(session);
+        mDBApi.getSession().startOAuth2Authentication(LTBoardActivity.this);
+        SharedPreferences prefs = getSharedPreferences(DROPBOX_NAME, 0);
+        //dropboxApi = new DropboxAPI(session);
     }
 
     @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
-        if (connectionResult.hasResolution()) {
+    protected void onResume() {
+        super.onResume();
+
+        AndroidAuthSession session = mDBApi.getSession();
+
+        if (session.authenticationSuccessful()) {
             try {
-                connectionResult.startResolutionForResult(this, RESOLVE_CONNECTION_REQUEST_CODE);
-            } catch (IntentSender.SendIntentException e) {
-                // Unable to resolve, message user appropriately
+                // Required to complete auth, sets the access token on the session
+                session.finishAuthentication();
+                loggedIn(true);
+                TokenPair accessToken = session.getAccessTokenPair();
+            } catch (IllegalStateException e) {
+                Log.i("DbAuthLog", "Error authenticating", e);
             }
-        } else {
-            GooglePlayServicesUtil.getErrorDialog(connectionResult.getErrorCode(), this, 0).show();
         }
     }
 
+
+
+    private final Handler handler = new Handler() {
+        public void handleMessage(Message message) {
+            ArrayList<String> result = message.getData().getStringArrayList("data");
+            for (String fileName : result) {
+                TextView textView = new TextView(LTBoardActivity.this);
+                textView.setText(fileName);
+                container.addView(textView);
+            }
+        }
+    };
+
     @Override
-    protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
-        switch (requestCode) {
-            case RESOLVE_CONNECTION_REQUEST_CODE:
-                if (resultCode == RESULT_OK) {
-                    mGoogleApiClient.connect();
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.loginBtn:
+                if (isUserLoggedIn) {
+                    mDBApi.getSession().unlink();
+                    loggedIn(false);
+                } else {
+                    mDBApi.getSession().startOAuth2Authentication(LTBoardActivity.this);
                 }
+                break;
+            case R.id.uploadFileBtn:
+                DropboxAPI.Entry entry = new DropboxAPI.Entry();
+                UploadFile uploadFile = new UploadFile(this,mDBApi,DROPBOX_FILE_DIR);
+                uploadFile.execute();
+                break;
+            case R.id.listFilesBtn:
+                ListFiles listFiles = new ListFiles(mDBApi, DROPBOX_FILE_DIR, handler);
+                listFiles.execute();
+
+                break;
+            default:
                 break;
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_ltboard, menu);
-        return true;
-    }
-
-//    @Override
-//    public void onConnected(Bundle connectionHint) {
-//       // super.onConnected(connectionHint);
-//        IntentSender intentSender = Drive.DriveApi
-//                .newOpenFileActivityBuilder()
-//                .setMimeType(new String[] { "text/plain", "text/html" })
-//                .build(getGoogleApiClient());
-//        try {
-//            startIntentSenderForResult(
-//                    intentSender, REQUEST_CODE_OPENER, null, 0, 0, 0);
-//        } catch (IntentSender.SendIntentException e) {
-//            Log.w(TAG, "Unable to send intent", e);
-//        }
-//    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onConnected(Bundle bundle) {
-
-    }
-
-    @Override
-    public void onConnectionSuspended(int i) {
-
+    public void loggedIn(boolean userLoggedIn) {
+        isUserLoggedIn = userLoggedIn;
+        uploadFileBtn.setEnabled(userLoggedIn);
+        uploadFileBtn.setBackgroundColor(userLoggedIn ? Color.BLUE : Color.GRAY);
+        listFilesBtn.setEnabled(userLoggedIn);
+        listFilesBtn.setBackgroundColor(userLoggedIn ? Color.BLUE : Color.GRAY);
+        loginBtn.setText(userLoggedIn ? "Logout" : "Log in");
     }
 }
