@@ -1,4 +1,5 @@
-package com.example.emilie.practiceapplication;
+package com.example.emilie.practiceapplication.Parser;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;

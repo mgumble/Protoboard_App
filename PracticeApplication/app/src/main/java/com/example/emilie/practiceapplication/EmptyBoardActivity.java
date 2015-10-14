@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 public class EmptyBoardActivity extends AppCompatActivity {
 
@@ -13,6 +14,12 @@ public class EmptyBoardActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_empty_board);
+        Bundle extras = getIntent().getExtras();
+        if(extras != null){
+            String value = extras.getString("FileName");
+            TextView test = (TextView) findViewById(R.id.textView3);
+            test.setText(value);
+        }
     }
 
     @Override

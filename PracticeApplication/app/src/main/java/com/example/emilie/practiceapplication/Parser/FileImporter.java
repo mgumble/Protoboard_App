@@ -1,7 +1,6 @@
-package com.example.emilie.practiceapplication;
+package com.example.emilie.practiceapplication.Parser;
 import java.util.List;
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
 
@@ -13,9 +12,10 @@ public class FileImporter {
 	
 public FileImporter(String schematic ,String library)
 	{
-		File path = new File("C:\\Users\\Mose\\Desktop\\LTSpice\\Schematics\\");
-		String absolutePath = path.getAbsolutePath();
-		Schematic = absolutePath.concat(schematic); // Make the schematic path the current bath
+		//File path = new File("C:\\Users\\Mose\\Desktop\\LTSpice\\Schematics\\");
+		//String absolutePath = path.getAbsolutePath();
+		//Schematic = absolutePath.concat(schematic); // Make the schematic path the current bath
+		Schematic = schematic;
 		LibraryPath = library; //Hardcoded path to Library
 	}
 

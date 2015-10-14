@@ -1,4 +1,4 @@
-package com.example.emilie.practiceapplication;
+package com.example.emilie.practiceapplication.Parser;
 public class Node {
 	private int x;
 	private int y;

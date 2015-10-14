@@ -1,5 +1,6 @@
 
-package com.example.emilie.practiceapplication;
+package com.example.emilie.practiceapplication.Parser;
+
 import java.util.List;
 
 public class Wire extends Component

@@ -1,4 +1,5 @@
-package com.example.emilie.practiceapplication;
+package com.example.emilie.practiceapplication.Parser;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -6,7 +7,7 @@ import java.util.List;
 public class Net {
 	public int IntName;
 
-	public List<Terminal> terminalList; 
+	public List<Terminal> terminalList;
 	public List<Net> NetList;
 	
 	public Net (Terminal terminal, List<Net> netlist)

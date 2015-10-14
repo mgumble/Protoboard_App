@@ -1,6 +1,7 @@
 package com.example.emilie.practiceapplication;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -80,13 +81,32 @@ public class LTBoardActivity extends Activity implements OnClickListener {
 
 
 
-    private final Handler handler = new Handler() {
+   private final Handler handler = new Handler() {
         public void handleMessage(Message message) {
-            ArrayList<String> result = message.getData().getStringArrayList("data");
-            for (String fileName : result) {
-                TextView textView = new TextView(LTBoardActivity.this);
+            final ArrayList<String> result = message.getData().getStringArrayList("data");
+            for (final String fileName : result) {
+                final TextView textView = new TextView(LTBoardActivity.this);
                 textView.setText(fileName);
+                textView.setTextSize(32);
                 container.addView(textView);
+                textView.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        boolean result = false;
+
+                        DownloadFile download = new DownloadFile(mDBApi,DROPBOX_FILE_DIR);
+                        result = download.downloadDropboxFile(fileName);
+
+                        //String Library = "file:///android_asset/lib/sym/";
+                        //String Schematic = "file:///android_asset/Schematics/Resistor1.asc";
+                        //LTParser parser = new LTParser(Schematic,Library);
+                        //parser.test();
+                        Intent intent = new Intent(LTBoardActivity.this, EmptyBoardActivity.class);
+                        intent.putExtra("FileName",result);
+                        startActivity(intent);
+
+                    }
+                });
             }
         }
     };
@@ -103,9 +123,9 @@ public class LTBoardActivity extends Activity implements OnClickListener {
                 }
                 break;
             case R.id.uploadFileBtn:
-                DropboxAPI.Entry entry = new DropboxAPI.Entry();
-                UploadFile uploadFile = new UploadFile(this,mDBApi,DROPBOX_FILE_DIR);
-                uploadFile.execute();
+                //UploadFile uploadFile = new UploadFile(this,mDBApi,DROPBOX_FILE_DIR);
+                //uploadFile.execute();
+                startActivity(new Intent(LTBoardActivity.this, DropboxDownload.class));
                 break;
             case R.id.listFilesBtn:
                 ListFiles listFiles = new ListFiles(mDBApi, DROPBOX_FILE_DIR, handler);
