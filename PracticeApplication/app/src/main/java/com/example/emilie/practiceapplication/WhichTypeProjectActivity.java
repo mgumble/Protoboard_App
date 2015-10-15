@@ -7,7 +7,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
 public class WhichTypeProjectActivity extends AppCompatActivity {
 
@@ -50,7 +49,7 @@ public class WhichTypeProjectActivity extends AppCompatActivity {
 
     public void LTBoard(View view)
     {
-        Intent intent = new Intent(this, LTBoardActivity.class);
+        Intent intent = new Intent(this, Dropbox.class);
         startActivity(intent);
     }
 }

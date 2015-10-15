@@ -25,7 +25,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="#fff"
         android:textStyle="bold"
-        android:text="File Upload"  />
+        android:text="File Upload" />
 
     <Button
         android:id="@+id/listFilesBtn"

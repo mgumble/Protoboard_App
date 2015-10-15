@@ -20,5 +20,18 @@
     <string name="TODOVectorBoard">TODO:Insert images for board\nallow for zooming\nthe real work starts here</string>
     <string name="TODOBreadBoard">TODO:Insert images for board\nallow for zooming\nthe real work starts here</string>
     <string name="TODOLTBoard">TODO:Insert option to pick file</string>
+    <string name="title_activity_dropbox_download">DropboxDownload</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_dropbox">Dropbox</string>
+
+    <string name="done">Done</string>
+
+    <string name="dropbox">dropbox</string>
+
+    <string name="drop_box">DropBox</string>
+
+    <string name="download">Download Schematic</string>
+
 
 </resources>

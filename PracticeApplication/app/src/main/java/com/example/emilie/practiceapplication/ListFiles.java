@@ -25,7 +25,7 @@ public class ListFiles extends AsyncTask<Void, Void, ArrayList> {
 
     @Override
     protected ArrayList doInBackground(Void... params) {
-        ArrayList files = new ArrayList();
+        ArrayList files = new ArrayList<>();
         try {
             Entry directory = dropboxApi.metadata(path, 1000, null, true, null);
             for (Entry entry : directory.contents) {

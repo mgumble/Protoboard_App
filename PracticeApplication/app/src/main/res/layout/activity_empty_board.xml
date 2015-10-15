@@ -33,4 +33,14 @@
         android:layout_marginBottom="188dp"
         />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Large Text"
+        android:id="@+id/textView3"
+        android:layout_alignTop="@+id/bread"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="81dp" />
+
 </RelativeLayout>
