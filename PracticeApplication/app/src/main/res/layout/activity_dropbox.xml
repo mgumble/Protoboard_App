@@ -7,7 +7,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/header"
+        android:background="@color/bg"
         android:gravity="center"
         android:orientation="vertical" >
 
@@ -41,17 +41,6 @@
                 android:orientation="vertical" >
 
             </LinearLayout>
-
-            <Button
-                android:id="@+id/btnUploadPhoto"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@color/btnbg"
-                android:padding="10dp"
-                android:text="@string/upload_photo"
-                android:textColor="@android:color/white"
-                android:textStyle="bold" />
 
             <LinearLayout
                 android:layout_width="0dp"

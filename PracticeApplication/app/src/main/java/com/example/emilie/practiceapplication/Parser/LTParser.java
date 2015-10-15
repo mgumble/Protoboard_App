@@ -21,7 +21,6 @@ public class LTParser {
 		
 		FileImporter importer = new FileImporter(Schematic,Library);
 		schematicResources = importer.readSchematic();  //Reads the schematic file and imports the values into a list of string arrays
-		//if (schematicResources != null) {
             Iterator<String[]> schematicIterator = schematicResources.iterator();
             line = schematicIterator.next();
             while (schematicIterator.hasNext())  // Iterates through the entire schematic file
@@ -49,9 +48,8 @@ public class LTParser {
                     line = schematicIterator.next();
                 }
             }// end while loop
-        //}
 		
-		printComponentList(ComponentList);
+
 		System.out.println("Done");
 	}
 	public static void printComponentList(List<Component> List)

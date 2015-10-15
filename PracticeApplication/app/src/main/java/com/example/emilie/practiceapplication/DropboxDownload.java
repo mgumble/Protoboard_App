@@ -36,8 +36,10 @@ import com.dropbox.client2.exception.DropboxException;
 import com.dropbox.client2.session.AccessTokenPair;
 import com.dropbox.client2.session.AppKeyPair;
 import com.dropbox.client2.session.TokenPair;
+import com.example.emilie.practiceapplication.Parser.LTParser;
 
 public class DropboxDownload extends Activity implements OnItemClickListener {
+    private String downloadPath;
     private DropboxAPI<AndroidAuthSession> mApi;
     private String DIR = "/";
     private ArrayList<Entry> files;
@@ -95,6 +97,9 @@ public class DropboxDownload extends Activity implements OnItemClickListener {
         } else {
 
             downloadDropboxFile(fileSelected);
+            LTParser parser = new LTParser(Utils.getPath() + "/" + fileSelected.fileName(),Utils.getPath() +"/lib/sym/");
+            parser.test();
+
             // getIntent().getStringExtra("fileParentPath"));
         }
     }
@@ -241,9 +246,7 @@ public class DropboxDownload extends Activity implements OnItemClickListener {
         }
     }
 
-    private boolean downloadDropboxFile(Entry fileSelected) {// , String
-        // localFilePath)
-        // {
+    private boolean downloadDropboxFile(Entry fileSelected) {
         File dir = new File(Utils.getPath());
         if (!dir.exists())
             dir.mkdirs();
@@ -291,6 +294,7 @@ public class DropboxDownload extends Activity implements OnItemClickListener {
                         bw.write(buffer, 0, read);
                     }
                     pd.dismiss();
+                    downloadPath = localFile.getAbsolutePath();
                     Message message = new Message();
                     message.obj = localFile.getAbsolutePath();
                     message.what = 1;

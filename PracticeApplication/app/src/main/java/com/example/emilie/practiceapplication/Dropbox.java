@@ -42,8 +42,6 @@ public class Dropbox extends Activity implements OnClickListener {
         setLoggedIn(false);
         btnDownload = (Button) findViewById(R.id.btnDownload);
 
-        btnUpload = (Button) findViewById(R.id.btnUploadPhoto);
-        btnUpload.setOnClickListener(this);
         btnDownload.setOnClickListener(this);
     }
 
@@ -84,15 +82,7 @@ public class Dropbox extends Activity implements OnClickListener {
     public void onClick(View v) {
         if (v == btnDownload) {
             startActivity(new Intent(Dropbox.this, DropboxDownload.class));
-        } else if (v == btnUpload) {
-            createDir();
-            if (mLoggedIn) {
-                logOut();
-            }
-            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            f = new File(Utils.getPath(),new Date().getTime()+".jpg");
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
-            startActivityForResult(intent, TAKE_PHOTO);
+        } else {
         }
     }
 
@@ -136,10 +126,7 @@ public class Dropbox extends Activity implements OnClickListener {
     public void setLoggedIn(boolean loggedIn) {
         mLoggedIn = loggedIn;
         if (loggedIn) {
-            //UploadFile upload = new UploadFile(Dropbox.this, mApi, DIR, f);
-            //upload.execute();
             onResume = false;
-
         }
     }
 
