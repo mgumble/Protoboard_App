@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class Component {
+public class  Component {
 	public String Name;
 	public List<Net> NetList;
 	private List<Terminal> Terminals;
