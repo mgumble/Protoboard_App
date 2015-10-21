@@ -10,7 +10,7 @@
         android:layout_width="200dp"
         android:layout_height="75dp"
         android:text="@string/new_board_button"
-        android:onClick="newBoard"
+        android:onClick="LTBoard"
         android:id="@+id/button"
         android:background="#64b28d"
 

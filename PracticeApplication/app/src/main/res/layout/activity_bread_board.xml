@@ -7,12 +7,12 @@
     tools:context="com.example.emilie.practiceapplication.BreadBoardActivity"
     android:background="#608984">
 
-    <RadioButton
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/radioButton"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="51dp"
-        android:checked="false" />
-
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="TODO"
+        android:id="@+id/textView4"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
 </RelativeLayout>

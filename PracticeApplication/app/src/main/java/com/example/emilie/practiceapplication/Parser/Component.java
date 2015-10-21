@@ -1,11 +1,15 @@
 package com.example.emilie.practiceapplication.Parser;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class Component {
+public class  Component implements Parcelable{
 	public String Name;
+    public String type;
 	public List<Net> NetList;
 	private List<Terminal> Terminals;
 	private String Value;
@@ -24,6 +28,7 @@ public class Component {
 			 String[] line = ComponentInfoIterator.next();
 			 if(line[0].equals("SYMBOL"))
 			 {
+                 type = line[1];
 				 setTerminals(file.readLibrary(line[1]), line);
 			 }
 			 else
@@ -39,7 +44,25 @@ public class Component {
 			 }
 		}			
 	}
-	public void setTerminals(List<String[]> Componentlibrary, String[] Component)
+
+    protected Component(Parcel in) {
+        Name = in.readString();
+        Value = in.readString();
+    }
+
+    public static final Creator<Component> CREATOR = new Creator<Component>() {
+        @Override
+        public Component createFromParcel(Parcel in) {
+            return new Component(in);
+        }
+
+        @Override
+        public Component[] newArray(int size) {
+            return new Component[size];
+        }
+    };
+
+    public void setTerminals(List<String[]> Componentlibrary, String[] Component)
 	{
 
 		Iterator<String[]> ComponentLibIterator = Componentlibrary.iterator();
@@ -86,5 +109,18 @@ public class Component {
 	}
 	public void setTerminals(List<Terminal> terminals) {
 		Terminals = terminals;
+	}
+
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeString(Name);
+		dest.writeList(NetList);
+		dest.writeList(Terminals);
+		dest.writeString(Value);
 	}
 }

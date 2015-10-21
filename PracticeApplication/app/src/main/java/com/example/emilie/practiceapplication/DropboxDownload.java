@@ -1,13 +1,5 @@
 package com.example.emilie.practiceapplication;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.ArrayList;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
@@ -36,7 +28,16 @@ import com.dropbox.client2.exception.DropboxException;
 import com.dropbox.client2.session.AccessTokenPair;
 import com.dropbox.client2.session.AppKeyPair;
 import com.dropbox.client2.session.TokenPair;
+import com.example.emilie.practiceapplication.Parser.Component;
 import com.example.emilie.practiceapplication.Parser.LTParser;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
 
 public class DropboxDownload extends Activity implements OnItemClickListener {
     private String downloadPath;
@@ -97,11 +98,24 @@ public class DropboxDownload extends Activity implements OnItemClickListener {
         } else {
 
             downloadDropboxFile(fileSelected);
-            LTParser parser = new LTParser(Utils.getPath() + "/" + fileSelected.fileName(),Utils.getPath() +"/lib/sym/");
-            parser.test();
 
-            // getIntent().getStringExtra("fileParentPath"));
+            if(fileSelected.fileName().contains(".asc"))
+            {
+                LTParser parser = new LTParser(Utils.getPath() + "/" + fileSelected.fileName(),Utils.getPath() +"/lib/sym/");
+                Intent intent = new Intent(DropboxDownload.this,VectorBoardActivity.class);
+                ArrayList<String> names = new ArrayList<String>();
+                ArrayList<Component> comp = parser.test();
+                for(int i=0;i<comp.size();i++)
+                {
+                    names.add(comp.get(i).type);
+                }
+
+                intent.putStringArrayListExtra("ComponentList", names);
+                startActivity(intent);
+            }
+                // getIntent().getStringExtra("fileParentPath"));
         }
+
     }
 
     // @Override
