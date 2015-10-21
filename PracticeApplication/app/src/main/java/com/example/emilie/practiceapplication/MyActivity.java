@@ -48,4 +48,10 @@ public class MyActivity extends AppCompatActivity {
         Intent intent = new Intent(this, LoadSavedBoardActivity.class);
         startActivity(intent);
     }
+
+    public void LTBoard(View view)
+    {
+        Intent intent = new Intent(this, Dropbox.class);
+        startActivity(intent);
+    }
 }

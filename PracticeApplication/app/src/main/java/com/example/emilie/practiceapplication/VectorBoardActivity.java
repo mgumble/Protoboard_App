@@ -1,6 +1,7 @@
 package com.example.emilie.practiceapplication;
 
 import android.content.ClipData;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.DragEvent;
@@ -23,17 +24,33 @@ public class VectorBoardActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vector_board);
-
+        Intent intent = getIntent();
         LinearLayout layout = (LinearLayout) findViewById(R.id.ll);
         RelativeLayout rLayout = (RelativeLayout) findViewById(R.id.ll_top);
 //        layout.setOnDragListener((View.OnDragListener) this);
-        rLayout.setOnDragListener((View.OnDragListener) this);
-
-        for (int i = 0; i < 50; i++) //replace the 50 with components.size
+//        rLayout.setOnDragListener((View.OnDragListener) this);
+        ArrayList<String> componentList = intent.getStringArrayListExtra("ComponentList");
+        for (int i = 0; i < componentList.size(); i++) //replace the 50 with components.size
         {
             final ImageView im = new ImageView(this);
             layout.addView(im);
             im.setImageResource(R.drawable.res);
+
+            switch (componentList.get(i)) {
+                case "res":
+                    im.setImageResource(R.drawable.res);
+                    break;
+                case "cap":
+                    im.setImageResource(R.drawable.cap);
+                    break;
+                case "ind":
+                    im.setImageResource(R.drawable.ind);
+                    break;
+                default:
+                    break;
+            }
+
+
             im.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
@@ -54,7 +71,7 @@ public class VectorBoardActivity extends AppCompatActivity {
                     return false;
                 }
 
-//                @Override
+                //                @Override
                 public boolean onDrag(View v, DragEvent event) {
                     switch (event.getAction()) {
                         case DragEvent.ACTION_DRAG_STARTED:

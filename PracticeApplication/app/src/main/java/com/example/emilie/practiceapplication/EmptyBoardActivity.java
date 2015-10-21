@@ -1,12 +1,11 @@
 package com.example.emilie.practiceapplication;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
 
 public class EmptyBoardActivity extends AppCompatActivity {
 
@@ -16,9 +15,9 @@ public class EmptyBoardActivity extends AppCompatActivity {
         setContentView(R.layout.activity_empty_board);
         Bundle extras = getIntent().getExtras();
         if(extras != null){
-            String value = extras.getString("FileName");
-            TextView test = (TextView) findViewById(R.id.textView3);
-            test.setText(value);
+//            String value = extras.getString("FileName");
+//            TextView test = (TextView) findViewById(R.id.textView3);
+//            test.setText(value);
         }
     }
 

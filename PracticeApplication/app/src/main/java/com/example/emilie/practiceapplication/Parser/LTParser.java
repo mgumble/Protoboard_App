@@ -13,10 +13,10 @@ public class LTParser {
 		Library = library;
 	}
 
-	public void test() {
+	public ArrayList<Component> test() {
 		List<String[]> schematicResources;
-		List<Component> ComponentList = new ArrayList<Component>();
-		List<Net> Netlist = new ArrayList<Net>();
+		ArrayList<Component> ComponentList = new ArrayList<Component>();
+		ArrayList<Net> Netlist = new ArrayList<Net>();
 		String[] line;
 		
 		FileImporter importer = new FileImporter(Schematic,Library);
@@ -51,6 +51,7 @@ public class LTParser {
 		
 
 		System.out.println("Done");
+		return ComponentList;
 	}
 	public static void printComponentList(List<Component> List)
 	{
