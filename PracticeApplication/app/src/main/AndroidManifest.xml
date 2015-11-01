@@ -51,21 +51,6 @@
                 android:value="com.example.emilie.practiceapplication.WhichTypeProjectActivity" />
         </activity>
         <activity
-            android:name="com.example.emilie.practiceapplication.LTBoardActivity"
-            android:label="@string/title_activity_ltboard"
-            android:parentActivityName=".WhichTypeProjectActivity" >
-            <meta-data
-                android:name="com.google.android.apps.drive.APP_ID"
-                android:value="id=silicon-stock-107722"
-                />
-            <intent-filter>
-                <action android:name="com.google.android.apps.drive.DRIVE_OPEN" />
-
-                <data android:mimeType="application/vnd.google-apps.drive-sdk.silicon-stock-107722" />
-                <data android:mimeType="image/png" />
-            </intent-filter>
-        </activity>
-        <activity
             android:name="com.example.emilie.practiceapplication.VectorBoardActivity"
             android:label="@string/title_activity_vector_board"
             android:parentActivityName=".EmptyBoardActivity" >

@@ -91,14 +91,15 @@ public class DropboxDownload extends Activity implements OnItemClickListener {
     public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 
         Entry fileSelected = files.get(arg2);
+        boolean complete = false;
         if (fileSelected.isDir) {
             isItemClicked = true;
             DIR = dir.get(arg2);
             setLoggedIn(true);
         } else {
 
-            downloadDropboxFile(fileSelected);
-
+            complete = downloadDropboxFile(fileSelected);
+            while(!complete);
             if(fileSelected.fileName().contains(".asc"))
             {
                 LTParser parser = new LTParser(Utils.getPath() + "/" + fileSelected.fileName(),Utils.getPath() +"/lib/sym/");
@@ -271,7 +272,8 @@ public class DropboxDownload extends Activity implements OnItemClickListener {
                 copy(fileSelected, localFile);
 
             } else {
-                showFileExitsDialog(fileSelected, localFile);
+                copy(fileSelected, localFile);
+                //showFileExitsDialog(fileSelected, localFile);
             }
         } catch (IOException e) {
             e.printStackTrace();
