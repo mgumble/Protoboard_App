@@ -184,25 +184,23 @@ public class VectorBoardActivity extends AppCompatActivity {
 
                         if(image.equals(dropTarget)){
 
-                            if(dropped.getDrawable().getConstantState().equals(resistor.getDrawable().getConstantState()) || dropped.getDrawable().getConstantState().equals(resPart.getDrawable().getConstantState()))
+                            if(compareImageViewEqual(dropped, resistor)||compareImageViewEqual(dropped, resPart))
                             {
-                                if(dropped.getDrawable().getConstantState().equals(resPart.getDrawable().getConstantState()))
+                                if(compareImageViewEqual(dropped, resPart))
                                 {
                                     clear(dropped);
                                 }
                                 setImageRes(image, row, i);
-                            }
-                            else if(dropped.getDrawable().getConstantState().equals(capacitor.getDrawable().getConstantState())|| dropped.getDrawable().getConstantState().equals(capPart.getDrawable().getConstantState()))
+                            } else if(compareImageViewEqual(dropped, capacitor)|| compareImageViewEqual(dropped, capPart))
                             {
-                                if(dropped.getDrawable().getConstantState().equals(capPart.getDrawable().getConstantState()))
+                                if(compareImageViewEqual(dropped, capPart))
                                 {
                                     clear(dropped);
                                 }
                                 setImageCap(image,row,i);
-                            }
-                            else if(dropped.getDrawable().getConstantState().equals(inductor.getDrawable().getConstantState())|| dropped.getDrawable().getConstantState().equals(indPart.getDrawable().getConstantState()))
+                            } else if(compareImageViewEqual(dropped, inductor)|| compareImageViewEqual(dropped, indPart))
                             {
-                                if(dropped.getDrawable().getConstantState().equals(indPart.getDrawable().getConstantState()))
+                                if(compareImageViewEqual(dropped, indPart))
                                 {
                                     clear(dropped);
                                 }
@@ -239,7 +237,7 @@ public class VectorBoardActivity extends AppCompatActivity {
                     image.setVisibility(View.VISIBLE);
                     ImageView temp = (ImageView) row.getChildAt(j-1);
                     temp.setImageResource(R.drawable.hole25x25);
-                    if(!dropped.getDrawable().getConstantState().equals(capPart.getDrawable().getConstantState()))
+                    if(!compareImageViewEqual(dropped, capPart))
                     {
                         temp = (ImageView) row.getChildAt(j+1);
                         temp.setImageResource(R.drawable.hole25x25);
@@ -284,6 +282,19 @@ public class VectorBoardActivity extends AppCompatActivity {
             temp.setImageResource(R.drawable.capacitor1_2);
             image.setOnTouchListener(new MyTouchListener());
             return true;
+        }
+        private boolean compareImageViewEqual(ImageView view1, ImageView view2)
+        {
+            boolean result;
+            if(view1.getDrawable().getConstantState().equals(view2.getDrawable().getConstantState()))
+            {
+                result = true;
+            }
+            else{
+                result= false;
+            }
+
+            return result;
         }
     }
 
