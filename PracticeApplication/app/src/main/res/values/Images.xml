@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="forward">
+        <item>@drawable/res1_4</item>
+        <item>@drawable/res2_4</item>
+        <item>@drawable/res3_4</item>
+        <item>@drawable/res4_4</item>
+        <item>@drawable/inductor1_4</item>
+        <item>@drawable/inductor2_4</item>
+        <item>@drawable/inductor3_4</item>
+        <item>@drawable/inductor4_4</item>
+        <item>@drawable/capacitor1_2</item>
+        <item>@drawable/capacitor2_2</item>
+    </array>
+    <array name="backwards">
+        <item>@drawable/res4_4under</item>
+        <item>@drawable/res3_4under</item>
+        <item>@drawable/res2_4under</item>
+        <item>@drawable/res1_4under</item>
+        <item>@drawable/inductor4_4under</item>
+        <item>@drawable/inductor3_4under</item>
+        <item>@drawable/inductor2_4under</item>
+        <item>@drawable/inductor1_4under</item>
+        <item>@drawable/capacitor2_2under</item>
+        <item>@drawable/capacitor1_2under</item>
+    </array>
+</resources>

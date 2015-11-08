@@ -2,12 +2,15 @@ package com.example.emilie.practiceapplication;
 
 import android.content.ClipData;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.DragEvent;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -30,6 +33,8 @@ public class VectorBoardActivity extends AppCompatActivity {
     ImageView indPart;
 
     TableLayout tableLayout;
+
+    Button left;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,7 +91,8 @@ public class VectorBoardActivity extends AppCompatActivity {
             }
             iv.add(im);
         }
-
+        left = (Button) findViewById(R.id.btn_flip);
+        left.setOnClickListener(new MyClickListener());
         initControls(); //Set each image to be draggable1
     }
 
@@ -283,21 +289,22 @@ public class VectorBoardActivity extends AppCompatActivity {
             image.setOnTouchListener(new MyTouchListener());
             return true;
         }
-        private boolean compareImageViewEqual(ImageView view1, ImageView view2)
-        {
-            boolean result;
-            if(view1.getDrawable().getConstantState().equals(view2.getDrawable().getConstantState()))
-            {
-                result = true;
-            }
-            else{
-                result= false;
-            }
 
-            return result;
-        }
     }
 
+    private boolean compareImageViewEqual(ImageView view1, ImageView view2)
+    {
+        boolean result;
+        if(view1.getDrawable().getConstantState().equals(view2.getDrawable().getConstantState()))
+        {
+            result = true;
+        }
+        else{
+            result= false;
+        }
+
+        return result;
+    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -311,5 +318,63 @@ public class VectorBoardActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private class MyClickListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            switch(v.getId())
+            {
+                case R.id.btn_flip:
+                    TableLayout temp = new TableLayout(getApplicationContext());
+                    for(int i=0;i<12;i++)
+                    {
+                        TableRow row = new TableRow(getApplicationContext());
+                        TableRow tableRow = (TableRow) tableLayout.getChildAt(i);
+                        for(int j=12;j>=0;j--)
+                        {
+                            ImageView imageView = (ImageView) tableRow.getChildAt(j);
+                            //switch to under view and fix order
+                            imageView = findReverseImage(imageView);
+                            if(compareImageViewEqual(imageView,resPart) || compareImageViewEqual(imageView,capPart) || compareImageViewEqual(imageView,indPart))
+                                imageView.setOnTouchListener(new MyTouchListener());
+                            tableRow.removeView(imageView);
+                            row.addView(imageView);
+                        }
+                        tableLayout.removeView(tableRow);
+                        tableLayout.addView(row,i);
+                    }
+
+                    break;
+            }
+        }
+
+        private ImageView findReverseImage(ImageView imageView)
+        {
+            Resources res = getResources();
+            TypedArray forward = res.obtainTypedArray(R.array.forward);
+            TypedArray backwards = res.obtainTypedArray(R.array.backwards);
+            for(int i=0;i<forward.length();i++)
+            {
+                ImageView temp = new ImageView(getApplicationContext());
+                temp.setImageDrawable(forward.getDrawable(i));
+                if(compareImageViewEqual(imageView,temp))
+                {
+                    temp.setImageDrawable(backwards.getDrawable(i));
+                    return temp;
+                }
+            }
+            for(int i=0;i<backwards.length();i++)
+            {
+                ImageView temp = new ImageView(getApplicationContext());
+                temp.setImageDrawable(backwards.getDrawable(i));
+                if(compareImageViewEqual(imageView,temp))
+                {
+                    temp.setImageDrawable(forward.getDrawable(i));
+                    return temp;
+                }
+            }
+            return imageView;
+        }
     }
 }
