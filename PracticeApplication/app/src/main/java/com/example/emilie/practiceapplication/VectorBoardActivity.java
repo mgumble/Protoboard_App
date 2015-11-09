@@ -193,8 +193,36 @@ public class VectorBoardActivity extends AppCompatActivity {
                 flip(imageView, clicked);
                 break;
             case "res/drawable/east_capacitor1_2.png":
+                clear(imageView, "east",1,2);
+                flip(imageView, clicked);
+                break;
+            case "res/drawable/west_capacitor1_2.png":
+                clear(imageView, "west",1,2);
+                flip(imageView, clicked);
+                break;
+            case "res/drawable/north_capacitor1_2.png":
+                clear(imageView, "north",1,2);
+                flip(imageView, clicked);
+                break;
+            case "res/drawable/south_capacitor1_2.png":
+                clear(imageView, "south",1,2);
+                flip(imageView, clicked);
                 break;
             case "res/drawable/east_inductor1_4.png":
+                clear(imageView, "east",1,4);
+                flip(imageView, clicked);
+                break;
+            case "res/drawable/west_inductor1_4.png":
+                clear(imageView, "west",1,4);
+                flip(imageView, clicked);
+                break;
+            case "res/drawable/north_inductor1_4.png":
+                clear(imageView, "north",1,4);
+                flip(imageView, clicked);
+                break;
+            case "res/drawable/south_inductor1_4.png":
+                clear(imageView, "south",1,4);
+                flip(imageView, clicked);
                 break;
         }
     }
@@ -205,6 +233,15 @@ public class VectorBoardActivity extends AppCompatActivity {
         ImageView res2 = new ImageView(this);
         ImageView res3 = new ImageView(this);
         ImageView res4 = new ImageView(this);
+
+        ImageView cap1 = new ImageView(this);
+        ImageView cap2 = new ImageView(this);
+
+        ImageView ind1 = new ImageView(this);
+        ImageView ind2 = new ImageView(this);
+        ImageView ind3 = new ImageView(this);
+        ImageView ind4 = new ImageView(this);
+
         TableRow temp;
         ImageView image;
         TableRow row = (TableRow) imageView.getParent();
@@ -238,81 +275,236 @@ public class VectorBoardActivity extends AppCompatActivity {
                 break;
 
             case "res/drawable/south_res1_4.png":
-                    //was facing south
-                    res1.setImageResource(R.drawable.west_res1_4);
-                    res2.setImageResource(R.drawable.west_res2_4);
-                    res3.setImageResource(R.drawable.west_res3_4);
-                    res4.setImageResource(R.drawable.west_res4_4);
+                //was facing south
+                res1.setImageResource(R.drawable.west_res1_4);
+                res2.setImageResource(R.drawable.west_res2_4);
+                res3.setImageResource(R.drawable.west_res3_4);
+                res4.setImageResource(R.drawable.west_res4_4);
 
-                    temp = (TableRow) tableLayout.getChildAt(indexrow);
-                    image = (ImageView) temp.getChildAt(indexcolumn);
-                    image.setImageDrawable(res1.getDrawable());
-                    image.setOnTouchListener(new MyTouchListener());
+                temp = (TableRow) tableLayout.getChildAt(indexrow);
+                image = (ImageView) temp.getChildAt(indexcolumn);
+                image.setImageDrawable(res1.getDrawable());
+                image.setOnTouchListener(new MyTouchListener());
 
-                    temp = (TableRow) tableLayout.getChildAt(indexrow);
-                    image = (ImageView) temp.getChildAt(indexcolumn-1);
-                    image.setImageDrawable(res2.getDrawable());
+                temp = (TableRow) tableLayout.getChildAt(indexrow);
+                image = (ImageView) temp.getChildAt(indexcolumn-1);
+                image.setImageDrawable(res2.getDrawable());
 
-                    temp = (TableRow) tableLayout.getChildAt(indexrow);
-                    image = (ImageView) temp.getChildAt(indexcolumn-2);
-                    image.setImageDrawable(res3.getDrawable());
+                temp = (TableRow) tableLayout.getChildAt(indexrow);
+                image = (ImageView) temp.getChildAt(indexcolumn-2);
+                image.setImageDrawable(res3.getDrawable());
 
-                    temp = (TableRow) tableLayout.getChildAt(indexrow);
-                    image = (ImageView) temp.getChildAt(indexcolumn-3);
-                    image.setImageDrawable(res4.getDrawable());
-                    break;
+                temp = (TableRow) tableLayout.getChildAt(indexrow);
+                image = (ImageView) temp.getChildAt(indexcolumn-3);
+                image.setImageDrawable(res4.getDrawable());
+                break;
             case "res/drawable/west_res1_4.png":
-                        //was facing west
-                        res1.setImageResource(R.drawable.north_res1_4);
-                        res2.setImageResource(R.drawable.north_res2_4);
-                        res3.setImageResource(R.drawable.north_res3_4);
-                        res4.setImageResource(R.drawable.north_res4_4);
+                //was facing west
+                res1.setImageResource(R.drawable.north_res1_4);
+                res2.setImageResource(R.drawable.north_res2_4);
+                res3.setImageResource(R.drawable.north_res3_4);
+                res4.setImageResource(R.drawable.north_res4_4);
 
-                        temp = (TableRow) tableLayout.getChildAt(indexrow);
-                        image = (ImageView) temp.getChildAt(indexcolumn);
-                        image.setImageDrawable(res1.getDrawable());
-                        image.setOnTouchListener(new MyTouchListener());
+                temp = (TableRow) tableLayout.getChildAt(indexrow);
+                image = (ImageView) temp.getChildAt(indexcolumn);
+                image.setImageDrawable(res1.getDrawable());
+                image.setOnTouchListener(new MyTouchListener());
 
-                        temp = (TableRow) tableLayout.getChildAt(indexrow-1);
-                        image = (ImageView) temp.getChildAt(indexcolumn);
-                        image.setImageDrawable(res2.getDrawable());
+                temp = (TableRow) tableLayout.getChildAt(indexrow-1);
+                image = (ImageView) temp.getChildAt(indexcolumn);
+                image.setImageDrawable(res2.getDrawable());
 
-                        temp = (TableRow) tableLayout.getChildAt(indexrow-2);
-                        image = (ImageView) temp.getChildAt(indexcolumn);
-                        image.setImageDrawable(res3.getDrawable());
+                temp = (TableRow) tableLayout.getChildAt(indexrow-2);
+                image = (ImageView) temp.getChildAt(indexcolumn);
+                image.setImageDrawable(res3.getDrawable());
 
-                        temp = (TableRow) tableLayout.getChildAt(indexrow-3);
-                        image = (ImageView) temp.getChildAt(indexcolumn);
-                        image.setImageDrawable(res4.getDrawable());
-                        break;
+                temp = (TableRow) tableLayout.getChildAt(indexrow-3);
+                image = (ImageView) temp.getChildAt(indexcolumn);
+                image.setImageDrawable(res4.getDrawable());
+                break;
             case "res/drawable/north_res1_4.png":
-                    //was facing north
-                    res1.setImageResource(R.drawable.east_res1_4);
-                    res2.setImageResource(R.drawable.east_res2_4);
-                    res3.setImageResource(R.drawable.east_res3_4);
-                    res4.setImageResource(R.drawable.east_res4_4);
+                //was facing north
+                res1.setImageResource(R.drawable.east_res1_4);
+                res2.setImageResource(R.drawable.east_res2_4);
+                res3.setImageResource(R.drawable.east_res3_4);
+                res4.setImageResource(R.drawable.east_res4_4);
 
-                    temp = (TableRow) tableLayout.getChildAt(indexrow);
-                    image = (ImageView) temp.getChildAt(indexcolumn);
-                    image.setImageDrawable(res1.getDrawable());
-                    image.setOnTouchListener(new MyTouchListener());
+                temp = (TableRow) tableLayout.getChildAt(indexrow);
+                image = (ImageView) temp.getChildAt(indexcolumn);
+                image.setImageDrawable(res1.getDrawable());
+                image.setOnTouchListener(new MyTouchListener());
 
-                    temp = (TableRow) tableLayout.getChildAt(indexrow);
-                    image = (ImageView) temp.getChildAt(indexcolumn+1);
-                    image.setImageDrawable(res2.getDrawable());
+                temp = (TableRow) tableLayout.getChildAt(indexrow);
+                image = (ImageView) temp.getChildAt(indexcolumn+1);
+                image.setImageDrawable(res2.getDrawable());
 
-                    temp = (TableRow) tableLayout.getChildAt(indexrow);
-                    image = (ImageView) temp.getChildAt(indexcolumn+2);
-                    image.setImageDrawable(res3.getDrawable());
+                temp = (TableRow) tableLayout.getChildAt(indexrow);
+                image = (ImageView) temp.getChildAt(indexcolumn+2);
+                image.setImageDrawable(res3.getDrawable());
 
-                    temp = (TableRow) tableLayout.getChildAt(indexrow);
-                    image = (ImageView) temp.getChildAt(indexcolumn+3);
-                    image.setImageDrawable(res4.getDrawable());
-                    break;
+                temp = (TableRow) tableLayout.getChildAt(indexrow);
+                image = (ImageView) temp.getChildAt(indexcolumn+3);
+                image.setImageDrawable(res4.getDrawable());
+                break;
 
             case "res/drawable/east_capacitor1_2.png":
+                //was facing east
+                cap1.setImageResource(R.drawable.south_capacitor1_2);
+                cap2.setImageResource(R.drawable.south_capacitor2_2);
+
+                temp = (TableRow) tableLayout.getChildAt(indexrow);
+                image = (ImageView) temp.getChildAt(indexcolumn);
+                image.setImageDrawable(cap1.getDrawable());
+                image.setOnTouchListener(new MyTouchListener());
+
+                temp = (TableRow) tableLayout.getChildAt(indexrow+1);
+                image = (ImageView) temp.getChildAt(indexcolumn);
+                image.setImageDrawable(cap2.getDrawable());
                 break;
+
+            case "res/drawable/west_capacitor1_2.png":
+                //was facing west
+                cap1.setImageResource(R.drawable.north_capacitor1_2);
+                cap2.setImageResource(R.drawable.north_capacitor2_2);
+
+                temp = (TableRow) tableLayout.getChildAt(indexrow);
+                image = (ImageView) temp.getChildAt(indexcolumn);
+                image.setImageDrawable(cap1.getDrawable());
+                image.setOnTouchListener(new MyTouchListener());
+
+                temp = (TableRow) tableLayout.getChildAt(indexrow-1);
+                image = (ImageView) temp.getChildAt(indexcolumn);
+                image.setImageDrawable(cap2.getDrawable());
+                break;
+
+            case "res/drawable/south_capacitor1_2.png":
+                //was facing south
+                cap1.setImageResource(R.drawable.west_capacitor1_2);
+                cap2.setImageResource(R.drawable.west_capacitor2_2);
+
+                temp = (TableRow) tableLayout.getChildAt(indexrow);
+                image = (ImageView) temp.getChildAt(indexcolumn);
+                image.setImageDrawable(cap1.getDrawable());
+                image.setOnTouchListener(new MyTouchListener());
+
+                temp = (TableRow) tableLayout.getChildAt(indexrow);
+                image = (ImageView) temp.getChildAt(indexcolumn-1);
+                image.setImageDrawable(cap2.getDrawable());
+                break;
+
+            case "res/drawable/north_capacitor1_2.png":
+                //was facing north
+                cap1.setImageResource(R.drawable.east_capacitor1_2);
+                cap2.setImageResource(R.drawable.east_capacitor2_2);
+
+                temp = (TableRow) tableLayout.getChildAt(indexrow);
+                image = (ImageView) temp.getChildAt(indexcolumn);
+                image.setImageDrawable(cap1.getDrawable());
+                image.setOnTouchListener(new MyTouchListener());
+
+                temp = (TableRow) tableLayout.getChildAt(indexrow);
+                image = (ImageView) temp.getChildAt(indexcolumn+1);
+                image.setImageDrawable(cap2.getDrawable());
+                break;
+
             case "res/drawable/east_inductor1_4.png":
+                //was facing east
+                ind1.setImageResource(R.drawable.south_inductor1_4);
+                ind2.setImageResource(R.drawable.south_inductor2_4);
+                ind3.setImageResource(R.drawable.south_inductor3_4);
+                ind4.setImageResource(R.drawable.south_inductor4_4);
+
+                temp = (TableRow) tableLayout.getChildAt(indexrow);
+                image = (ImageView) temp.getChildAt(indexcolumn);
+                image.setImageDrawable(ind1.getDrawable());
+                image.setOnTouchListener(new MyTouchListener());
+
+                temp = (TableRow) tableLayout.getChildAt(indexrow+1);
+                image = (ImageView) temp.getChildAt(indexcolumn);
+                image.setImageDrawable(ind2.getDrawable());
+
+                temp = (TableRow) tableLayout.getChildAt(indexrow + 2);
+                image = (ImageView) temp.getChildAt(indexcolumn);
+                image.setImageDrawable(ind3.getDrawable());
+
+                temp = (TableRow) tableLayout.getChildAt(indexrow + 3);
+                image = (ImageView) temp.getChildAt(indexcolumn);
+                image.setImageDrawable(ind4.getDrawable());
+                break;
+
+            case "res/drawable/west_inductor1_4.png":
+                //was facing west
+                ind1.setImageResource(R.drawable.north_inductor1_4);
+                ind2.setImageResource(R.drawable.north_inductor2_4);
+                ind3.setImageResource(R.drawable.north_inductor3_4);
+                ind4.setImageResource(R.drawable.north_inductor4_4);
+
+                temp = (TableRow) tableLayout.getChildAt(indexrow);
+                image = (ImageView) temp.getChildAt(indexcolumn);
+                image.setImageDrawable(ind1.getDrawable());
+                image.setOnTouchListener(new MyTouchListener());
+
+                temp = (TableRow) tableLayout.getChildAt(indexrow-1);
+                image = (ImageView) temp.getChildAt(indexcolumn);
+                image.setImageDrawable(ind2.getDrawable());
+
+                temp = (TableRow) tableLayout.getChildAt(indexrow-2);
+                image = (ImageView) temp.getChildAt(indexcolumn);
+                image.setImageDrawable(ind3.getDrawable());
+
+                temp = (TableRow) tableLayout.getChildAt(indexrow-3);
+                image = (ImageView) temp.getChildAt(indexcolumn);
+                image.setImageDrawable(ind4.getDrawable());
+                break;
+
+            case "res/drawable/north_inductor1_4.png":
+                //was facing north
+                ind1.setImageResource(R.drawable.east_inductor1_4);
+                ind2.setImageResource(R.drawable.east_inductor2_4);
+                ind3.setImageResource(R.drawable.east_inductor3_4);
+                ind4.setImageResource(R.drawable.east_inductor4_4);
+
+                temp = (TableRow) tableLayout.getChildAt(indexrow);
+                image = (ImageView) temp.getChildAt(indexcolumn);
+                image.setImageDrawable(ind1.getDrawable());
+                image.setOnTouchListener(new MyTouchListener());
+
+                temp = (TableRow) tableLayout.getChildAt(indexrow);
+                image = (ImageView) temp.getChildAt(indexcolumn+1);
+                image.setImageDrawable(ind2.getDrawable());
+
+                temp = (TableRow) tableLayout.getChildAt(indexrow);
+                image = (ImageView) temp.getChildAt(indexcolumn+2);
+                image.setImageDrawable(ind3.getDrawable());
+
+                temp = (TableRow) tableLayout.getChildAt(indexrow);
+                image = (ImageView) temp.getChildAt(indexcolumn+3);
+                image.setImageDrawable(ind4.getDrawable());
+                break;
+
+            case "res/drawable/south_inductor1_4.png":
+                //was facing south
+                ind1.setImageResource(R.drawable.west_inductor1_4);
+                ind2.setImageResource(R.drawable.west_inductor2_4);
+                ind3.setImageResource(R.drawable.west_inductor3_4);
+                ind4.setImageResource(R.drawable.west_inductor4_4);
+
+                temp = (TableRow) tableLayout.getChildAt(indexrow);
+                image = (ImageView) temp.getChildAt(indexcolumn);
+                image.setImageDrawable(ind1.getDrawable());
+                image.setOnTouchListener(new MyTouchListener());
+
+                temp = (TableRow) tableLayout.getChildAt(indexrow);
+                image = (ImageView) temp.getChildAt(indexcolumn-1);
+                image.setImageDrawable(ind2.getDrawable());
+
+                temp = (TableRow) tableLayout.getChildAt(indexrow);
+                image = (ImageView) temp.getChildAt(indexcolumn-2);
+                image.setImageDrawable(ind3.getDrawable());
+
+                temp = (TableRow) tableLayout.getChildAt(indexrow);
+                image = (ImageView) temp.getChildAt(indexcolumn-3);
+                image.setImageDrawable(ind4.getDrawable());
                 break;
         }
     }
@@ -542,7 +734,6 @@ public class VectorBoardActivity extends AppCompatActivity {
             switch(v.getId())
             {
                 case R.id.btn_flip:
-                    TableLayout temp = new TableLayout(getApplicationContext());
                     for(int i=0;i<12;i++)
                     {
                         TableRow row = new TableRow(getApplicationContext());
@@ -552,7 +743,8 @@ public class VectorBoardActivity extends AppCompatActivity {
                             ImageView imageView = (ImageView) tableRow.getChildAt(j);
                             //switch to under view and fix order
                             imageView = findReverseImage(imageView);
-                            if(compareImageViewEqual(imageView,resPart) || compareImageViewEqual(imageView,capPart) || compareImageViewEqual(imageView,indPart))
+                            String clicked = findClickable(imageView);
+                            if(clicked != null)
                                 imageView.setOnTouchListener(new MyTouchListener());
                             tableRow.removeView(imageView);
                             row.addView(imageView);
