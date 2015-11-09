@@ -42,5 +42,42 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true" />
 
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:id = "@+id/toolbar"
+        android:layout_toStartOf="@+id/btn_flip"
+        android:layout_alignTop="@+id/btn_flip">
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Inspect"
+            android:id="@+id/btn_inspect"
+            android:checked="false"
+            android:layout_alignTop="@+id/btn_move"
+            android:layout_toStartOf="@+id/btn_move" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Move"
+            android:id="@+id/btn_move"
+            android:checked="true"
+            android:layout_alignTop="@+id/btn_rotate"
+            android:layout_toStartOf="@+id/btn_rotate" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Rotate"
+            android:id="@+id/btn_rotate"
+            android:layout_alignParentBottom="true"
+            android:layout_toStartOf="@+id/btn_flip"
+            android:checked="false" />
+    </RadioGroup>
+
 
 </RelativeLayout>
