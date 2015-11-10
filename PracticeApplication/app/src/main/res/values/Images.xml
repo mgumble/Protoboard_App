@@ -1,57 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <array name="forward">
-        <item>@drawable/east_res1_4</item>
-        <item>@drawable/east_res2_4</item>
-        <item>@drawable/east_res3_4</item>
-        <item>@drawable/east_res4_4</item>
+        <item>@drawable/east_res1_4</item> //0
+        <item>@drawable/east_res2_4</item> //1
+        <item>@drawable/east_res3_4</item> //2
+        <item>@drawable/east_res4_4</item> //3
 
-        <item>@drawable/west_res1_4</item>
-        <item>@drawable/west_res2_4</item>
-        <item>@drawable/west_res3_4</item>
-        <item>@drawable/west_res4_4</item>
+        <item>@drawable/west_res1_4</item> //4
+        <item>@drawable/west_res2_4</item> //5
+        <item>@drawable/west_res3_4</item> //6
+        <item>@drawable/west_res4_4</item> //7
 
-        <item>@drawable/north_res4_4</item>
-        <item>@drawable/north_res3_4</item>
-        <item>@drawable/north_res2_4</item>
-        <item>@drawable/north_res1_4</item>
+        <item>@drawable/north_res4_4</item> //8
+        <item>@drawable/north_res3_4</item> //9
+        <item>@drawable/north_res2_4</item> //10
+        <item>@drawable/north_res1_4</item> //11
 
-        <item>@drawable/south_res4_4</item>
-        <item>@drawable/south_res3_4</item>
-        <item>@drawable/south_res2_4</item>
-        <item>@drawable/south_res1_4</item>
+        <item>@drawable/south_res4_4</item> //12
+        <item>@drawable/south_res3_4</item> //13
+        <item>@drawable/south_res2_4</item> //14
+        <item>@drawable/south_res1_4</item> //15
 
-        <item>@drawable/east_inductor1_4</item>
-        <item>@drawable/east_inductor2_4</item>
-        <item>@drawable/east_inductor3_4</item>
-        <item>@drawable/east_inductor4_4</item>
+        <item>@drawable/east_inductor1_4</item> //16
+        <item>@drawable/east_inductor2_4</item> //17
+        <item>@drawable/east_inductor3_4</item> //18
+        <item>@drawable/east_inductor4_4</item> //19
 
-        <item>@drawable/west_inductor1_4</item>
-        <item>@drawable/west_inductor2_4</item>
-        <item>@drawable/west_inductor3_4</item>
-        <item>@drawable/west_inductor4_4</item>
+        <item>@drawable/west_inductor1_4</item> //20
+        <item>@drawable/west_inductor2_4</item> //21
+        <item>@drawable/west_inductor3_4</item> //22
+        <item>@drawable/west_inductor4_4</item> //23
 
-        <item>@drawable/north_inductor4_4</item>
-        <item>@drawable/north_inductor3_4</item>
-        <item>@drawable/north_inductor2_4</item>
-        <item>@drawable/north_inductor1_4</item>
+        <item>@drawable/north_inductor4_4</item> //24
+        <item>@drawable/north_inductor3_4</item> //25
+        <item>@drawable/north_inductor2_4</item> //26
+        <item>@drawable/north_inductor1_4</item> //27
 
-        <item>@drawable/south_inductor4_4</item>
-        <item>@drawable/south_inductor3_4</item>
-        <item>@drawable/south_inductor2_4</item>
-        <item>@drawable/south_inductor1_4</item>
+        <item>@drawable/south_inductor4_4</item> //28
+        <item>@drawable/south_inductor3_4</item> //29
+        <item>@drawable/south_inductor2_4</item> //30
+        <item>@drawable/south_inductor1_4</item> //31
 
-        <item>@drawable/east_capacitor1_2</item>
-        <item>@drawable/east_capacitor2_2</item>
+        <item>@drawable/east_capacitor1_2</item> //32
+        <item>@drawable/east_capacitor2_2</item> //33
 
-        <item>@drawable/west_capacitor1_2</item>
-        <item>@drawable/west_capacitor2_2</item>
+        <item>@drawable/west_capacitor1_2</item> //34
+        <item>@drawable/west_capacitor2_2</item> //35
 
-        <item>@drawable/north_capacitor2_2</item>
-        <item>@drawable/north_capacitor1_2</item>
+        <item>@drawable/north_capacitor2_2</item> //36
+        <item>@drawable/north_capacitor1_2</item> //37
 
-        <item>@drawable/south_capacitor1_2</item>
-        <item>@drawable/south_capacitor2_2</item>
+        <item>@drawable/south_capacitor1_2</item> //38
+        <item>@drawable/south_capacitor2_2</item> //39
     </array>
     <array name="backwards">
         <item>@drawable/east_res4_4under</item>
@@ -107,6 +107,9 @@
         <item>@drawable/south_capacitor2_2under</item>
     </array>
     <array name="clickable_parts">
+        <item>@drawable/resistorfinal</item>
+        <item>@drawable/capacitorfinal</item>
+        <item>@drawable/inductor</item>
         <item>@drawable/east_res1_4</item>
         <item>@drawable/east_capacitor1_2</item>
         <item>@drawable/east_inductor1_4</item>

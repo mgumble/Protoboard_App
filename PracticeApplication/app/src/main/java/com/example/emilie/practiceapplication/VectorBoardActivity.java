@@ -613,36 +613,103 @@ public class VectorBoardActivity extends AppCompatActivity {
                     TableRow row = (TableRow) dropTarget.getParent();
                     int indexcolumn = row.indexOfChild(dropTarget);
                     int indexrow = tableLayout.indexOfChild(row);
+                    String image = findClickable(dropped);
+                    boolean bool;
 
-                    if(compareImageViewEqual(dropped, resistor)||compareImageViewEqual(dropped, resPart))
+                    switch (image)
                     {
-                        if(compareImageViewEqual(dropped, resPart))
-                        {
-                            clear(dropped,"east", 1,4); //todo: fix later for which direction the image is
-                        }
-                        boolean bool = setImageRes(dropTarget, row, indexcolumn);
-                        if (!bool)
-                        {
-                            tray.addView(resistor,0);
-                        }
-                    } else if(compareImageViewEqual(dropped, capacitor)|| compareImageViewEqual(dropped, capPart))
-                    {
-                        if(compareImageViewEqual(dropped, capPart))
-                        {
-                            clear(dropped,"east",1,2); //todo: fix later for which direction the image is
-                        }
-                        setImageCap(dropTarget,row,indexcolumn);
-                    } else if(compareImageViewEqual(dropped, inductor)|| compareImageViewEqual(dropped, indPart))
-                    {
-                        if(compareImageViewEqual(dropped, indPart))
-                        {
-                            clear(dropped,"east",1,4); //todo: fix later for which direction the image is
-                        }
-                        setImageInd(dropTarget,row,indexcolumn);
-                    }
-                    else
-                    {
-                        view.setVisibility(View.VISIBLE);
+                        //resistors
+                        case "res/drawable/resistorfinal.png":
+                            bool = setImageRes(dropTarget, row, indexcolumn, "east");
+                            if (!bool)
+                                tray.addView(resistor, 0);
+                            break;
+                        case "res/drawable/east_res1_4.png":
+                            clear(dropped,"east", 1,4);
+                            bool = setImageRes(dropTarget, row, indexcolumn, "east");
+                            if (!bool)
+                                tray.addView(resistor, 0);
+                            break;
+                        case "res/drawable/west_res1_4.png":
+                            clear(dropped,"west", 1,4);
+                            bool = setImageRes(dropTarget, row, indexcolumn, "west");
+                            if (!bool)
+                                tray.addView(resistor, 0);
+                            break;
+                        case "res/drawable/north_res1_4.png":
+                            clear(dropped,"north", 1,4);
+                            bool = setImageRes(dropTarget, row, indexcolumn, "north");
+                            if (!bool)
+                                tray.addView(resistor, 0);
+                            break;
+                        case "res/drawable/south_res1_4.png":
+                            clear(dropped,"south", 1,4);
+                            bool = setImageRes(dropTarget, row, indexcolumn, "south");
+                            if (!bool)
+                                tray.addView(resistor, 0);
+                            break;
+                        //capacitors
+                        case "res/drawable/capacitorfinal.png":
+                            bool = setImageCap(dropTarget, row, indexcolumn, "east");
+                            if (!bool)
+                                tray.addView(resistor, 0);
+                            break;
+                        case "res/drawable/east_capacitor1_2.png":
+                            clear(dropped,"east", 1,2);
+                            bool = setImageCap(dropTarget, row, indexcolumn, "east");
+                            if (!bool)
+                                tray.addView(capacitor, 0);
+                            break;
+                        case "res/drawable/west_capacitor1_2.png":
+                            clear(dropped,"west", 1,2);
+                            bool = setImageCap(dropTarget, row, indexcolumn, "west");
+                            if (!bool)
+                                tray.addView(capacitor, 0);
+                            break;
+                        case "res/drawable/north_capacitor1_2.png":
+                            clear(dropped,"north", 1,2);
+                            bool = setImageCap(dropTarget, row, indexcolumn, "north");
+                            if (!bool)
+                                tray.addView(capacitor, 0);
+                            break;
+                        case "res/drawable/south_capacitor1_2.png":
+                            clear(dropped,"south", 1,2);
+                            bool = setImageCap(dropTarget, row, indexcolumn, "south");
+                            if (!bool)
+                                tray.addView(capacitor, 0);
+                            break;
+                        //inductors
+                        case "res/drawable/inductor.png":
+                            bool = setImageInd(dropTarget, row, indexcolumn, "east");
+                            if (!bool)
+                                tray.addView(resistor, 0);
+                            break;
+                        case "res/drawable/east_inductor1_4.png":
+                            clear(dropped,"east", 1,4);
+                            bool = setImageInd(dropTarget, row, indexcolumn, "east");
+                            if (!bool)
+                                tray.addView(resistor, 0);
+                            break;
+                        case "res/drawable/west_inductor1_4.png":
+                            clear(dropped,"west", 1,4);
+                            bool = setImageInd(dropTarget, row, indexcolumn, "west");
+                            if (!bool)
+                                tray.addView(resistor, 0);
+                            break;
+                        case "res/drawable/north_inductor1_4.png":
+                            clear(dropped,"north", 1,4);
+                            bool = setImageInd(dropTarget, row, indexcolumn, "north");
+                            if (!bool)
+                                tray.addView(resistor, 0);
+                            break;
+                        case "res/drawable/south_inductor1_4.png":
+                            clear(dropped,"south", 1,4);
+                            bool = setImageInd(dropTarget, row, indexcolumn, "south");
+                            if (!bool)
+                                tray.addView(resistor, 0);
+                            break;
+                        default:
+                            view.setVisibility(View.VISIBLE);
                     }
                     break;
                 default:
@@ -655,47 +722,176 @@ public class VectorBoardActivity extends AppCompatActivity {
             return !dragEvent.getResult();
         }
 
-
-
-        private boolean setImageRes (ImageView image, TableRow row, int i)
+        private boolean setImageRes (ImageView image, TableRow row, int i, String direction)
         {
-
+            int column = tableLayout.indexOfChild(row);
+            int j;
+            ImageView temp;
+            TableRow tempRow;
+            Resources res = getResources();
+            TypedArray resistor = res.obtainTypedArray(R.array.forward);
             if((i >= 0 && i <13) && (i+1 >= 0 && i+1 <13) && (i+2 >= 0 && i+2 <=13) && (i+3 >= 0 && i+3 <13) && tableLayout.indexOfChild(row)>=0 && tableLayout.indexOfChild(row) <= 13)
             {
-                image.setImageResource(R.drawable.east_res1_4);
-                ImageView temp = (ImageView) row.getChildAt(i+1);
-                temp.setImageResource(R.drawable.east_res2_4);
-                temp = (ImageView) row.getChildAt(i+2);
-                temp.setImageResource(R.drawable.east_res3_4);
-                temp = (ImageView) row.getChildAt(i+3);
-                temp.setImageResource(R.drawable.east_res4_4);
-                image.setOnTouchListener(new MyTouchListener());
+                switch(direction)
+                {
+                    case "east":
+                        image.setImageResource(R.drawable.east_res1_4);
+                        image.setOnTouchListener(new MyTouchListener());
+                        for(j=1;j<4;j++)
+                        {
+                            temp = (ImageView) row.getChildAt(i+j);
+                            temp.setImageDrawable(resistor.getDrawable(j));
+                        }
+                        break;
+                    case "west":
+                        image.setImageResource(R.drawable.west_res1_4);
+                        image.setOnTouchListener(new MyTouchListener());
+                        for(j=1;j<4;j++)
+                        {
+                            temp = (ImageView) row.getChildAt(i-j);
+                            temp.setImageDrawable(resistor.getDrawable(j+4));
+                        }
+                        break;
+                    case "north":
+                        image.setImageResource(R.drawable.north_res1_4);
+                        image.setOnTouchListener(new MyTouchListener());
+                        for(j=1;j<4;j++)
+                        {
+                            tempRow = (TableRow) tableLayout.getChildAt(column-j);
+                            temp = (ImageView) tempRow.getChildAt(i);
+                            temp.setImageDrawable(resistor.getDrawable(11-j));
+                        }
+                        break;
+                    case "south":
+                        image.setImageResource(R.drawable.south_res1_4);
+                        image.setOnTouchListener(new MyTouchListener());
+                        for(j=1;j<4;j++)
+                        {
+                            tempRow = (TableRow) tableLayout.getChildAt(column+j);
+                            temp = (ImageView) tempRow.getChildAt(i);
+                            temp.setImageDrawable(resistor.getDrawable(15-j));
+                        }
+                        break;
+                }
+
                 return true;
             }
             else
                 return false;
         }
 
-        private boolean setImageInd (ImageView image, TableRow row, int i)
+        private boolean setImageInd (ImageView image, TableRow row, int i, String direction)
         {
-            image.setImageResource(R.drawable.east_inductor1_4);
-            ImageView temp = (ImageView) row.getChildAt(i+1);
-            temp.setImageResource(R.drawable.east_inductor2_4);
-            temp = (ImageView) row.getChildAt(i+2);
-            temp.setImageResource(R.drawable.east_inductor3_4);
-            temp = (ImageView) row.getChildAt(i+3);
-            temp.setImageResource(R.drawable.east_inductor4_4);
-            image.setOnTouchListener(new MyTouchListener());
-            return true;
+            int column = tableLayout.indexOfChild(row);
+            int j;
+            ImageView temp;
+            TableRow tempRow;
+            Resources res = getResources();
+            TypedArray inductor = res.obtainTypedArray(R.array.forward);
+            if((i >= 0 && i <13) && (i+1 >= 0 && i+1 <13) && (i+2 >= 0 && i+2 <=13) && (i+3 >= 0 && i+3 <13) && tableLayout.indexOfChild(row)>=0 && tableLayout.indexOfChild(row) <= 13)
+            {
+                switch(direction)
+                {
+                    case "east":
+                        image.setImageResource(R.drawable.east_inductor1_4);
+                        image.setOnTouchListener(new MyTouchListener());
+                        for(j=1;j<4;j++)
+                        {
+                            temp = (ImageView) row.getChildAt(i+j);
+                            temp.setImageDrawable(inductor.getDrawable(j+16));
+                        }
+                        break;
+                    case "west":
+                        image.setImageResource(R.drawable.west_inductor1_4);
+                        image.setOnTouchListener(new MyTouchListener());
+                        for(j=1;j<4;j++)
+                        {
+                            temp = (ImageView) row.getChildAt(i-j);
+                            temp.setImageDrawable(inductor.getDrawable(j+20));
+                        }
+                        break;
+                    case "north":
+                        image.setImageResource(R.drawable.north_inductor1_4);
+                        image.setOnTouchListener(new MyTouchListener());
+                        for(j=1;j<4;j++)
+                        {
+                            tempRow = (TableRow) tableLayout.getChildAt(column-j);
+                            temp = (ImageView) tempRow.getChildAt(i);
+                            temp.setImageDrawable(inductor.getDrawable(27-j));
+                        }
+                        break;
+                    case "south":
+                        image.setImageResource(R.drawable.south_inductor1_4);
+                        image.setOnTouchListener(new MyTouchListener());
+                        for(j=1;j<4;j++)
+                        {
+                            tempRow = (TableRow) tableLayout.getChildAt(column+j);
+                            temp = (ImageView) tempRow.getChildAt(i);
+                            temp.setImageDrawable(inductor.getDrawable(31-j));
+                        }
+                        break;
+                }
+                return true;
+            }
+            else
+                return false;
         }
 
-        private boolean setImageCap (ImageView image, TableRow row, int i)
+        private boolean setImageCap (ImageView image, TableRow row, int i, String direction)
         {
-            image.setImageResource(R.drawable.east_capacitor1_2);
-            ImageView temp = (ImageView) row.getChildAt(i+1);
-            temp.setImageResource(R.drawable.east_capacitor2_2);
-            image.setOnTouchListener(new MyTouchListener());
-            return true;
+            int column = tableLayout.indexOfChild(row);
+            int j;
+            ImageView temp;
+            TableRow tempRow;
+            Resources res = getResources();
+            TypedArray capacitor = res.obtainTypedArray(R.array.forward);
+            if((i >= 0 && i <13) && (i+1 >= 0 && i+1 <13) && (i+2 >= 0 && i+2 <=13) && (i+3 >= 0 && i+3 <13) && tableLayout.indexOfChild(row)>=0 && tableLayout.indexOfChild(row) <= 13)
+            {
+                switch(direction)
+                {
+                    case "east":
+                        image.setImageResource(R.drawable.east_capacitor1_2);
+                        image.setOnTouchListener(new MyTouchListener());
+                        for(j=1;j<2;j++)
+                        {
+                            temp = (ImageView) row.getChildAt(i+j);
+                            temp.setImageDrawable(capacitor.getDrawable(j+32));
+                        }
+                        break;
+                    case "west":
+                        image.setImageResource(R.drawable.west_capacitor1_2);
+                        image.setOnTouchListener(new MyTouchListener());
+                        for(j=1;j<2;j++)
+                        {
+                            temp = (ImageView) row.getChildAt(i-j);
+                            temp.setImageDrawable(capacitor.getDrawable(j+34));
+                        }
+                        break;
+                    case "north":
+                        image.setImageResource(R.drawable.north_capacitor1_2);
+                        image.setOnTouchListener(new MyTouchListener());
+                        for(j=1;j<2;j++)
+                        {
+                            tempRow = (TableRow) tableLayout.getChildAt(column-j);
+                            temp = (ImageView) tempRow.getChildAt(i);
+                            temp.setImageDrawable(capacitor.getDrawable(37-j));
+                        }
+                        break;
+                    case "south":
+                        image.setImageResource(R.drawable.south_capacitor1_2);
+                        image.setOnTouchListener(new MyTouchListener());
+                        for(j=1;j<2;j++)
+                        {
+                            tempRow = (TableRow) tableLayout.getChildAt(column+j);
+                            temp = (ImageView) tempRow.getChildAt(i);
+                            temp.setImageDrawable(capacitor.getDrawable(40-j));
+                        }
+                        break;
+                }
+                return true;
+            }
+            else
+                return false;
         }
 
     }
