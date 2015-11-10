@@ -1,13 +1,13 @@
 package com.example.emilie.practiceapplication.Parser;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class  Component implements Parcelable{
+public class  Component implements Serializable{
 	public String Name;
     public String type;
 	public List<Net> NetList;
@@ -50,17 +50,6 @@ public class  Component implements Parcelable{
         Value = in.readString();
     }
 
-    public static final Creator<Component> CREATOR = new Creator<Component>() {
-        @Override
-        public Component createFromParcel(Parcel in) {
-            return new Component(in);
-        }
-
-        @Override
-        public Component[] newArray(int size) {
-            return new Component[size];
-        }
-    };
 
     public void setTerminals(List<String[]> Componentlibrary, String[] Component)
 	{
@@ -111,16 +100,4 @@ public class  Component implements Parcelable{
 		Terminals = terminals;
 	}
 
-	@Override
-	public int describeContents() {
-		return 0;
-	}
-
-	@Override
-	public void writeToParcel(Parcel dest, int flags) {
-		dest.writeString(Name);
-		dest.writeList(NetList);
-		dest.writeList(Terminals);
-		dest.writeString(Value);
-	}
 }

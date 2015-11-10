@@ -104,14 +104,8 @@ public class DropboxDownload extends Activity implements OnItemClickListener {
             {
                 LTParser parser = new LTParser(Utils.getPath() + "/" + fileSelected.fileName(),Utils.getPath() +"/lib/sym/");
                 Intent intent = new Intent(DropboxDownload.this,VectorBoardActivity.class);
-                ArrayList<String> names = new ArrayList<String>();
                 ArrayList<Component> comp = parser.test();
-                for(int i=0;i<comp.size();i++)
-                {
-                    names.add(comp.get(i).type);
-                }
-
-                intent.putStringArrayListExtra("ComponentList", names);
+                intent.putExtra("ComponentList", comp);
                 startActivity(intent);
             }
                 // getIntent().getStringExtra("fileParentPath"));

@@ -1,10 +1,11 @@
 package com.example.emilie.practiceapplication.Parser;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class Net {
+public class Net implements Serializable {
 	public int IntName;
 
 	public List<Terminal> terminalList;

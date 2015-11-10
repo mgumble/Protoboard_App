@@ -1,6 +1,8 @@
 package com.example.emilie.practiceapplication.Parser;
 
-public class Terminal {
+import java.io.Serializable;
+
+public class Terminal implements Serializable {
 	public Node myNode;    // The location the Terminal is at
 	public Net CurrentNet;   // The Net associated with the Terminal
 	private Component Parent; // Looks at the component the terminal is connect too

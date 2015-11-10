@@ -1,5 +1,8 @@
 package com.example.emilie.practiceapplication.Parser;
-public class Node {
+
+import java.io.Serializable;
+
+public class Node implements Serializable {
 	private int x;
 	private int y;
 	

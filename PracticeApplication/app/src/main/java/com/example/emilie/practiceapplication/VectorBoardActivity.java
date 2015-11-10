@@ -19,6 +19,9 @@ import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 
+import com.example.emilie.practiceapplication.Parser.Component;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class VectorBoardActivity extends AppCompatActivity {
@@ -50,7 +53,14 @@ public class VectorBoardActivity extends AppCompatActivity {
 
 
         //TODO Get everything not just strings
-        ArrayList<String> componentList = intent.getStringArrayListExtra("ComponentList");
+        ArrayList<String> StringList = new ArrayList<>();
+        Serializable serializedList = intent.getSerializableExtra("ComponentList");
+        ArrayList<Component> componentList = (ArrayList<Component>) serializedList;
+        for(int i=0;i<componentList.size();i++)
+        {
+            StringList.add(componentList.get(i).type);
+        }
+
 
         //TODO make this dynamic based off of what the user inputs
         for(int i=0;i<12;i++)
@@ -73,13 +83,13 @@ public class VectorBoardActivity extends AppCompatActivity {
             tableLayout.addView(row,i);
         }
         /*Builds the List of components*/
-        for (int i = 0; i < componentList.size(); i++)
+        for (int i = 0; i < StringList.size(); i++)
         {
             final ImageView im = new ImageView(this);
             tray.addView(im);
             im.setImageResource(R.drawable.resistorfinal); //Not sure why this is here
 
-            switch (componentList.get(i)) {
+            switch (StringList.get(i)) {
                 case "res":
                     im.setImageResource(R.drawable.resistorfinal);
                     break;
