@@ -4,6 +4,10 @@ import android.content.ClipData;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.DragEvent;
@@ -28,14 +32,13 @@ public class VectorBoardActivity extends AppCompatActivity {
 
     private android.widget.RelativeLayout.LayoutParams layoutParams;
     public ArrayList<ImageView> iv = new ArrayList<ImageView>();
-    ImageView board;
-
+    public ImageView board;
     public ImageView resistor;
-    public ImageView resPart;
     public ImageView capacitor;
-    public ImageView capPart;
     public ImageView inductor;
-    public ImageView indPart;
+
+    public int rowMAX;
+    public int columnMAX;
 
     public TableLayout tableLayout;
     public LinearLayout tray;
@@ -48,6 +51,8 @@ public class VectorBoardActivity extends AppCompatActivity {
         setContentView(R.layout.activity_vector_board);
         Intent intent = getIntent();
         tray = (LinearLayout) findViewById(R.id.ll);
+        rowMAX = 12;
+        columnMAX = 13;
         RelativeLayout rLayout = (RelativeLayout) findViewById(R.id.ll_top);
         tableLayout = (TableLayout) findViewById(R.id.tl);
 
@@ -61,22 +66,16 @@ public class VectorBoardActivity extends AppCompatActivity {
             StringList.add(componentList.get(i).type);
         }
 
-
         //TODO make this dynamic based off of what the user inputs
-        for(int i=0;i<12;i++)
+        for(int i=0;i<rowMAX;i++)
         {
             TableRow row = new TableRow(this);
-            for(int j=0;j<13;j++)
+            for(int j=0;j<columnMAX;j++)
             {
                 ImageView image = new ImageView(this);
 
                 image.setImageResource(R.drawable.hole25x25);
                 image.setOnDragListener(new MyDragListener());
-//                image.requestLayout();
-//                image.getLayoutParams().height=50;
-//                image.getLayoutParams().width=50;
-//                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(50, 50);
-//                image.setLayoutParams(layoutParams);
                 row.addView(image,j);
             }
 
@@ -86,6 +85,7 @@ public class VectorBoardActivity extends AppCompatActivity {
         for (int i = 0; i < StringList.size(); i++)
         {
             final ImageView im = new ImageView(this);
+
             tray.addView(im);
             im.setImageResource(R.drawable.resistorfinal); //Not sure why this is here
 
@@ -109,7 +109,6 @@ public class VectorBoardActivity extends AppCompatActivity {
         left.setOnClickListener(new MyClickListener());
         initControls(); //Set each image to be draggable1
     }
-
     private void initControls() {
         for(int i=0;i<iv.size();i++) {
            // iv.get(i).setTag(Integer.parseInt("%d"),i);
@@ -122,61 +121,13 @@ public class VectorBoardActivity extends AppCompatActivity {
         resistor = new ImageView(this);
         resistor.setImageResource(R.drawable.resistorfinal);
         resistor.setOnTouchListener(new MyTouchListener());
-        resPart = new ImageView(this);
-        resPart.setImageResource(R.drawable.east_res1_4);
 
         capacitor = new ImageView(this);
         capacitor.setImageResource(R.drawable.capacitorfinal);
-        capPart = new ImageView(this);
-        capPart.setImageResource(R.drawable.east_capacitor1_2);
 
         inductor = new ImageView(this);
         inductor.setImageResource(R.drawable.inductor);
-        indPart = new ImageView(this);
-        indPart.setImageResource(R.drawable.east_inductor1_4);
     }
-
-    private final class MyTouchListener implements View.OnTouchListener {
-        public boolean onTouch(View v, MotionEvent event) {
-            if (event.getAction() == MotionEvent.ACTION_DOWN) {
-
-                RadioGroup radioGroup = (RadioGroup) findViewById(R.id.toolbar);
-                final String value = ((RadioButton)findViewById(radioGroup.getCheckedRadioButtonId() )).getText().toString();
-                switch(value)
-                {
-                    case "Move":
-                        ClipData data = ClipData.newPlainText("", "");
-                        View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(v);
-                        v.startDrag(data, shadowBuilder, v, 0);
-                        v.setVisibility(View.INVISIBLE);
-                        break;
-                    case "Rotate":
-                        rotate(v);
-                        break;
-                    case "Inspect":
-                        break;
-                    default:
-                        ClipData d = ClipData.newPlainText("", "");
-                        View.DragShadowBuilder s = new View.DragShadowBuilder(v);
-                        v.startDrag(d, s, v, 0);
-                        v.setVisibility(View.INVISIBLE);
-                        break;
-                }
-
-                return true;
-            }
-
-            if(event.getAction()== MotionEvent.ACTION_UP)
-            {
-                v.setVisibility(View.VISIBLE);
-                return true;
-            }
-
-            else return false;
-
-        }
-    }
-
     private void rotate(View v) {
         ImageView imageView = (ImageView)v;
         String clicked = "";
@@ -236,7 +187,6 @@ public class VectorBoardActivity extends AppCompatActivity {
                 break;
         }
     }
-
     private void flip(ImageView imageView, String clicked)
     {
         ImageView res1 = new ImageView(this);
@@ -531,7 +481,6 @@ public class VectorBoardActivity extends AppCompatActivity {
         }
         return null;
     }
-
     private boolean clear (ImageView dropped, String rotation,int x, int y)
     {
         TableRow row = (TableRow) dropped.getParent();
@@ -575,8 +524,62 @@ public class VectorBoardActivity extends AppCompatActivity {
 
         return true;
     }
+    private final class MyTouchListener implements View.OnTouchListener {
+        public boolean onTouch(View v, MotionEvent event) {
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
 
-    class MyDragListener implements View.OnDragListener {
+                RadioGroup radioGroup = (RadioGroup) findViewById(R.id.toolbar);
+                final String value = ((RadioButton)findViewById(radioGroup.getCheckedRadioButtonId() )).getText().toString();
+                switch(value)
+                {
+                    case "Move":
+                        ClipData data = ClipData.newPlainText("", "");
+                        View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(v);
+                        v.startDrag(data, shadowBuilder, v, 0);
+                        v.setVisibility(View.INVISIBLE);
+                        if (fromTray(v))
+                        tray.removeViewAt(0);
+                        break;
+                    case "Rotate":
+                        rotate(v);
+                        break;
+                    case "Inspect":
+                        break;
+                    default:
+                        ClipData d = ClipData.newPlainText("", "");
+                        View.DragShadowBuilder s = new View.DragShadowBuilder(v);
+                        v.startDrag(d, s, v, 0);
+                        v.setVisibility(View.INVISIBLE);
+                        break;
+                }
+
+                return true;
+            }
+
+            if(event.getAction()== MotionEvent.ACTION_UP)
+            {
+                v.setVisibility(View.VISIBLE);
+                return true;
+            }
+
+            else return false;
+
+        }
+
+        private boolean fromTray(View v) {
+            String string = findClickable((ImageView) v);
+            assert string != null;
+            if(string.equals("res/drawable/resistorfinal.png") ||
+                    string.equals("res/drawable/inductor.png") ||
+                    string.equals("res/drawable/capacitorfinal.png")) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+    }
+    private class MyDragListener implements View.OnDragListener {
         @Override
         public boolean onDrag(View v, DragEvent event) {
             switch (event.getAction()) {
@@ -593,17 +596,12 @@ public class VectorBoardActivity extends AppCompatActivity {
                 case DragEvent.ACTION_DRAG_EXITED:
                     x_cord = (int) event.getX();
                     y_cord = (int) event.getY();
-//                    layoutParams.leftMargin = x_cord;
-//                    layoutParams.topMargin = y_cord;
-//                    v.setLayoutParams(layoutParams);
                     break;
 
                 case DragEvent.ACTION_DRAG_LOCATION:
                     if(v!=board) {
                         v.setVisibility(View.VISIBLE);
                     }
-//                    x_cord = (int) event.getX();
-//                    y_cord = (int) event.getY();
                     break;
 
                 case DragEvent.ACTION_DRAG_ENDED:
@@ -626,103 +624,210 @@ public class VectorBoardActivity extends AppCompatActivity {
                     String image = findClickable(dropped);
                     boolean bool;
 
-                    switch (image)
-                    {
-                        //resistors
-                        case "res/drawable/resistorfinal.png":
-                            bool = setImageRes(dropTarget, row, indexcolumn, "east");
-                            if (!bool)
-                                tray.addView(resistor, 0);
-                            break;
-                        case "res/drawable/east_res1_4.png":
-                            clear(dropped,"east", 1,4);
-                            bool = setImageRes(dropTarget, row, indexcolumn, "east");
-                            if (!bool)
-                                tray.addView(resistor, 0);
-                            break;
-                        case "res/drawable/west_res1_4.png":
-                            clear(dropped,"west", 1,4);
-                            bool = setImageRes(dropTarget, row, indexcolumn, "west");
-                            if (!bool)
-                                tray.addView(resistor, 0);
-                            break;
-                        case "res/drawable/north_res1_4.png":
-                            clear(dropped,"north", 1,4);
-                            bool = setImageRes(dropTarget, row, indexcolumn, "north");
-                            if (!bool)
-                                tray.addView(resistor, 0);
-                            break;
-                        case "res/drawable/south_res1_4.png":
-                            clear(dropped,"south", 1,4);
-                            bool = setImageRes(dropTarget, row, indexcolumn, "south");
-                            if (!bool)
-                                tray.addView(resistor, 0);
-                            break;
-                        //capacitors
-                        case "res/drawable/capacitorfinal.png":
-                            bool = setImageCap(dropTarget, row, indexcolumn, "east");
-                            if (!bool)
-                                tray.addView(resistor, 0);
-                            break;
-                        case "res/drawable/east_capacitor1_2.png":
-                            clear(dropped,"east", 1,2);
-                            bool = setImageCap(dropTarget, row, indexcolumn, "east");
-                            if (!bool)
-                                tray.addView(capacitor, 0);
-                            break;
-                        case "res/drawable/west_capacitor1_2.png":
-                            clear(dropped,"west", 1,2);
-                            bool = setImageCap(dropTarget, row, indexcolumn, "west");
-                            if (!bool)
-                                tray.addView(capacitor, 0);
-                            break;
-                        case "res/drawable/north_capacitor1_2.png":
-                            clear(dropped,"north", 1,2);
-                            bool = setImageCap(dropTarget, row, indexcolumn, "north");
-                            if (!bool)
-                                tray.addView(capacitor, 0);
-                            break;
-                        case "res/drawable/south_capacitor1_2.png":
-                            clear(dropped,"south", 1,2);
-                            bool = setImageCap(dropTarget, row, indexcolumn, "south");
-                            if (!bool)
-                                tray.addView(capacitor, 0);
-                            break;
-                        //inductors
-                        case "res/drawable/inductor.png":
-                            bool = setImageInd(dropTarget, row, indexcolumn, "east");
-                            if (!bool)
-                                tray.addView(resistor, 0);
-                            break;
-                        case "res/drawable/east_inductor1_4.png":
-                            clear(dropped,"east", 1,4);
-                            bool = setImageInd(dropTarget, row, indexcolumn, "east");
-                            if (!bool)
-                                tray.addView(resistor, 0);
-                            break;
-                        case "res/drawable/west_inductor1_4.png":
-                            clear(dropped,"west", 1,4);
-                            bool = setImageInd(dropTarget, row, indexcolumn, "west");
-                            if (!bool)
-                                tray.addView(resistor, 0);
-                            break;
-                        case "res/drawable/north_inductor1_4.png":
-                            clear(dropped,"north", 1,4);
-                            bool = setImageInd(dropTarget, row, indexcolumn, "north");
-                            if (!bool)
-                                tray.addView(resistor, 0);
-                            break;
-                        case "res/drawable/south_inductor1_4.png":
-                            clear(dropped,"south", 1,4);
-                            bool = setImageInd(dropTarget, row, indexcolumn, "south");
-                            if (!bool)
-                                tray.addView(resistor, 0);
-                            break;
-                        default:
-                            view.setVisibility(View.VISIBLE);
-                    }
+                    if (validMove(dropped,dropTarget)){
+                        switch (image)
+                        {
+                            //resistors
+                            case "res/drawable/resistorfinal.png":
+                                bool = setImageRes(dropTarget, row, indexcolumn, "east");
+                                if (!bool)
+                                    tray.addView(resistor, 0);
+                                break;
+                            case "res/drawable/east_res1_4.png":
+                                clear(dropped,"east", 1,4);
+                                bool = setImageRes(dropTarget, row, indexcolumn, "east");
+                                if (!bool)
+                                    tray.addView(resistor, 0);
+                                break;
+                            case "res/drawable/west_res1_4.png":
+                                clear(dropped,"west", 1,4);
+                                bool = setImageRes(dropTarget, row, indexcolumn, "west");
+                                if (!bool)
+                                    tray.addView(resistor, 0);
+                                break;
+                            case "res/drawable/north_res1_4.png":
+                                clear(dropped,"north", 1,4);
+                                bool = setImageRes(dropTarget, row, indexcolumn, "north");
+                                if (!bool)
+                                    tray.addView(resistor, 0);
+                                break;
+                            case "res/drawable/south_res1_4.png":
+                                clear(dropped,"south", 1,4);
+                                bool = setImageRes(dropTarget, row, indexcolumn, "south");
+                                if (!bool)
+                                    tray.addView(resistor, 0);
+                                break;
+                            //capacitors
+                            case "res/drawable/capacitorfinal.png":
+                                bool = setImageCap(dropTarget, row, indexcolumn, "east");
+                                if (!bool)
+                                    tray.addView(capacitor, 0);
+                                break;
+                            case "res/drawable/east_capacitor1_2.png":
+                                clear(dropped,"east", 1,2);
+                                bool = setImageCap(dropTarget, row, indexcolumn, "east");
+                                if (!bool)
+                                    tray.addView(capacitor, 0);
+                                break;
+                            case "res/drawable/west_capacitor1_2.png":
+                                clear(dropped,"west", 1,2);
+                                bool = setImageCap(dropTarget, row, indexcolumn, "west");
+                                if (!bool)
+                                    tray.addView(capacitor, 0);
+                                break;
+                            case "res/drawable/north_capacitor1_2.png":
+                                clear(dropped,"north", 1,2);
+                                bool = setImageCap(dropTarget, row, indexcolumn, "north");
+                                if (!bool)
+                                    tray.addView(capacitor, 0);
+                                break;
+                            case "res/drawable/south_capacitor1_2.png":
+                                clear(dropped,"south", 1,2);
+                                bool = setImageCap(dropTarget, row, indexcolumn, "south");
+                                if (!bool)
+                                    tray.addView(capacitor, 0);
+                                break;
+                            //inductors
+                            case "res/drawable/inductor.png":
+                                bool = setImageInd(dropTarget, row, indexcolumn, "east");
+                                if (!bool)
+                                    tray.addView(inductor, 0);
+                                break;
+                            case "res/drawable/east_inductor1_4.png":
+                                clear(dropped,"east", 1,4);
+                                bool = setImageInd(dropTarget, row, indexcolumn, "east");
+                                if (!bool)
+                                    tray.addView(inductor, 0);
+                                break;
+                            case "res/drawable/west_inductor1_4.png":
+                                clear(dropped,"west", 1,4);
+                                bool = setImageInd(dropTarget, row, indexcolumn, "west");
+                                if (!bool)
+                                    tray.addView(inductor, 0);
+                                break;
+                            case "res/drawable/north_inductor1_4.png":
+                                clear(dropped,"north", 1,4);
+                                bool = setImageInd(dropTarget, row, indexcolumn, "north");
+                                if (!bool)
+                                    tray.addView(inductor, 0);
+                                break;
+                            case "res/drawable/south_inductor1_4.png":
+                                clear(dropped,"south", 1,4);
+                                bool = setImageInd(dropTarget, row, indexcolumn, "south");
+                                if (!bool)
+                                    tray.addView(inductor, 0);
+                                break;
+                            default:
+                                view.setVisibility(View.VISIBLE);
+                        }
+                }
+                    view.setVisibility(View.VISIBLE);
                     break;
                 default:
+                    break;
+            }
+            return true;
+        }
+
+        private boolean validMove(ImageView DroppedImage, ImageView TargetImage) {
+            TableRow row = (TableRow) TargetImage.getParent();
+            int indexColumn = row.indexOfChild(TargetImage);
+            int indexRow = tableLayout.indexOfChild(row);
+            ImageView hole = new ImageView(getApplicationContext());
+            hole.setImageResource(R.drawable.hole25x25);
+            String direction ="";
+            int xlength = 0;
+            int ylength = 0;
+            String imageFile = findClickable(DroppedImage);
+            imageFile = imageFile.substring(13);
+            imageFile = imageFile.substring(0,imageFile.length()-4); //removes .png
+            
+            if(imageFile.endsWith("under")){
+                return false;                             //checks to see if the image is under the board
+            }
+            if (imageFile.contains("_")) {//Not a final image
+                if (imageFile.charAt(4) == '_') { //EAST WEST
+                    direction = imageFile.substring(0, 4);
+                    xlength = Integer.parseInt(imageFile.substring((imageFile.length()-1)));
+                    ylength = 1;  //TODO ADD IC SUPPORT
+
+                } else {  // NORTH SOUTH
+                    direction = imageFile.substring(0, 5);
+                    xlength = Integer.parseInt(imageFile.substring((imageFile.length()-1)));
+                    ylength = 1;  //TODO ADD IC SUPPORT
+                }
+            }
+            else{
+                if(imageFile.equals("resistorfinal")) { //TODO CHANGE FINALS TO INCLUDE THE STRING
+                    direction = "east";
+                    xlength = 4;
+                    ylength = 1;
+                }
+                if(imageFile.equals("capacitorfinal")) {
+                    direction = "east";
+                    xlength = 2;
+                    ylength = 1;
+                }
+                if(imageFile.equals("inductor")) {
+                    direction = "east";
+                    xlength = 4;
+                    ylength = 1;
+                }
+            }
+            switch (direction) {
+                case "north":
+                    //Am I within the bounds?
+                    if(ylength - 1 + indexColumn > columnMAX ) return false;
+                    if(-(xlength - 1) + indexRow < 0 ) return false;
+                    //is the Path Clear
+                    for (int x = 0 ; x < xlength ; x++) {
+                        for (int y =0 ; y < ylength ;y++){
+                            TableRow temp = (TableRow) tableLayout.getChildAt(indexRow - x);
+                            if(!compareImageViewEqual((ImageView) row.getChildAt(indexColumn + y),hole))
+                                return false;
+                        }
+                    }
+
+                    break;
+                case "south":
+                    //Am I within the bounds
+                    if(-(ylength - 1) + indexColumn < 0 ) return false;
+                    if(xlength - 1 + indexRow > rowMAX ) return false;
+                    //is the Path Clear
+                    for (int x = 0 ; x < xlength ; x++) {
+                        for (int y =0 ; y < ylength ;y++){
+                            TableRow temp = (TableRow) tableLayout.getChildAt(indexRow + x);
+                            if(!compareImageViewEqual((ImageView) row.getChildAt(indexColumn - y),hole))
+                                return false;
+                        }
+                    }
+                    break;
+                case "east":
+                    //Am I within the bounds
+                    if(xlength - 1 + indexColumn > columnMAX ) return false;
+                    if(ylength - 1 + indexRow > rowMAX ) return false;
+                    //is the Path Clear
+                    for (int x = 0 ; x < xlength ; x++) {
+                        for (int y =0 ; y < ylength ;y++){
+                            TableRow temp = (TableRow) tableLayout.getChildAt(indexRow + y);
+                            if(!compareImageViewEqual((ImageView) row.getChildAt(indexColumn + x),hole))
+                                return false;
+                        }
+                    }
+                    break;
+                case "west":
+                    //Am I within Bounds
+                    if(-(xlength - 1) + indexColumn < 0) return false;
+                    if(-(ylength - 1) + indexRow < 0 ) return false;
+                    //is the path clear
+                    //is the Path Clear
+                    for (int x = 0 ; x < xlength ; x++) {
+                        for (int y =0 ; y < ylength ;y++){
+                            TableRow temp = (TableRow) tableLayout.getChildAt(indexRow - y);
+                            if(!compareImageViewEqual((ImageView) row.getChildAt(indexColumn - x),hole))
+                                return false;
+                        }
+                    }
                     break;
             }
             return true;
@@ -905,46 +1010,17 @@ public class VectorBoardActivity extends AppCompatActivity {
         }
 
     }
-
-    private boolean compareImageViewEqual(ImageView view1, ImageView view2)
-    {
-        boolean result;
-        if(view1.getDrawable().getConstantState().equals(view2.getDrawable().getConstantState()))
-        {
-            result = true;
-        }
-        else{
-            result= false;
-        }
-
-        return result;
-    }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
     private class MyClickListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
             switch(v.getId())
             {
                 case R.id.btn_flip:
-                    for(int i=0;i<12;i++)
+                    for(int i=0;i<rowMAX;i++)
                     {
                         TableRow row = new TableRow(getApplicationContext());
                         TableRow tableRow = (TableRow) tableLayout.getChildAt(i);
-                        for(int j=12;j>=0;j--)
+                        for(int j=columnMAX-1;j>=0;j--)
                         {
                             ImageView imageView = (ImageView) tableRow.getChildAt(j);
                             //switch to under view and fix order
@@ -990,5 +1066,55 @@ public class VectorBoardActivity extends AppCompatActivity {
             }
             return imageView;
         }
+    }
+
+    private boolean compareImageViewEqual(ImageView view1, ImageView view2)
+    {
+        return areDrawablesIdentical(view1.getDrawable(),view2.getDrawable());
+    }
+    public static boolean areDrawablesIdentical(Drawable drawableA, Drawable drawableB) {
+        Drawable.ConstantState stateA = drawableA.getConstantState();
+        Drawable.ConstantState stateB = drawableB.getConstantState();
+        // If the constant state is identical, they are using the same drawable resource.
+        // However, the opposite is not necessarily true.
+        return (stateA != null && stateB != null && stateA.equals(stateB))
+                || getBitmap(drawableA).sameAs(getBitmap(drawableB));
+    }
+
+    public static Bitmap getBitmap(Drawable drawable) {
+        Bitmap result;
+        if (drawable instanceof BitmapDrawable) {
+            result = ((BitmapDrawable) drawable).getBitmap();
+        } else {
+            int width = drawable.getIntrinsicWidth();
+            int height = drawable.getIntrinsicHeight();
+            // Some drawables have no intrinsic width - e.g. solid colours.
+            if (width <= 0) {
+                width = 1;
+            }
+            if (height <= 0) {
+                height = 1;
+            }
+
+            result = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(result);
+            drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+            drawable.draw(canvas);
+        }
+        return result;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }
