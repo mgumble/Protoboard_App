@@ -35,7 +35,7 @@
     </HorizontalScrollView>
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="55dp"
         android:layout_height="wrap_content"
         android:text="Flip"
         android:id="@+id/btn_flip"
@@ -58,7 +58,8 @@
             android:id="@+id/btn_inspect"
             android:checked="false"
             android:layout_alignTop="@+id/btn_move"
-            android:layout_toStartOf="@+id/btn_move" />
+            android:layout_toStartOf="@+id/btn_move"
+            android:textSize="13dp"/>
 
         <RadioButton
             android:layout_width="wrap_content"
@@ -67,7 +68,8 @@
             android:id="@+id/btn_move"
             android:checked="true"
             android:layout_alignTop="@+id/btn_rotate"
-            android:layout_toStartOf="@+id/btn_rotate" />
+            android:layout_toStartOf="@+id/btn_rotate"
+            android:textSize="13dp"/>
 
         <RadioButton
             android:layout_width="wrap_content"
@@ -76,7 +78,16 @@
             android:id="@+id/btn_rotate"
             android:layout_alignParentBottom="true"
             android:layout_toStartOf="@+id/btn_flip"
-            android:checked="false" />
+            android:checked="false"
+            android:textSize="13dp"/>
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Wire"
+            android:id="@+id/btn_wire"
+            android:checked="false"
+            android:textSize="13dp"/>
     </RadioGroup>
 
 

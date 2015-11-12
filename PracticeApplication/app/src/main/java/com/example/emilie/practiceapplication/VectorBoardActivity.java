@@ -28,8 +28,9 @@ import com.example.emilie.practiceapplication.Parser.Component;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class VectorBoardActivity extends AppCompatActivity {
 
+public class VectorBoardActivity extends AppCompatActivity {
+    private static final String[] cardinals = {"north", "south", "east", "west"};
     private android.widget.RelativeLayout.LayoutParams layoutParams;
     public ArrayList<ImageView> iv = new ArrayList<ImageView>();
     public ImageView board;
@@ -76,6 +77,7 @@ public class VectorBoardActivity extends AppCompatActivity {
 
                 image.setImageResource(R.drawable.hole25x25);
                 image.setOnDragListener(new MyDragListener());
+                image.setOnTouchListener(new MyTouchListener());
                 row.addView(image,j);
             }
 
@@ -184,6 +186,14 @@ public class VectorBoardActivity extends AppCompatActivity {
             case "res/drawable/south_inductor1_4.png":
                 clear(imageView, "south",1,4);
                 flip(imageView, clicked);
+                break;
+            case "res/drawable/east_west_wire.png":
+                imageView.setImageResource(R.drawable.north_south_wire);
+                break;
+            case "res/drawable/north_south_wire.png":
+                imageView.setImageResource(R.drawable.east_west_wire);
+                break;
+            default:
                 break;
         }
     }
@@ -501,22 +511,25 @@ public class VectorBoardActivity extends AppCompatActivity {
                         row = (TableRow)tableLayout.getChildAt(indexrow+i);
                         temp = (ImageView) row.getChildAt(indexcolumn+j);
                         temp.setImageResource(R.drawable.hole25x25);
-
+                        temp.setOnTouchListener(new MyTouchListener());
                         break;
                     case "west":
                         row = (TableRow)tableLayout.getChildAt(indexrow-i); 
                         temp = (ImageView) row.getChildAt(indexcolumn-j);
                         temp.setImageResource(R.drawable.hole25x25);
+                        temp.setOnTouchListener(new MyTouchListener());
                         break;
                     case "north":
                         row = (TableRow)tableLayout.getChildAt(indexrow-j);
                         temp = (ImageView) row.getChildAt(indexcolumn+i);
                         temp.setImageResource(R.drawable.hole25x25);
+                        temp.setOnTouchListener(new MyTouchListener());
                         break;
                     case "south":
                         row = (TableRow)tableLayout.getChildAt(indexrow+j);
                         temp = (ImageView) row.getChildAt(indexcolumn-i);
                         temp.setImageResource(R.drawable.hole25x25);
+                        temp.setOnTouchListener(new MyTouchListener());
                         break;
                 }
             }
@@ -527,23 +540,39 @@ public class VectorBoardActivity extends AppCompatActivity {
     private final class MyTouchListener implements View.OnTouchListener {
         public boolean onTouch(View v, MotionEvent event) {
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                ImageView image = (ImageView)v;
+                ImageView hole = new ImageView(getApplicationContext());
+                hole.setImageResource(R.drawable.hole25x25);
+                boolean isHole = compareImageViewEqual(image,hole);
 
                 RadioGroup radioGroup = (RadioGroup) findViewById(R.id.toolbar);
                 final String value = ((RadioButton)findViewById(radioGroup.getCheckedRadioButtonId() )).getText().toString();
                 switch(value)
                 {
                     case "Move":
-                        ClipData data = ClipData.newPlainText("", "");
-                        View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(v);
-                        v.startDrag(data, shadowBuilder, v, 0);
-                        v.setVisibility(View.INVISIBLE);
-                        if (fromTray(v))
-                        tray.removeViewAt(0);
+                        if(!isHole)
+                        {
+                            ClipData data = ClipData.newPlainText("", "");
+                            View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(v);
+                            v.startDrag(data, shadowBuilder, v, 0);
+                            v.setVisibility(View.INVISIBLE);
+                            if (fromTray(v)) tray.removeViewAt(0);
+                        }
+
                         break;
                     case "Rotate":
-                        rotate(v);
+                        if(!isHole)
+                        {
+                            rotate(v);
+                        }
                         break;
                     case "Inspect":
+                        break;
+                    case "Wire":
+                        if(isHole)
+                        {
+                            wire(image);
+                        }
                         break;
                     default:
                         ClipData d = ClipData.newPlainText("", "");
@@ -579,6 +608,88 @@ public class VectorBoardActivity extends AppCompatActivity {
             }
         }
     }
+
+    public void wire(ImageView image)
+    {
+        TableRow row = (TableRow)image.getParent();
+        int columnindex = tableLayout.indexOfChild(row);
+        int rowindex = row.indexOfChild(image);
+        ImageView east = null;
+        ImageView west = null;
+        ImageView north = null;
+        ImageView south = null;
+        if(rowindex>0 && rowindex<rowMAX)
+        {
+            east = (ImageView)((TableRow)tableLayout.getChildAt(columnindex)).getChildAt(rowindex+1);
+            west = (ImageView)((TableRow)tableLayout.getChildAt(columnindex)).getChildAt(rowindex-1);
+        }
+        if(columnindex>0 && columnindex<columnMAX)
+        {
+            north = (ImageView)((TableRow)tableLayout.getChildAt(columnindex-1)).getChildAt(rowindex);
+            south = (ImageView)((TableRow)tableLayout.getChildAt(columnindex+1)).getChildAt(rowindex);
+        }
+
+        Drawable wire = findWireType(north, south, east, west);
+
+        image.setImageDrawable(wire);
+        image.setOnTouchListener(new MyTouchListener());
+    }
+
+    private Drawable findWireType(ImageView north, ImageView south, ImageView east, ImageView west) {
+        boolean[] answers = new boolean[4];
+        int i,j,counter,total;
+        total = counter = 0;
+        ImageView result= new ImageView(getApplicationContext());
+        answers[0] = ifConnectable(north,"south");
+        answers[1] = ifConnectable(south,"north");
+        answers[2] = ifConnectable(east, "west");
+        answers[3] = ifConnectable(west, "east");
+        for(i=0;i<answers.length;i++)
+        {
+            if (answers[i]) total++;
+
+        }
+        Resources res = getResources();
+        TypedArray wires = res.obtainTypedArray(R.array.wire_parts);
+        for(i=0;i<wires.length();i++)
+        {
+            String fileName = wires.getString(i);
+            counter = 0;
+            for(j =0 ; j < 4 ; j++)
+            {
+                if(answers[j] && fileName.contains(cardinals[j]))
+                {
+                   counter++;
+                }
+            }
+            if (counter == total)
+            {
+                return wires.getDrawable(i);
+            }
+        }
+        return wires.getDrawable(0);
+    }
+
+    private boolean ifConnectable(ImageView imageView, String key) {
+        Resources res = getResources();
+        String fileName;
+        TypedArray wires = res.obtainTypedArray(R.array.wire_parts);
+        for(int i=0;i<wires.length();i++)
+        {
+            ImageView temp = new ImageView(this);
+            temp.setImageDrawable(wires.getDrawable(i));
+            if(compareImageViewEqual(temp,imageView)) {
+                fileName = wires.getString(i);
+                fileName = fileName.substring(13);  // removes the res/drawables
+                fileName = fileName.substring(0,fileName.length()-4); //removes .png
+                if (fileName.contains(key)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     private class MyDragListener implements View.OnDragListener {
         @Override
         public boolean onDrag(View v, DragEvent event) {
@@ -741,7 +852,7 @@ public class VectorBoardActivity extends AppCompatActivity {
             String imageFile = findClickable(DroppedImage);
             imageFile = imageFile.substring(13);
             imageFile = imageFile.substring(0,imageFile.length()-4); //removes .png
-            
+
             if(imageFile.endsWith("under")){
                 return false;                             //checks to see if the image is under the board
             }

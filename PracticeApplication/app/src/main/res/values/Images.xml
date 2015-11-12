@@ -107,6 +107,9 @@
         <item>@drawable/south_capacitor2_2under</item>
     </array>
     <array name="clickable_parts">
+        <item>@drawable/hole25x25</item>
+        <item>@drawable/east_west_wire</item>
+        <item>@drawable/north_south_wire</item>
         <item>@drawable/resistorfinal</item>
         <item>@drawable/capacitorfinal</item>
         <item>@drawable/inductor</item>
@@ -122,5 +125,18 @@
         <item>@drawable/west_res1_4</item>
         <item>@drawable/west_capacitor1_2</item>
         <item>@drawable/west_inductor1_4</item>
+    </array>
+    <array name="wire_parts">
+        <item>@drawable/east_west_wire</item>
+        <item>@drawable/north_south_wire</item>
+        <item>@drawable/north_east_wire</item>
+        <item>@drawable/north_west_wire</item>
+        <item>@drawable/south_east_wire</item>
+        <item>@drawable/south_west_wire</item>
+        <item>@drawable/west_east_south_wire</item>
+        <item>@drawable/west_north_east_wire</item>
+        <item>@drawable/west_north_south_wire</item>
+        <item>@drawable/east_north_south_wire</item>
+        <item>@drawable/east_north_west_south_wire</item>
     </array>
 </resources>
