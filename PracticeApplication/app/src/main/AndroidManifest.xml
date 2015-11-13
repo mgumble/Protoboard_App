@@ -7,7 +7,6 @@
         android:targetSdkVersion="19" />
 
     <uses-permission android:name="android.permission.INTERNET" />
-
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -27,7 +26,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.emilie.practiceapplication.WhichTypeProjectActivity"
+            android:name=".WhichTypeProjectActivity"
             android:label="@string/title_activity_which_type_project"
             android:parentActivityName=".MyActivity" >
             <meta-data
@@ -35,7 +34,7 @@
                 android:value="com.example.emilie.practiceapplication.MyActivity" />
         </activity>
         <activity
-            android:name="com.example.emilie.practiceapplication.LoadSavedBoardActivity"
+            android:name=".LoadSavedBoardActivity"
             android:label="@string/title_activity_load_saved_board"
             android:parentActivityName=".MyActivity" >
             <meta-data
@@ -43,7 +42,7 @@
                 android:value="com.example.emilie.practiceapplication.MyActivity" />
         </activity>
         <activity
-            android:name="com.example.emilie.practiceapplication.EmptyBoardActivity"
+            android:name=".EmptyBoardActivity"
             android:label="@string/title_activity_empty_board"
             android:parentActivityName=".WhichTypeProjectActivity" >
             <meta-data
@@ -51,7 +50,7 @@
                 android:value="com.example.emilie.practiceapplication.WhichTypeProjectActivity" />
         </activity>
         <activity
-            android:name="com.example.emilie.practiceapplication.VectorBoardActivity"
+            android:name=".VectorBoardActivity"
             android:label="@string/title_activity_vector_board"
             android:parentActivityName=".EmptyBoardActivity" >
             <meta-data
@@ -59,9 +58,9 @@
                 android:value="com.example.emilie.practiceapplication.EmptyBoardActivity" />
         </activity>
         <activity
-            android:name="com.example.emilie.practiceapplication.BreadBoardActivity"
+            android:name=".BreadBoardActivity"
             android:label="@string/title_activity_bread_board"
-            android:parentActivityName="com.example.emilie.practiceapplication.EmptyBoardActivity" >
+            android:parentActivityName=".EmptyBoardActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.emilie.practiceapplication.EmptyBoardActivity" />
@@ -82,12 +81,16 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.emilie.practiceapplication.DropboxDownload"
+            android:name=".DropboxDownload"
             android:label="@string/title_activity_dropbox_download" >
         </activity>
         <activity
-            android:name="com.example.emilie.practiceapplication.Dropbox"
+            android:name=".Dropbox"
             android:label="@string/title_activity_dropbox" >
+        </activity>
+        <activity
+            android:name=".MaterialListActivity"
+            android:label="@string/title_activity_material_list" >
         </activity>
     </application>
 

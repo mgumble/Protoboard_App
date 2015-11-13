@@ -32,6 +32,7 @@
     <string name="drop_box">DropBox</string>
 
     <string name="download">Download Schematic</string>
+    <string name="title_activity_material_list">MaterialListActivity</string>
 
 
 </resources>

@@ -103,7 +103,7 @@ public class DropboxDownload extends Activity implements OnItemClickListener {
             if(fileSelected.fileName().contains(".asc"))
             {
                 LTParser parser = new LTParser(Utils.getPath() + "/" + fileSelected.fileName(),Utils.getPath() +"/lib/sym/");
-                Intent intent = new Intent(DropboxDownload.this,VectorBoardActivity.class);
+                Intent intent = new Intent(DropboxDownload.this,MaterialListActivity.class);
                 ArrayList<Component> comp = parser.test();
                 intent.putExtra("ComponentList", comp);
                 startActivity(intent);

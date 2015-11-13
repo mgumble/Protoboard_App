@@ -51,16 +51,17 @@ public class VectorBoardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vector_board);
         Intent intent = getIntent();
+        Bundle b = intent.getExtras();
         tray = (LinearLayout) findViewById(R.id.ll);
-        rowMAX = 12;
-        columnMAX = 13;
+        rowMAX = b.getInt("row");
+        columnMAX = b.getInt("col");
         RelativeLayout rLayout = (RelativeLayout) findViewById(R.id.ll_top);
         tableLayout = (TableLayout) findViewById(R.id.tl);
 
 
         //TODO Get everything not just strings
         ArrayList<String> StringList = new ArrayList<>();
-        Serializable serializedList = intent.getSerializableExtra("ComponentList");
+        Serializable serializedList = b.getSerializable("ComponentList");
         ArrayList<Component> componentList = (ArrayList<Component>) serializedList;
         for(int i=0;i<componentList.size();i++)
         {
@@ -184,7 +185,7 @@ public class VectorBoardActivity extends AppCompatActivity {
                 flip(imageView, clicked);
                 break;
             case "res/drawable/south_inductor1_4.png":
-                clear(imageView, "south",1,4);
+                clear(imageView, "south", 1, 4);
                 flip(imageView, clicked);
                 break;
             case "res/drawable/east_west_wire.png":
@@ -1224,7 +1225,7 @@ public class VectorBoardActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
-        }
+        } 
 
         return super.onOptionsItemSelected(item);
     }
