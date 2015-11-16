@@ -76,13 +76,16 @@ public class VectorBoardActivity extends AppCompatActivity {
             {
                 ImageView image = new ImageView(this);
 
+               // editImageView(image, R.drawable.hole25x25, "hole", componentList.get(0));
+                //final Object tag = image.getTag(1);
+                //final Object tag1 = image.getTag(2);
                 image.setImageResource(R.drawable.hole25x25);
                 image.setOnDragListener(new MyDragListener());
                 image.setOnTouchListener(new MyTouchListener());
                 row.addView(image,j);
             }
 
-            tableLayout.addView(row,i);
+            tableLayout.addView(row, i);
         }
         /*Builds the List of components*/
         for (int i = 0; i < StringList.size(); i++)
@@ -1229,4 +1232,17 @@ public class VectorBoardActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+    private boolean editImageView(ImageView current, int drawable, String tag, Component component)
+    {
+        current.setImageResource(drawable);
+        current.setTag(1, tag);
+        current.setTag(2,component);
+        if(tag.equals("Hole"))
+        {
+            current.setOnDragListener(new MyDragListener());
+            current.setOnTouchListener(new MyTouchListener());
+        }
+        return false;
+    }
+
 }
