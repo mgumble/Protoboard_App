@@ -7,22 +7,20 @@
     tools:context="com.example.emilie.practiceapplication.VectorBoardActivity"
     android:background="#CACBCC"
     android:orientation="vertical">
-    <RelativeLayout
-        android:layout_width="fill_parent"
+    <TableLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/ll_top">
-
-        <TableLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/tl">
-        </TableLayout>
-    </RelativeLayout>
+        android:id="@+id/tl"
+        android:layout_toEndOf="@+id/toolbar"
+        android:layout_below="@+id/btn_flip"
+        android:layout_alignParentStart="true">
+    </TableLayout>
 
     <HorizontalScrollView
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/btn_flip"
+        android:layout_height="75dp"
+        android:id="@+id/horizontalScrollView"
+        android:layout_above="@+id/toolbar"
         android:layout_alignParentStart="true">
 
         <LinearLayout
@@ -39,17 +37,17 @@
         android:layout_height="wrap_content"
         android:text="Flip"
         android:id="@+id/btn_flip"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
 
     <RadioGroup
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal"
         android:id = "@+id/toolbar"
-        android:layout_toStartOf="@+id/btn_flip"
-        android:layout_alignTop="@+id/btn_flip">
+        android:layout_alignEnd="@+id/horizontalScrollView"
+        android:layout_alignParentStart="true">
 
         <RadioButton
             android:layout_width="wrap_content"
@@ -59,7 +57,7 @@
             android:checked="false"
             android:layout_alignTop="@+id/btn_move"
             android:layout_toStartOf="@+id/btn_move"
-            android:textSize="13dp"/>
+            android:textSize="11dp"/>
 
         <RadioButton
             android:layout_width="wrap_content"
@@ -69,7 +67,7 @@
             android:checked="true"
             android:layout_alignTop="@+id/btn_rotate"
             android:layout_toStartOf="@+id/btn_rotate"
-            android:textSize="13dp"/>
+            android:textSize="11dp"/>
 
         <RadioButton
             android:layout_width="wrap_content"
@@ -79,7 +77,7 @@
             android:layout_alignParentBottom="true"
             android:layout_toStartOf="@+id/btn_flip"
             android:checked="false"
-            android:textSize="13dp"/>
+            android:textSize="11dp"/>
 
         <RadioButton
             android:layout_width="wrap_content"
@@ -87,7 +85,15 @@
             android:text="Wire"
             android:id="@+id/btn_wire"
             android:checked="false"
-            android:textSize="13dp"/>
+            android:textSize="11dp"/>
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="19dp"
+            android:text="Clear"
+            android:id="@+id/btn_clear"
+            android:checked="false"
+            android:textSize="11dp"/>
     </RadioGroup>
 
 

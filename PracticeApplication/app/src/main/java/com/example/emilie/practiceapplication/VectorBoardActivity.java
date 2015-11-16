@@ -19,7 +19,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 
@@ -55,7 +54,6 @@ public class VectorBoardActivity extends AppCompatActivity {
         tray = (LinearLayout) findViewById(R.id.ll);
         rowMAX = b.getInt("row");
         columnMAX = b.getInt("col");
-        RelativeLayout rLayout = (RelativeLayout) findViewById(R.id.ll_top);
         tableLayout = (TableLayout) findViewById(R.id.tl);
 
 
@@ -542,6 +540,7 @@ public class VectorBoardActivity extends AppCompatActivity {
         public boolean onTouch(View v, MotionEvent event) {
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
                 ImageView image = (ImageView)v;
+
                 ImageView hole = new ImageView(getApplicationContext());
                 hole.setImageResource(R.drawable.hole25x25);
                 boolean isHole = compareImageViewEqual(image,hole);
@@ -557,7 +556,7 @@ public class VectorBoardActivity extends AppCompatActivity {
                             View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(v);
                             v.startDrag(data, shadowBuilder, v, 0);
                             v.setVisibility(View.INVISIBLE);
-                            if (fromTray(v)) tray.removeViewAt(0);
+                            if (fromTray(v)) tray.removeViewAt(tray.indexOfChild(v));
                         }
 
                         break;
@@ -573,6 +572,61 @@ public class VectorBoardActivity extends AppCompatActivity {
                         if(isHole)
                         {
                             wire(image);
+                        }
+                        break;
+                    case "Clear":
+                        if(!isHole)
+                        {
+                            String type = "";
+                            String imageFile = findClickable(image);
+                            imageFile = imageFile.substring(13);
+                            if(imageFile.contains("res"))
+                            {
+                                type = "res";
+                            }
+                            else if(imageFile.contains("cap"))
+                            {
+                                type = "cap";
+                            }
+                            else if(imageFile.contains("ind"))
+                            {
+                                type = "ind";
+                            }
+                            imageFile = imageFile.substring(0,1);
+                            switch (imageFile)
+                            {
+                                case "e":
+                                    //need to fix for ICs
+                                    clear(image,"east",1,4);
+                                    break;
+                                case "w":
+                                    clear(image,"west",1,4);
+                                    break;
+                                case "n":
+                                    clear(image,"north",1,4);
+                                    break;
+                                case "s":
+                                    clear(image,"south",1,4);
+                                    break;
+                            }
+
+                            switch (type)
+                            {
+                                case "res":
+                                    tray.addView(resistor);
+                                    resistor.setOnTouchListener(new MyTouchListener());
+                                    break;
+                                case "cap":
+                                    tray.addView(capacitor);
+                                    capacitor.setOnTouchListener(new MyTouchListener());
+                                    break;
+                                case "ind":
+                                    tray.addView(inductor);
+                                    inductor.setOnTouchListener(new MyTouchListener());
+                                    break;
+                                default:
+                                    break;
+                            }
                         }
                         break;
                     default:
@@ -1225,7 +1279,7 @@ public class VectorBoardActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
-        } 
+        }
 
         return super.onOptionsItemSelected(item);
     }
