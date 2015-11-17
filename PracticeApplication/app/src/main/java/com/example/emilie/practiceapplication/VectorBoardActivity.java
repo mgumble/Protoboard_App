@@ -466,9 +466,11 @@ public class VectorBoardActivity extends AppCompatActivity {
                         }
                         break;
                     case "Inspect":
-                        Intent intent = new Intent(VectorBoardActivity.this, popup_inspect.class);
-                        intent.putExtra("component", (Component) image.getTag(R.id.component));
-                        startActivity(intent);
+                        if(!isHole) {
+                            Intent intent = new Intent(VectorBoardActivity.this, popup_inspect.class);
+                            intent.putExtra("component", (Component) image.getTag(R.id.component));
+                            startActivity(intent);
+                        }
                         break;
                     case "Wire":
                         if(isHole)
