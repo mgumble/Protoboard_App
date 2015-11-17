@@ -33,6 +33,7 @@
 
     <string name="download">Download Schematic</string>
     <string name="title_activity_material_list">MaterialListActivity</string>
+    <string name="title_activity_popup_inspect">popup_inspect</string>
 
 
 </resources>
