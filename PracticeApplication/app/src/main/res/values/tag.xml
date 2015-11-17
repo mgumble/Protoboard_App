@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item
+    type = "id"
+    name = "imageTag"
+    ></item>
+    <item
+        type = "id"
+        name = "component"
+        ></item>
+</resources>
