@@ -39,7 +39,7 @@ public class LoadSavedBoardActivity extends AppCompatActivity {
 
     public void newBoard (View view)
     {
-        Intent intent = new Intent(this, WhichTypeProjectActivity.class);
+        Intent intent = new Intent(this, Dropbox.class);
         startActivity(intent);
     }
 }

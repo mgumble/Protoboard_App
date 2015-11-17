@@ -1,6 +1,8 @@
 package com.example.emilie.practiceapplication;
 
 import android.content.Intent;
+import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -9,6 +11,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.example.emilie.practiceapplication.Parser.Component;
@@ -36,30 +39,43 @@ public class MaterialListActivity extends AppCompatActivity {
             LinearLayout hor = new LinearLayout(this);
             hor.setOrientation(LinearLayout.HORIZONTAL);
             TextView textView = new TextView(this);
-            textView.setText(component.Name);
+            textView.setText("Name: " + component.Name + ", Type: " + component.type + ", Image: ");
             hor.addView(textView);
-            ImageView imageView = new ImageView(this);
+            int i;
+            Resources res = getResources();
+            TypedArray forward = res.obtainTypedArray(R.array.forward);
+            TableRow tableRow = new TableRow(this);
             switch (component.type)
             {
                 case "res":
-                    imageView.setImageResource(R.drawable.resistorfinal);
-                    imageView.setMaxHeight(75);
-                    imageView.setMaxWidth(100);
+                    for(i=0;i<4;i++)
+                    {
+                        ImageView imageView = new ImageView(this);
+                        imageView.setImageDrawable(forward.getDrawable(i));
+                        tableRow.addView(imageView);
+                    }
                     break;
                 case "cap":
-                    imageView.setImageResource(R.drawable.capacitorfinal);
-                    imageView.setMaxHeight(75);
-                    imageView.setMaxWidth(100);
+                    for(i=0;i<2;i++)
+                    {
+                        ImageView imageView = new ImageView(this);
+                        imageView.setImageDrawable(forward.getDrawable(i+32));
+                        tableRow.addView(imageView);
+                    }
                     break;
                 case "ind":
-                    imageView.setImageResource(R.drawable.inductor);
-                    imageView.setMaxHeight(75);
-                    imageView.setMaxWidth(100);
+                    for(i=0;i<4;i++)
+                    {
+                        ImageView imageView = new ImageView(this);
+                        imageView.getParent();
+                        imageView.setImageDrawable(forward.getDrawable(i+16));
+                        tableRow.addView(imageView);
+                    }
                     break;
                 default:
                     break;
             }
-            hor.addView(imageView);
+            hor.addView(tableRow);
 
             linearLayout.addView(hor);
         }
@@ -71,16 +87,18 @@ public class MaterialListActivity extends AppCompatActivity {
         i.putExtra("ComponentList", componentList);
         EditText rows = (EditText) findViewById(R.id.rows);
         EditText cols = (EditText) findViewById(R.id.columns);
-        if(!rows.getText().equals("") && !cols.getText().equals(""))
+        int r = Integer.parseInt(rows.getText().toString());
+        int c = Integer.parseInt(cols.getText().toString());
+        if((!rows.getText().toString().equals("") && !cols.getText().toString().equals("")) && r<12 && r>0 && c<13 && c>0)
         {
-            i.putExtra("row", Integer.parseInt(rows.getText().toString()));
-            i.putExtra("col", Integer.parseInt(cols.getText().toString()));
+            i.putExtra("row", r);
+            i.putExtra("col", c);
             startActivity(i);
         }
         else
         {
-            i.putExtra("row", 10);
-            i.putExtra("col", 10);
+            i.putExtra("row", 12);
+            i.putExtra("col", 13);
             startActivity(i);
         }
     }
