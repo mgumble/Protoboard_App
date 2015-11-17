@@ -7,6 +7,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.example.emilie.practiceapplication.Parser.Component;
 
@@ -25,6 +28,41 @@ public class MaterialListActivity extends AppCompatActivity {
         Intent intent = getIntent();
         serializedList = intent.getSerializableExtra("ComponentList");
         componentList = (ArrayList<Component>) serializedList;
+
+        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.BOM);
+
+        for(Component component:componentList)
+        {
+            LinearLayout hor = new LinearLayout(this);
+            hor.setOrientation(LinearLayout.HORIZONTAL);
+            TextView textView = new TextView(this);
+            textView.setText(component.Name);
+            hor.addView(textView);
+            ImageView imageView = new ImageView(this);
+            switch (component.type)
+            {
+                case "res":
+                    imageView.setImageResource(R.drawable.resistorfinal);
+                    imageView.setMaxHeight(75);
+                    imageView.setMaxWidth(100);
+                    break;
+                case "cap":
+                    imageView.setImageResource(R.drawable.capacitorfinal);
+                    imageView.setMaxHeight(75);
+                    imageView.setMaxWidth(100);
+                    break;
+                case "ind":
+                    imageView.setImageResource(R.drawable.inductor);
+                    imageView.setMaxHeight(75);
+                    imageView.setMaxWidth(100);
+                    break;
+                default:
+                    break;
+            }
+            hor.addView(imageView);
+
+            linearLayout.addView(hor);
+        }
     }
 
     public void submit(View v)
