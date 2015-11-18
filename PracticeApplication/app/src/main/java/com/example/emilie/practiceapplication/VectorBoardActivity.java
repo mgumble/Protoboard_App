@@ -52,14 +52,8 @@ public class VectorBoardActivity extends AppCompatActivity {
         rowMAX = b.getInt("row");
         columnMAX = b.getInt("col");
         tableLayout = (TableLayout) findViewById(R.id.tl);
-
-//        ArrayList<String> StringList = new ArrayList<>();
         Serializable serializedList = b.getSerializable("ComponentList");
         ArrayList<Component> componentList = (ArrayList<Component>) serializedList;
-//        for(int i=0;i<componentList.size();i++)
-//        {
-//            StringList.add(componentList.get(i).type);
-//        }
 
         for(int i=0;i<rowMAX;i++)
         {
@@ -73,7 +67,7 @@ public class VectorBoardActivity extends AppCompatActivity {
 
             tableLayout.addView(row, i);
         }
-        /*Builds the List of components*/
+        /*Builds the List of components to go in tray*/
         for (int i = 0; i < componentList.size(); i++)
         {
             ImageView image = new ImageView(this);
@@ -100,7 +94,6 @@ public class VectorBoardActivity extends AppCompatActivity {
                     }
                     break;
             }
-            //iv.add(image);
         }
         left = (Button) findViewById(R.id.btn_flip);
         left.setOnClickListener(new MyClickListener());
@@ -1095,6 +1088,60 @@ public class VectorBoardActivity extends AppCompatActivity {
                         temp = (ImageView) tempRow.getChildAt(i);
                         tag = findTag(capacitor.getString(40 - j));
                         editImageView(temp, capacitor.getDrawable(40 - j), tag, null);
+                    }
+                    break;
+            }
+            return true;
+        }
+
+        private boolean setImageTwo(ImageView image, TableRow row, int i, String direction, Component component)
+        {
+            int column = tableLayout.indexOfChild(row);
+            int j;
+            ImageView temp;
+            TableRow tempRow;
+            String tag;
+            Resources res = getResources();
+            TypedArray resistor = res.obtainTypedArray(R.array.forward);
+
+            switch(direction)
+            {
+                case "east":
+                    editImageView(image,R.drawable.east_res1_4,"east_res1_4",component);
+                    for(j=1;j<4;j++)
+                    {
+                        temp = (ImageView) row.getChildAt(i+j);
+                        tag = findTag(resistor.getString(j));
+                        editImageView(temp, resistor.getDrawable(j), tag, null);
+                    }
+                    break;
+                case "west":
+                    editImageView(image, R.drawable.west_res1_4, "west_res1_4", component);
+                    for(j=1;j<4;j++)
+                    {
+                        temp = (ImageView) row.getChildAt(i-j);
+                        tag = findTag(resistor.getString(j + 4));
+                        editImageView(temp, resistor.getDrawable(j + 4), tag, null);
+                    }
+                    break;
+                case "north":
+                    editImageView(image, R.drawable.north_res1_4, "north_res1_4", component);
+                    for(j=1;j<4;j++)
+                    {
+                        tempRow = (TableRow) tableLayout.getChildAt(column-j);
+                        temp = (ImageView) tempRow.getChildAt(i);
+                        tag = findTag(resistor.getString(11 - j));
+                        editImageView(temp, resistor.getDrawable(11 - j), tag, null);
+                    }
+                    break;
+                case "south":
+                    editImageView(image, R.drawable.south_res1_4, "south_res1_4", component);
+                    for(j=1;j<4;j++)
+                    {
+                        tempRow = (TableRow) tableLayout.getChildAt(column+j);
+                        temp = (ImageView) tempRow.getChildAt(i);
+                        tag = findTag(resistor.getString(15 - j));
+                        editImageView(temp, resistor.getDrawable(15 - j), tag, null);
                     }
                     break;
             }
