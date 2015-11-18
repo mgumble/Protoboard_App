@@ -45,15 +45,6 @@
                 android:value="com.example.emilie.practiceapplication.EmptyBoardActivity" />
         </activity>
         <activity
-            android:name=".BreadBoardActivity"
-            android:label="@string/title_activity_bread_board"
-            android:parentActivityName=".EmptyBoardActivity"
-            android:screenOrientation="portrait">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.emilie.practiceapplication.EmptyBoardActivity" />
-        </activity>
-        <activity
             android:name="com.dropbox.client2.android.AuthActivity"
             android:configChanges="orientation|keyboard"
             android:launchMode="singleTask"
