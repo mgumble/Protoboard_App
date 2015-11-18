@@ -33,9 +33,6 @@ public class VectorBoardActivity extends AppCompatActivity {
     private android.widget.RelativeLayout.LayoutParams layoutParams;
     public ArrayList<ImageView> iv = new ArrayList<ImageView>();
     public ImageView board;
-    public ImageView resistor;
-    public ImageView capacitor;
-    public ImageView inductor;
 
     public int rowMAX;
     public int columnMAX;
@@ -444,12 +441,13 @@ public class VectorBoardActivity extends AppCompatActivity {
 
                 String tag = (String) image.getTag(R.id.imageTag);
                 boolean isHole = tag.equals("hole");
+                boolean isclickable = !findClickable(image).equals("");
                 RadioGroup radioGroup = (RadioGroup) findViewById(R.id.toolbar);
                 final String value = ((RadioButton)findViewById(radioGroup.getCheckedRadioButtonId() )).getText().toString();
                 switch(value)
                 {
                     case "Move":
-                        if(!isHole)
+                        if(!isHole && isclickable)
                         {
                             ClipData data = ClipData.newPlainText("", "");
                             View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(v);
@@ -460,13 +458,13 @@ public class VectorBoardActivity extends AppCompatActivity {
 
                         break;
                     case "Rotate":
-                        if(!isHole)
+                        if(!isHole && isclickable)
                         {
                             rotate(v);
                         }
                         break;
                     case "Inspect":
-                        if(!isHole) {
+                        if(!isHole && isclickable) {
                             Intent intent = new Intent(VectorBoardActivity.this, popup_inspect.class);
                             intent.putExtra("component", (Component) image.getTag(R.id.component));
                             startActivity(intent);
@@ -479,7 +477,7 @@ public class VectorBoardActivity extends AppCompatActivity {
                         }
                         break;
                     case "Clear":
-                        if(!isHole)
+                        if(!isHole && isclickable)
                         {
                             String type = "";
                             int length=1;
@@ -517,8 +515,6 @@ public class VectorBoardActivity extends AppCompatActivity {
                                     clear(image,"south",1,length);
                                     break;
                             }
-//                            TableRow row = (TableRow) image.getParent();
-//                            row.removeView(image);
                             ImageView temp = new ImageView(getApplicationContext());
                             switch (type)
                             {
@@ -883,7 +879,7 @@ public class VectorBoardActivity extends AppCompatActivity {
             switch (direction) {
                 case "north":
                     //Am I within the bounds?
-                    if(ylength - 1 + indexColumn > columnMAX ) return false;
+                    if( ylength + indexColumn > columnMAX ) return false;
                     if(-(xlength - 1) + indexRow < 0 ) return false;
                     //is the Path Clear
                     for (int x = 0 ; x < xlength ; x++) {
@@ -898,25 +894,25 @@ public class VectorBoardActivity extends AppCompatActivity {
                 case "south":
                     //Am I within the bounds
                     if(-(ylength - 1) + indexColumn < 0 ) return false;
-                    if(xlength - 1 + indexRow > rowMAX ) return false;
+                    if(xlength + indexRow > rowMAX ) return false;
                     //is the Path Clear
                     for (int x = 0 ; x < xlength ; x++) {
                         for (int y =0 ; y < ylength ;y++){
                             TableRow temp = (TableRow) tableLayout.getChildAt(indexRow + x);
-                            if(!(row.getChildAt(indexColumn - y).getTag(R.id.imageTag).equals("hole")))
+                            if(!(temp.getChildAt(indexColumn - y).getTag(R.id.imageTag).equals("hole")))
                                 return false;
                         }
                     }
                     break;
                 case "east":
                     //Am I within the bounds
-                    if(xlength - 1 + indexColumn > columnMAX ) return false;
-                    if(ylength - 1 + indexRow > rowMAX ) return false;
+                    if(xlength + indexColumn > columnMAX ) return false;
+                    if(ylength + indexRow > rowMAX ) return false;
                     //is the Path Clear
                     for (int x = 0 ; x < xlength ; x++) {
                         for (int y =0 ; y < ylength ;y++){
                             TableRow temp = (TableRow) tableLayout.getChildAt(indexRow + y);
-                            if((!(row.getChildAt(indexColumn + x).getTag(R.id.imageTag).equals("hole"))))
+                            if(!((temp.getChildAt(indexColumn + x).getTag(R.id.imageTag).equals("hole"))))
                                 return false;
                         }
                     }
@@ -930,7 +926,7 @@ public class VectorBoardActivity extends AppCompatActivity {
                     for (int x = 0 ; x < xlength ; x++) {
                         for (int y =0 ; y < ylength ;y++){
                             TableRow temp = (TableRow) tableLayout.getChildAt(indexRow - y);
-                            if(!(row.getChildAt(indexColumn - x).getTag(R.id.imageTag).equals("hole")))
+                            if(!(temp.getChildAt(indexColumn - x).getTag(R.id.imageTag).equals("hole")))
                                 return false;
                         }
                     }
