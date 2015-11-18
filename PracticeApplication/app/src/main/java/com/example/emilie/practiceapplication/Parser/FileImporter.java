@@ -1,8 +1,9 @@
 package com.example.emilie.practiceapplication.Parser;
-import java.util.List;
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class FileImporter {
@@ -29,7 +30,7 @@ public List<String[]> readSchematic()
     String line;
     while ((line = reader.readLine()) != null)
     {
-      String[] component = new String[10];	 
+      String[] component = new String[100];
 	  int start = 0;
 	  int count = 0;
 	  int end;
@@ -55,17 +56,19 @@ public List<String[]> readSchematic()
     	  count = count + 1; //increment through the array
 	  }
 		records.add(component);
-
     }
     reader.close();
     return records;
+  } catch (IOException e) {
+	  e.printStackTrace();
   }
-  catch (Exception e)
-  {
-    System.err.format("Exception occurred trying to read '%s'.", Schematic);
-    e.printStackTrace();
-    return null;
-  }
+//  catch (Exception e)
+//  {
+//    System.err.format("Exception occurred trying to read '%s'.", Schematic);
+//    e.printStackTrace();
+//    return null;
+//  }
+	return records;
 }
 
 public List<String[]> readLibrary(String componentName)
@@ -79,7 +82,7 @@ public List<String[]> readLibrary(String componentName)
     String line;
     while ((line = reader.readLine()) != null)
     {
-      String[] component = new String[10];	 
+      String[] component = new String[100];
 	  int start = 0;
 	  int count = 0;
 	  int end;
@@ -108,13 +111,10 @@ public List<String[]> readLibrary(String componentName)
     }
     reader.close();
     return records;
+  } catch (IOException e) {
+	  e.printStackTrace();
   }
-  catch (Exception e)
-  {
-    System.err.format("Exception occurred trying to read '%s'.", componentlib);
-    e.printStackTrace();
-    return null;
-  }
+	return records;
 }
 }
 

@@ -85,9 +85,9 @@ public class VectorBoardActivity extends AppCompatActivity {
 
                     int numTerms = componentList.get(i).getTerminals().size();
 
-                    if(numTerms>2 && numTerms >4)
+                    if(numTerms>2 && numTerms >=4)
                     {
-                        editImageView(image,R.drawable.chip2x2_small_noback,"2x2",componentList.get(i));
+                        editImageView(image,R.drawable.chip2x2_small_noback,"chip2x2_small_noback",componentList.get(i));
                     }
                     break;
             }
@@ -441,6 +441,7 @@ public class VectorBoardActivity extends AppCompatActivity {
                 boolean isclickable = !findClickable(image).equals("");
                 RadioGroup radioGroup = (RadioGroup) findViewById(R.id.toolbar);
                 final String value = ((RadioButton)findViewById(radioGroup.getCheckedRadioButtonId() )).getText().toString();
+                ImageView temp = new ImageView(getApplicationContext());
                 switch(value)
                 {
                     case "Move":
@@ -474,6 +475,7 @@ public class VectorBoardActivity extends AppCompatActivity {
                         }
                         break;
                     case "Clear":
+
                         if(!isHole && isclickable)
                         {
                             String type = "";
@@ -495,6 +497,13 @@ public class VectorBoardActivity extends AppCompatActivity {
                                 type = "ind";
                                 length = 4;
                             }
+                            else if(imageFile.contains("chip"))
+                            {
+                                clear(image,"east",4,2);
+                                editImageView(temp, R.drawable.chip2x2_small_noback, "chip2x2_small_noback", (Component) image.getTag(R.id.component));
+                                tray.addView(temp);
+                                break;
+                            }
                             imageFile = imageFile.substring(0,1);
                             switch (imageFile)
                             {
@@ -512,7 +521,7 @@ public class VectorBoardActivity extends AppCompatActivity {
                                     clear(image,"south",1,length);
                                     break;
                             }
-                            ImageView temp = new ImageView(getApplicationContext());
+
                             switch (type)
                             {
                                 case "res":
@@ -558,7 +567,8 @@ public class VectorBoardActivity extends AppCompatActivity {
             assert string != null;
             if(string.equals("resistorfinal") ||
                     string.equals("inductor") ||
-                    string.equals("capacitorfinal")) {
+                    string.equals("capacitorfinal") ||
+                    string.equals("chip2x2_small_noback")) {
                 return true;
             }
             else {
@@ -693,135 +703,80 @@ public class VectorBoardActivity extends AppCompatActivity {
                     int indexrow = tableLayout.indexOfChild(row);
                     String image = (String)dropped.getTag(R.id.imageTag);
 
-                    boolean bool;
-
-                    if (validMove(dropped,dropTarget)){
+//                    if (validMove(dropped,dropTarget)){
                         switch (image)
                         {
                             //resistors
                             case "resistorfinal":
-                                bool = setImageRes(dropTarget, row, indexcolumn, "east",(Component) dropped.getTag(R.id.component));
-                                if (!bool) {
-                                    editImageView(dropped, R.drawable.resistorfinal, "resistorfinal", null);
-                                    tray.addView(dropped, 0);
-                                }
+                                setImageRes(dropTarget, row, indexcolumn, "east",(Component) dropped.getTag(R.id.component));
                                 break;
                             case "east_res1_4":
                                 clear(dropped,"east", 1,4);
-                                bool = setImageRes(dropTarget, row, indexcolumn, "east", (Component) dropped.getTag(R.id.component));
-                                if (!bool) {
-                                    editImageView(dropped, R.drawable.resistorfinal, "resistorfinal", null);
-                                    tray.addView(dropped, 0);
-                                }
+                                setImageRes(dropTarget, row, indexcolumn, "east", (Component) dropped.getTag(R.id.component));
                                 break;
                             case "west_res1_4":
                                 clear(dropped,"west", 1,4);
-                                bool = setImageRes(dropTarget, row, indexcolumn, "west", (Component) dropped.getTag(R.id.component));
-                                if (!bool) {
-                                    editImageView(dropped, R.drawable.resistorfinal, "resistorfinal", null);
-                                    tray.addView(dropped, 0);
-                                }
+                                setImageRes(dropTarget, row, indexcolumn, "west", (Component) dropped.getTag(R.id.component));
                                 break;
                             case "north_res1_4":
                                 clear(dropped,"north", 1,4);
-                                bool = setImageRes(dropTarget, row, indexcolumn, "north", (Component) dropped.getTag(R.id.component));
-                                if (!bool) {
-                                    editImageView(dropped, R.drawable.resistorfinal, "resistorfinal", null);
-                                    tray.addView(dropped, 0);
-                                }
+                                setImageRes(dropTarget, row, indexcolumn, "north", (Component) dropped.getTag(R.id.component));
                                 break;
                             case "south_res1_4":
                                 clear(dropped,"south", 1,4);
-                                bool = setImageRes(dropTarget, row, indexcolumn, "south", (Component) dropped.getTag(R.id.component));
-                                if (!bool) {
-                                    editImageView(dropped, R.drawable.resistorfinal, "resistorfinal", null);
-                                    tray.addView(dropped, 0);
-                                }
+                                setImageRes(dropTarget, row, indexcolumn, "south", (Component) dropped.getTag(R.id.component));
                                 break;
                             //capacitors
                             case "capacitorfinal":
-                                bool = setImageCap(dropTarget, row, indexcolumn, "east", (Component) dropped.getTag(R.id.component));
-                                if (!bool) {
-                                    editImageView(dropped, R.drawable.capacitorfinal, "capacitorfinal", null);
-                                    tray.addView(dropped, 0);
-                                }
+                                setImageCap(dropTarget, row, indexcolumn, "east", (Component) dropped.getTag(R.id.component));
                                 break;
                             case "east_capacitor1_2":
                                 clear(dropped,"east", 1,2);
-                                bool = setImageCap(dropTarget, row, indexcolumn, "east", (Component) dropped.getTag(R.id.component));
-                                if (!bool) {
-                                    editImageView(dropped, R.drawable.capacitorfinal, "capacitorfinal", null);
-                                    tray.addView(dropped, 0);
-                                }
+                                setImageCap(dropTarget, row, indexcolumn, "east", (Component) dropped.getTag(R.id.component));
                                 break;
                             case "west_capacitor1_2":
                                 clear(dropped,"west", 1,2);
-                                bool = setImageCap(dropTarget, row, indexcolumn, "west", (Component) dropped.getTag(R.id.component));
-                                if (!bool) {
-                                    editImageView(dropped, R.drawable.capacitorfinal, "capacitorfinal", null);
-                                    tray.addView(dropped, 0);
-                                }
+                                setImageCap(dropTarget, row, indexcolumn, "west", (Component) dropped.getTag(R.id.component));
                                 break;
                             case "north_capacitor1_2":
                                 clear(dropped,"north", 1,2);
-                                bool = setImageCap(dropTarget, row, indexcolumn, "north", (Component) dropped.getTag(R.id.component));
-                                if (!bool) {
-                                    editImageView(dropped, R.drawable.capacitorfinal, "capacitorfinal", null);
-                                    tray.addView(dropped, 0);
-                                }
+                                setImageCap(dropTarget, row, indexcolumn, "north", (Component) dropped.getTag(R.id.component));
                                 break;
                             case "south_capacitor1_2":
                                 clear(dropped,"south", 1,2);
-                                bool = setImageCap(dropTarget, row, indexcolumn, "south", (Component) dropped.getTag(R.id.component));
-                                if (!bool) {
-                                    editImageView(dropped, R.drawable.capacitorfinal, "capacitorfinal", null);
-                                    tray.addView(dropped, 0);
-                                }
+                                setImageCap(dropTarget, row, indexcolumn, "south", (Component) dropped.getTag(R.id.component));
                                 break;
                             //inductors
                             case "inductor":
-                                bool = setImageInd(dropTarget, row, indexcolumn, "east", (Component) dropped.getTag(R.id.component));
-                                if (!bool) {
-                                    editImageView(dropped, R.drawable.inductor, "inductor", null);
-                                    tray.addView(dropped, 0);
-                                }
+                                setImageInd(dropTarget, row, indexcolumn, "east", (Component) dropped.getTag(R.id.component));
                                 break;
                             case "east_inductor1_4":
                                 clear(dropped,"east", 1,4);
-                                bool = setImageInd(dropTarget, row, indexcolumn, "east", (Component) dropped.getTag(R.id.component));
-                                if (!bool) {
-                                    editImageView(dropped, R.drawable.inductor, "inductor", null);
-                                    tray.addView(dropped, 0);
-                                }
+                                setImageInd(dropTarget, row, indexcolumn, "east", (Component) dropped.getTag(R.id.component));
                                 break;
                             case "west_inductor1_4":
                                 clear(dropped,"west", 1,4);
-                                bool = setImageInd(dropTarget, row, indexcolumn, "west", (Component) dropped.getTag(R.id.component));
-                                if (!bool) {
-                                    editImageView(dropped, R.drawable.inductor, "inductor", null);
-                                    tray.addView(dropped, 0);
-                                }
+                                setImageInd(dropTarget, row, indexcolumn, "west", (Component) dropped.getTag(R.id.component));
                                 break;
                             case "north_inductor1_4":
                                 clear(dropped,"north", 1,4);
-                                bool = setImageInd(dropTarget, row, indexcolumn, "north", (Component) dropped.getTag(R.id.component));
-                                if (!bool) {
-                                    editImageView(dropped, R.drawable.inductor, "inductor", null);
-                                    tray.addView(dropped, 0);
-                                }
+                                setImageInd(dropTarget, row, indexcolumn, "north", (Component) dropped.getTag(R.id.component));
                                 break;
                             case "south_inductor1_4":
                                 clear(dropped,"south", 1,4);
-                                bool = setImageInd(dropTarget, row, indexcolumn, "south", (Component) dropped.getTag(R.id.component));
-                                if (!bool) {
-                                    editImageView(dropped, R.drawable.inductor, "inductor", null);
-                                    tray.addView(dropped, 0);
-                                }
+                                setImageInd(dropTarget, row, indexcolumn, "south", (Component) dropped.getTag(R.id.component));
+                                break;
+                            case "chip2x2_small_noback":
+                                setImageTwo(dropTarget,row,indexcolumn, "east", (Component) dropped.getTag(R.id.component));
+                                break;
+                            case "chip2x2_1_2_1_4":
+                                clear(dropped,"east",4,2);
+                                setImageTwo(dropTarget,row,indexcolumn, "east", (Component) dropped.getTag(R.id.component));
                                 break;
                             default:
                                 view.setVisibility(View.VISIBLE);
                         }
-                }
+//                }
                     view.setVisibility(View.VISIBLE);
                     break;
                 default:
@@ -851,6 +806,8 @@ public class VectorBoardActivity extends AppCompatActivity {
                     ylength = 1;  //TODO ADD IC SUPPORT
 
                 } else {  // NORTH SOUTH
+
+                    // TODO: 11/17/2015 fix for ics
                     direction = imageFile.substring(0, 5);
                     xlength = Integer.parseInt(imageFile.substring((imageFile.length()-1)));
                     ylength = 1;  //TODO ADD IC SUPPORT
@@ -1090,54 +1047,30 @@ public class VectorBoardActivity extends AppCompatActivity {
             return true;
         }
 
-        private boolean setImageTwo(ImageView image, TableRow row, int i, String direction, Component component)
+        private boolean setImageTwo(ImageView image, TableRow row, int colIndex, String direction, Component component)
         {
-            int column = tableLayout.indexOfChild(row);
-            int j;
+            int rowIndex = tableLayout.indexOfChild(row);
+            int j,i;
             ImageView temp;
-            TableRow tempRow;
             String tag;
             Resources res = getResources();
-            TypedArray resistor = res.obtainTypedArray(R.array.forward);
+            TypedArray east = res.obtainTypedArray(R.array.twoxtwocomponent_east);
 
             switch(direction)
             {
                 case "east":
-                    editImageView(image,R.drawable.east_res1_4,"east_res1_4",component);
-                    for(j=1;j<4;j++)
+                    int counter = 0;
+                    for(i=0;i<8;i=i+2)
                     {
-                        temp = (ImageView) row.getChildAt(i+j);
-                        tag = findTag(resistor.getString(j));
-                        editImageView(temp, resistor.getDrawable(j), tag, null);
-                    }
-                    break;
-                case "west":
-                    editImageView(image, R.drawable.west_res1_4, "west_res1_4", component);
-                    for(j=1;j<4;j++)
-                    {
-                        temp = (ImageView) row.getChildAt(i-j);
-                        tag = findTag(resistor.getString(j + 4));
-                        editImageView(temp, resistor.getDrawable(j + 4), tag, null);
-                    }
-                    break;
-                case "north":
-                    editImageView(image, R.drawable.north_res1_4, "north_res1_4", component);
-                    for(j=1;j<4;j++)
-                    {
-                        tempRow = (TableRow) tableLayout.getChildAt(column-j);
-                        temp = (ImageView) tempRow.getChildAt(i);
-                        tag = findTag(resistor.getString(11 - j));
-                        editImageView(temp, resistor.getDrawable(11 - j), tag, null);
-                    }
-                    break;
-                case "south":
-                    editImageView(image, R.drawable.south_res1_4, "south_res1_4", component);
-                    for(j=1;j<4;j++)
-                    {
-                        tempRow = (TableRow) tableLayout.getChildAt(column+j);
-                        temp = (ImageView) tempRow.getChildAt(i);
-                        tag = findTag(resistor.getString(15 - j));
-                        editImageView(temp, resistor.getDrawable(15 - j), tag, null);
+                        row = (TableRow)tableLayout.getChildAt(rowIndex + counter);
+
+                        for(j=0;j<2;j++)
+                        {
+                            temp = (ImageView) row.getChildAt(colIndex + j);
+                            tag = findTag(east.getString(j+i));
+                            editImageView(temp, east.getDrawable(j + i), tag, component);
+                        }
+                        counter++;
                     }
                     break;
             }

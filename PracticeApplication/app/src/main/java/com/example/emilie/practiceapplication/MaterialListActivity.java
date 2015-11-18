@@ -45,7 +45,7 @@ public class MaterialListActivity extends AppCompatActivity {
             int i,j;
             Resources res = getResources();
             TypedArray forward = res.obtainTypedArray(R.array.forward);
-            TypedArray twoComp = res.obtainTypedArray(R.array.twoxtwocomponent);
+            TypedArray twoComp = res.obtainTypedArray(R.array.twoxtwocomponent_east);
             TableRow tableRow = new TableRow(this);
             switch (component.type)
             {
@@ -81,7 +81,7 @@ public class MaterialListActivity extends AppCompatActivity {
                     int numTerms = component.getTerminals().size();
                     TableLayout tableLayout = new TableLayout(this);
 
-                    if(numTerms>2 && numTerms >4)
+                    if(numTerms>2 && numTerms >=4)
                     {
                         for(i=0;i<8;i=i+2)
                         {
