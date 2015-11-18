@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
@@ -41,9 +42,10 @@ public class MaterialListActivity extends AppCompatActivity {
             TextView textView = new TextView(this);
             textView.setText("Name: " + component.Name + ", Type: " + component.type + ", Image: ");
             hor.addView(textView);
-            int i;
+            int i,j;
             Resources res = getResources();
             TypedArray forward = res.obtainTypedArray(R.array.forward);
+            TypedArray twoComp = res.obtainTypedArray(R.array.twoxtwocomponent);
             TableRow tableRow = new TableRow(this);
             switch (component.type)
             {
@@ -54,6 +56,7 @@ public class MaterialListActivity extends AppCompatActivity {
                         imageView.setImageDrawable(forward.getDrawable(i));
                         tableRow.addView(imageView);
                     }
+                    hor.addView(tableRow);
                     break;
                 case "cap":
                     for(i=0;i<2;i++)
@@ -62,21 +65,39 @@ public class MaterialListActivity extends AppCompatActivity {
                         imageView.setImageDrawable(forward.getDrawable(i+32));
                         tableRow.addView(imageView);
                     }
+                    hor.addView(tableRow);
                     break;
                 case "ind":
                     for(i=0;i<4;i++)
                     {
                         ImageView imageView = new ImageView(this);
-                        imageView.getParent();
                         imageView.setImageDrawable(forward.getDrawable(i+16));
                         tableRow.addView(imageView);
                     }
+                    hor.addView(tableRow);
                     break;
+
                 default:
+                    int numTerms = component.getTerminals().size();
+                    TableLayout tableLayout = new TableLayout(this);
+
+                    if(numTerms>2 && numTerms >4)
+                    {
+                        for(i=0;i<8;i=i+2)
+                        {
+                            TableRow row = new TableRow(this);
+                            for(j=0;j<2;j++)
+                            {
+                                ImageView imageView = new ImageView(this);
+                                imageView.setImageDrawable(twoComp.getDrawable(j+i));
+                                row.addView(imageView);
+                            }
+                            tableLayout.addView(row);
+                        }
+                        hor.addView(tableLayout);
+                    }
                     break;
             }
-            hor.addView(tableRow);
-
             linearLayout.addView(hor);
         }
     }
@@ -87,13 +108,22 @@ public class MaterialListActivity extends AppCompatActivity {
         i.putExtra("ComponentList", componentList);
         EditText rows = (EditText) findViewById(R.id.rows);
         EditText cols = (EditText) findViewById(R.id.columns);
-        int r = Integer.parseInt(rows.getText().toString());
-        int c = Integer.parseInt(cols.getText().toString());
-        if((!rows.getText().toString().equals("") && !cols.getText().toString().equals("")) && r<12 && r>0 && c<13 && c>0)
+        if((!rows.getText().toString().equals("") && !cols.getText().toString().equals("")))
         {
-            i.putExtra("row", r);
-            i.putExtra("col", c);
-            startActivity(i);
+            int r = Integer.parseInt(rows.getText().toString());
+            int c = Integer.parseInt(cols.getText().toString());
+            if(r<12 && r>0 && c<13 && c>0)
+            {
+                i.putExtra("row", r);
+                i.putExtra("col", c);
+                startActivity(i);
+            }
+            else
+            {
+                i.putExtra("row", 12);
+                i.putExtra("col", 13);
+                startActivity(i);
+            }
         }
         else
         {

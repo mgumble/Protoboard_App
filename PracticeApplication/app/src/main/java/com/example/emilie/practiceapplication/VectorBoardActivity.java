@@ -4,9 +4,6 @@ import android.content.ClipData;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -56,13 +53,13 @@ public class VectorBoardActivity extends AppCompatActivity {
         columnMAX = b.getInt("col");
         tableLayout = (TableLayout) findViewById(R.id.tl);
 
-        ArrayList<String> StringList = new ArrayList<>();
+//        ArrayList<String> StringList = new ArrayList<>();
         Serializable serializedList = b.getSerializable("ComponentList");
         ArrayList<Component> componentList = (ArrayList<Component>) serializedList;
-        for(int i=0;i<componentList.size();i++)
-        {
-            StringList.add(componentList.get(i).type);
-        }
+//        for(int i=0;i<componentList.size();i++)
+//        {
+//            StringList.add(componentList.get(i).type);
+//        }
 
         for(int i=0;i<rowMAX;i++)
         {
@@ -77,12 +74,12 @@ public class VectorBoardActivity extends AppCompatActivity {
             tableLayout.addView(row, i);
         }
         /*Builds the List of components*/
-        for (int i = 0; i < StringList.size(); i++)
+        for (int i = 0; i < componentList.size(); i++)
         {
             ImageView image = new ImageView(this);
             tray.addView(image);
 
-            switch (StringList.get(i)) {
+            switch (componentList.get(i).type) {
                 case "res":
                     editImageView(image, R.drawable.resistorfinal, "resistorfinal", componentList.get(i));
                     break;
@@ -94,6 +91,13 @@ public class VectorBoardActivity extends AppCompatActivity {
                     break;
                 default:
                     //TODO needs to include the IC size
+
+                    int numTerms = componentList.get(i).getTerminals().size();
+
+                    if(numTerms>2 && numTerms >4)
+                    {
+                        editImageView(image,R.drawable.chip2x2_small_noback,"2x2",componentList.get(i));
+                    }
                     break;
             }
             //iv.add(image);
@@ -1172,21 +1176,6 @@ public class VectorBoardActivity extends AppCompatActivity {
             return imageView;
         }
     }
-
-   @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
     private ImageView editImageView(ImageView current, int drawable, String tag, Component component)
     {
         current.setImageResource(drawable);
@@ -1227,4 +1216,18 @@ public class VectorBoardActivity extends AppCompatActivity {
         return current;
     }
 
+   @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 }
