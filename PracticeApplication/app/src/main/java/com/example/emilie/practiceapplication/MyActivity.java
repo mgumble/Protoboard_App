@@ -39,11 +39,6 @@ public class MyActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void newBoard(View view) {
-        Intent intent = new Intent(this, WhichTypeProjectActivity.class);
-        startActivity(intent);
-    }
-
     public void loadBoard(View view) {
         Intent intent = new Intent(this, LoadSavedBoardActivity.class);
         startActivity(intent);

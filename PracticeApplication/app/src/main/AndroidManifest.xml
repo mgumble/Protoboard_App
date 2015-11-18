@@ -18,7 +18,8 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".MyActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -26,41 +27,19 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".WhichTypeProjectActivity"
-            android:label="@string/title_activity_which_type_project"
-            android:parentActivityName=".MyActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.emilie.practiceapplication.MyActivity" />
-        </activity>
-        <activity
             android:name=".LoadSavedBoardActivity"
             android:label="@string/title_activity_load_saved_board"
-            android:parentActivityName=".MyActivity" >
+            android:parentActivityName=".MyActivity"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.emilie.practiceapplication.MyActivity" />
-        </activity>
-        <activity
-            android:name=".EmptyBoardActivity"
-            android:label="@string/title_activity_empty_board"
-            android:parentActivityName=".WhichTypeProjectActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.emilie.practiceapplication.WhichTypeProjectActivity" />
         </activity>
         <activity
             android:name=".VectorBoardActivity"
             android:label="@string/title_activity_vector_board"
-            android:parentActivityName=".EmptyBoardActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.emilie.practiceapplication.EmptyBoardActivity" />
-        </activity>
-        <activity
-            android:name=".BreadBoardActivity"
-            android:label="@string/title_activity_bread_board"
-            android:parentActivityName=".EmptyBoardActivity" >
+            android:parentActivityName=".EmptyBoardActivity"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.emilie.practiceapplication.EmptyBoardActivity" />
@@ -68,7 +47,8 @@
         <activity
             android:name="com.dropbox.client2.android.AuthActivity"
             android:configChanges="orientation|keyboard"
-            android:launchMode="singleTask" >
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
             <intent-filter>
 
                 <!-- Change this to be db- followed by your app key -->
@@ -82,20 +62,24 @@
         </activity>
         <activity
             android:name=".DropboxDownload"
-            android:label="@string/title_activity_dropbox_download" >
+            android:label="@string/title_activity_dropbox_download"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".Dropbox"
-            android:label="@string/title_activity_dropbox" >
+            android:label="@string/title_activity_dropbox"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".MaterialListActivity"
-            android:label="@string/title_activity_material_list" >
+            android:label="@string/title_activity_material_list"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".popup_inspect"
             android:label="@string/title_activity_popup_inspect"
-            android:theme="@style/AppTheme.popup"  >
+            android:theme="@style/AppTheme.popup"
+            android:screenOrientation="portrait">
         </activity>
     </application>
 

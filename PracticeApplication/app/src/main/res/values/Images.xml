@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <array name="twoxtwocomponent">
+        <item>@drawable/chip2x2_1_2_1_4</item>
+        <item>@drawable/chip2x2_2_2_1_4</item>
+        <item>@drawable/chip2x2_1_2_2_4</item>
+        <item>@drawable/chip2x2_2_2_2_4</item>
+        <item>@drawable/chip2x2_1_2_3_4</item>
+        <item>@drawable/chip2x2_2_2_3_4</item>
+        <item>@drawable/chip2x2_1_2_4_4</item>
+        <item>@drawable/chip2x2_2_2_4_4</item>
+
+    </array>
     <array name="forward">
         <item>@drawable/east_res1_4</item> //0
         <item>@drawable/east_res2_4</item> //1
