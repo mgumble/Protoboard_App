@@ -568,6 +568,7 @@ public class VectorBoardActivity extends AppCompatActivity {
                         if(!isHole && isclickable)
                         {
                             String type = "";
+                            int width=1;
                             int length=1;
                             String imageFile = findClickable(image);
 
@@ -588,26 +589,25 @@ public class VectorBoardActivity extends AppCompatActivity {
                             }
                             else if(imageFile.contains("chip"))
                             {
-                                clear(image,"east",4,2);
-                                editImageView(temp, R.drawable.chip2x2, "chip2x2", (Component) image.getTag(R.id.component));
-                                tray.addView(temp);
-                                break;
+                                type = "2x2";
+                                length = 2;
+                                width = 4;
                             }
                             imageFile = imageFile.substring(0,1);
                             switch (imageFile)
                             {
                                 case "e":
                                     //need to fix for ICs
-                                    clear(image,"east",1,length);
+                                    clear(image,"east",width,length);
                                     break;
                                 case "w":
-                                    clear(image,"west",1,length);
+                                    clear(image,"west",width,length);
                                     break;
                                 case "n":
-                                    clear(image,"north",1,length);
+                                    clear(image,"north",width,length);
                                     break;
                                 case "s":
-                                    clear(image,"south",1,length);
+                                    clear(image,"south",width,length);
                                     break;
                             }
 
@@ -625,6 +625,9 @@ public class VectorBoardActivity extends AppCompatActivity {
                                     editImageView(temp, R.drawable.inductor, "inductor", (Component) image.getTag(R.id.component));
                                     tray.addView(temp);
                                     break;
+                                case "2x2":
+                                    editImageView(temp, R.drawable.chip2x2, "chip2x2", (Component) image.getTag(R.id.component));
+                                    tray.addView(temp);
                                 default:
                                     break;
                             }
