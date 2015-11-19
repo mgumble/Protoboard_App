@@ -93,6 +93,10 @@ public class VectorBoardActivity extends AppCompatActivity {
                     {
                         editImageView(image,R.drawable.chip3x3,"chip3x3",componentList.get(i));
                     }
+                    else
+                    {
+                        editImageView(image,R.drawable.chip4x4,"chip4x4",componentList.get(i));
+                    }
                     break;
             }
         }
@@ -191,6 +195,22 @@ public class VectorBoardActivity extends AppCompatActivity {
                 break;
             case "south_3x3chip1_3_1_4":
                 clear(imageView, "south", 4,3);
+                flip(imageView,clicked);
+                break;
+            case "east_4x4chip1_4_1_4":
+                clear(imageView, "east", 4,4);
+                flip(imageView,clicked);
+                break;
+            case "west_4x4chip1_4_1_4":
+                clear(imageView, "west", 4,4);
+                flip(imageView,clicked);
+                break;
+            case "north_4x4chip1_4_1_4":
+                clear(imageView, "north", 4,4);
+                flip(imageView,clicked);
+                break;
+            case "south_4x4chip1_4_1_4":
+                clear(imageView, "south", 4,4);
                 flip(imageView,clicked);
                 break;
             case "east_west_wire":
@@ -553,6 +573,78 @@ public class VectorBoardActivity extends AppCompatActivity {
                     counter++;
                 }
                 break;
+
+            //4x4
+            case "east_4x4chip1_4_1_4":
+                //was facing east needs to face south
+                TypedArray south4 = res.obtainTypedArray(R.array.fourxfourcomponent_south);
+                for(i=0;i<4;i++)
+                {
+                    row = (TableRow) tableLayout.getChildAt(indexrow + i);
+                    counter = 0;
+                    for(j=0;j<16;j=j+4)
+                    {
+                        image = (ImageView) row.getChildAt(indexcolumn - counter);
+                        tag = findTag(south4.getString(j+i));
+                        editImageView(image,south4.getDrawable(j + i), tag, null);
+                        counter++;
+                    }
+                }
+                break;
+
+            case "south_4x4chip1_4_1_4":
+                //was facing south needs to face west
+                TypedArray west4 = res.obtainTypedArray(R.array.fourxfourcomponent_west);
+                counter = 0;
+                for(i=0;i<16;i=i+4)
+                {
+                    row = (TableRow)tableLayout.getChildAt(indexrow - counter);
+
+                    for(j=0;j<4;j++)
+                    {
+                        image = (ImageView) row.getChildAt(indexcolumn - j);
+                        tag = findTag(west4.getString(j+i));
+                        editImageView(image, west4.getDrawable(j + i), tag, null);
+                    }
+                    counter++;
+                }
+                break;
+
+            case "west_4x4chip1_4_1_4":
+                //was facing west needs to face north
+                TypedArray north4 = res.obtainTypedArray(R.array.fourxfourcomponent_north);
+                counter=0;
+                for(i=0;i<4;i++)
+                {
+                    row = (TableRow) tableLayout.getChildAt(indexrow - i);
+                    counter = 0;
+                    for(j=0;j<16;j=j+4)
+                    {
+                        image = (ImageView) row.getChildAt(indexcolumn + counter);
+                        tag = findTag(north4.getString(j+i));
+                        editImageView(image,north4.getDrawable(j+i), tag, null);
+                        counter++;
+                    }
+                }
+                break;
+
+            case "north_4x4chip1_4_1_4":
+                //was facing north needs to face east
+                TypedArray east4 = res.obtainTypedArray(R.array.fourxfourcomponent_east);
+                counter = 0;
+                for(i=0;i<16;i=i+4)
+                {
+                    row = (TableRow)tableLayout.getChildAt(indexrow + counter);
+
+                    for(j=0;j<4;j++)
+                    {
+                        image = (ImageView) row.getChildAt(indexcolumn + j -1);
+                        tag = findTag(east4.getString(j+i));
+                        editImageView(image, east4.getDrawable(j + i), tag, null);
+                    }
+                    counter++;
+                }
+                break;
         }
     }
     private String findClickable(ImageView imageView)
@@ -690,6 +782,12 @@ public class VectorBoardActivity extends AppCompatActivity {
                                 length = 3;
                                 width = 4;
                             }
+                            else if(imageFile.contains("4x4"))
+                            {
+                                type = "4x4";
+                                length = 4;
+                                width = 4;
+                            }
                             imageFile = imageFile.substring(0,1);
                             switch (imageFile)
                             {
@@ -725,9 +823,15 @@ public class VectorBoardActivity extends AppCompatActivity {
                                 case "2x2":
                                     editImageView(temp, R.drawable.chip2x2, "chip2x2", (Component) image.getTag(R.id.component));
                                     tray.addView(temp);
+                                    break;
                                 case "3x3":
                                     editImageView(temp, R.drawable.chip3x3, "chip3x3", (Component) image.getTag(R.id.component));
                                     tray.addView(temp);
+                                    break;
+                                case "4x4":
+                                    editImageView(temp, R.drawable.chip4x4, "chip4x4", (Component) image.getTag(R.id.component));
+                                    tray.addView(temp);
+                                    break;
                                 default:
                                     break;
                             }
@@ -761,7 +865,8 @@ public class VectorBoardActivity extends AppCompatActivity {
                     string.equals("inductor") ||
                     string.equals("capacitorfinal") ||
                     string.equals("chip2x2")||
-                    string.equals("chip3x3")) {
+                    string.equals("chip3x3") ||
+                    string.equals("chip4x4")) {
                 return true;
             }
             else {
@@ -980,8 +1085,8 @@ public class VectorBoardActivity extends AppCompatActivity {
                                 break;
 
                             case "chip3x3":
-                                setImageThree(dropTarget, row, indexcolumn, "east", (Component) dropped.getTag(R.id.component));
-                                break;
+                            setImageThree(dropTarget, row, indexcolumn, "east", (Component) dropped.getTag(R.id.component));
+                            break;
                             case "east_3x3chip1_3_1_4":
                                 clear(dropped,"east",4,3);
                                 setImageThree(dropTarget, row, indexcolumn, "east", (Component) dropped.getTag(R.id.component));
@@ -997,6 +1102,26 @@ public class VectorBoardActivity extends AppCompatActivity {
                             case "south_3x3chip1_3_1_4":
                                 clear(dropped,"south",4,3);
                                 setImageThree(dropTarget, row, indexcolumn, "south", (Component) dropped.getTag(R.id.component));
+                                break;
+
+                            case "chip4x4":
+                                setImageFour(dropTarget, row, indexcolumn, "east", (Component) dropped.getTag(R.id.component));
+                                break;
+                            case "east_4x4chip1_4_1_4":
+                                clear(dropped,"east",4,4);
+                                setImageFour(dropTarget, row, indexcolumn, "east", (Component) dropped.getTag(R.id.component));
+                                break;
+                            case "west_4x4chip1_4_1_4":
+                                clear(dropped,"west",4,4);
+                                setImageFour(dropTarget, row, indexcolumn, "west", (Component) dropped.getTag(R.id.component));
+                                break;
+                            case "north_4x4chip1_4_1_4":
+                                clear(dropped,"north",4,4);
+                                setImageFour(dropTarget, row, indexcolumn, "north", (Component) dropped.getTag(R.id.component));
+                                break;
+                            case "south_4x4chip1_4_1_4":
+                                clear(dropped,"south",4,4);
+                                setImageFour(dropTarget, row, indexcolumn, "south", (Component) dropped.getTag(R.id.component));
                                 break;
                             default:
                                 view.setVisibility(View.VISIBLE);
@@ -1069,6 +1194,10 @@ public class VectorBoardActivity extends AppCompatActivity {
                 }
                 if(imageFile.equals("chip3x3")){
                     xlength = 3;
+                    ylength = 4;
+                }
+                if(imageFile.equals("chip4x4")){
+                    xlength = 4;
                     ylength = 4;
                 }
             }
@@ -1437,6 +1566,86 @@ public class VectorBoardActivity extends AppCompatActivity {
                         row = (TableRow) tableLayout.getChildAt(rowIndex + i);
                         counter=0;
                         for(j=0;j<12;j=j+3)
+                        {
+                            temp = (ImageView) row.getChildAt(colIndex - counter);
+                            tag = findTag(south.getString(j+i));
+                            editImageView(temp,south.getDrawable(j+i), tag, component);
+                            counter++;
+                        }
+                    }
+                }
+            }
+            return true;
+        }
+
+        private boolean setImageFour(ImageView image, TableRow row, int colIndex, String direction, Component component)
+        {
+            int rowIndex = tableLayout.indexOfChild(row);
+            int j,i,counter;
+            ImageView temp;
+            String tag;
+            Resources res = getResources();
+            TypedArray east = res.obtainTypedArray(R.array.fourxfourcomponent_east);
+            TypedArray west = res.obtainTypedArray(R.array.fourxfourcomponent_west);
+            TypedArray north = res.obtainTypedArray(R.array.fourxfourcomponent_north);
+            TypedArray south = res.obtainTypedArray(R.array.fourxfourcomponent_south);
+
+            switch(direction)
+            {
+                case "east":
+                    counter = 0;
+                    for(i=0;i<16;i=i+4)
+                    {
+                        row = (TableRow)tableLayout.getChildAt(rowIndex + counter);
+
+                        for(j=0;j<4;j++)
+                        {
+                            temp = (ImageView) row.getChildAt(colIndex + j);
+                            tag = findTag(east.getString(j+i));
+                            editImageView(temp, east.getDrawable(j + i), tag, component);
+                        }
+                        counter++;
+                    }
+                    break;
+
+                case "west":
+                    counter = 0;
+                    for(i=0;i<16;i=i+4)
+                    {
+                        row = (TableRow)tableLayout.getChildAt(rowIndex - counter);
+
+                        for(j=0;j<4;j++)
+                        {
+                            temp = (ImageView) row.getChildAt(colIndex - j);
+                            tag = findTag(west.getString(j+i));
+                            editImageView(temp, west.getDrawable(j + i), tag, component);
+                        }
+                        counter++;
+                    }
+                    break;
+
+                case "north":
+                    for(i=0;i<4;i++)
+                    {
+                        row = (TableRow) tableLayout.getChildAt(rowIndex - i);
+                        counter = 0;
+                        for(j=0;j<16;j=j+4)
+                        {
+                            temp = (ImageView) row.getChildAt(colIndex + counter);
+                            tag = findTag(north.getString(j+i));
+                            editImageView(temp,north.getDrawable(j+i), tag, component);
+                            counter++;
+                        }
+                    }
+                    break;
+
+                case "south":
+                {
+                    for(i=0;i<4;i++)
+                    {
+                        row = (TableRow) tableLayout.getChildAt(rowIndex + i);
+                        counter=0;
+                        for(j=0;j<16;j=j+4)
                         {
                             temp = (ImageView) row.getChildAt(colIndex - counter);
                             tag = findTag(south.getString(j+i));

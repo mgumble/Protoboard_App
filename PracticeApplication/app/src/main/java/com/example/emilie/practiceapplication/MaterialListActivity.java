@@ -93,6 +93,12 @@ public class MaterialListActivity extends AppCompatActivity {
                         imageView.setImageResource(R.drawable.chip3x3);
                         hor.addView(imageView);
                     }
+                    else
+                    {
+                        ImageView imageView = new ImageView(this);
+                        imageView.setImageResource(R.drawable.chip4x4);
+                        hor.addView(imageView);
+                    }
                     break;
             }
             linearLayout.addView(hor);
