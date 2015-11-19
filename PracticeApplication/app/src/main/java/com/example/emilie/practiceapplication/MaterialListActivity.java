@@ -81,20 +81,23 @@ public class MaterialListActivity extends AppCompatActivity {
                     int numTerms = component.getTerminals().size();
                     TableLayout tableLayout = new TableLayout(this);
 
-                    if(numTerms>2 && numTerms >=4)
+                    if(numTerms>2 && numTerms<=4)
                     {
-                        for(i=0;i<8;i=i+2)
-                        {
-                            TableRow row = new TableRow(this);
-                            for(j=0;j<2;j++)
-                            {
-                                ImageView imageView = new ImageView(this);
-                                imageView.setImageDrawable(twoComp.getDrawable(j+i));
-                                row.addView(imageView);
-                            }
-                            tableLayout.addView(row);
-                        }
-                        hor.addView(tableLayout);
+                        ImageView imageView = new ImageView(this);
+                        imageView.setImageResource(R.drawable.chip2x2);
+                        hor.addView(imageView);
+                    }
+                    else if(numTerms>4 && numTerms<=6)
+                    {
+                        ImageView imageView = new ImageView(this);
+                        imageView.setImageResource(R.drawable.chip3x3);
+                        hor.addView(imageView);
+                    }
+                    else
+                    {
+                        ImageView imageView = new ImageView(this);
+                        imageView.setImageResource(R.drawable.chip4x4);
+                        hor.addView(imageView);
                     }
                     break;
             }

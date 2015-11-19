@@ -74,6 +74,7 @@ public List<String[]> readSchematic()
 public List<String[]> readLibrary(String componentName)
 {
   List<String[]> records = new ArrayList<String[]>();
+    componentName = componentName.replace("\\\\","/");
   String componentlib = LibraryPath.concat(componentName).concat(".asy");
   try
   {	
