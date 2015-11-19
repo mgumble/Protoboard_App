@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <array name="twoxtwocomponent_east">
-        <item>@drawable/east_2x2chip1_2_1_4</item>
-        <item>@drawable/east_2x2chip2_2_1_4</item>
-        <item>@drawable/east_2x2chip1_2_2_4</item>
-        <item>@drawable/east_2x2chip2_2_2_4</item>
-        <item>@drawable/east_2x2chip1_2_3_4</item>
-        <item>@drawable/east_2x2chip2_2_3_4</item>
-        <item>@drawable/east_2x2chip1_2_4_4</item>
-        <item>@drawable/east_2x2chip2_2_4_4</item>
+        <item>@drawable/east_2x2chip1_2_1_4</item><item>@drawable/east_2x2chip2_2_1_4</item>
+        <item>@drawable/east_2x2chip1_2_2_4</item><item>@drawable/east_2x2chip2_2_2_4</item>
+        <item>@drawable/east_2x2chip1_2_3_4</item><item>@drawable/east_2x2chip2_2_3_4</item>
+        <item>@drawable/east_2x2chip1_2_4_4</item><item>@drawable/east_2x2chip2_2_4_4</item>
+    </array>
+
+    <array name="threexthreecomponent_east">
+        <item>@drawable/east_3x3chip1_3_1_4</item><item>@drawable/east_3x3chip2_3_1_4</item><item>@drawable/east_3x3chip3_3_1_4</item>
+        <item>@drawable/east_3x3chip1_3_2_4</item><item>@drawable/east_3x3chip2_3_2_4</item><item>@drawable/east_3x3chip3_3_2_4</item>
+        <item>@drawable/east_3x3chip1_3_3_4</item><item>@drawable/east_3x3chip2_3_3_4</item><item>@drawable/east_3x3chip3_3_3_4</item>
+        <item>@drawable/east_3x3chip1_3_4_4</item><item>@drawable/east_3x3chip2_3_4_4</item><item>@drawable/east_3x3chip3_3_4_4</item>
     </array>
 
     <array name="twoxtwocomponent_south">

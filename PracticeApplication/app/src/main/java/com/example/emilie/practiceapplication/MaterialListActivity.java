@@ -96,6 +96,21 @@ public class MaterialListActivity extends AppCompatActivity {
                         }
                         hor.addView(tableLayout);
                     }
+                    else if(numTerms>4 && numTerms<=6)
+                    {
+                        for(i=0;i<8;i=i+2)
+                        {
+                            TableRow row = new TableRow(this);
+                            for(j=0;j<3;j++)
+                            {
+                                ImageView imageView = new ImageView(this);
+                                imageView.setImageDrawable(twoComp.getDrawable(j+i));
+                                row.addView(imageView);
+                            }
+                            tableLayout.addView(row);
+                        }
+                        hor.addView(tableLayout);
+                    }
                     break;
             }
             linearLayout.addView(hor);
