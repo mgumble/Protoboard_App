@@ -87,7 +87,7 @@ public class VectorBoardActivity extends AppCompatActivity {
 
                     if(numTerms>2 && numTerms >=4)
                     {
-                        editImageView(image,R.drawable.chip2x2_small_noback,"chip2x2_small_noback",componentList.get(i));
+                        editImageView(image,R.drawable.chip2x2,"chip2x2",componentList.get(i));
                     }
                     break;
             }
@@ -157,6 +157,22 @@ public class VectorBoardActivity extends AppCompatActivity {
                 clear(imageView, "south", 1, 4);
                 flip(imageView, clicked);
                 break;
+            case "east_2x2chip1_2_1_4":
+                clear(imageView, "east", 4,2);
+                flip(imageView,clicked);
+                break;
+            case "west_2x2chip1_2_1_4":
+                clear(imageView, "west", 4,2);
+                flip(imageView,clicked);
+                break;
+            case "north_2x2chip1_2_1_4":
+                clear(imageView, "north", 4,2);
+                flip(imageView,clicked);
+                break;
+            case "south_2x2chip1_2_1_4":
+                clear(imageView, "south", 4,2);
+                flip(imageView,clicked);
+                break;
             case "east_west_wire":
                 editImageView(imageView, R.drawable.north_south_wire, "north_south_wire", null);
                 break;
@@ -173,6 +189,9 @@ public class VectorBoardActivity extends AppCompatActivity {
         TableRow temp;
         ImageView image;
         TableRow row = (TableRow) imageView.getParent();
+        int j,i,counter;
+        String tag;
+        Resources res = getResources();;
         int indexcolumn = row.indexOfChild(imageView);
         int indexrow = tableLayout.indexOfChild(row);
         switch(clicked)
@@ -373,6 +392,76 @@ public class VectorBoardActivity extends AppCompatActivity {
                 image = (ImageView) temp.getChildAt(indexcolumn-3);
                 editImageView(image, R.drawable.west_inductor4_4, "west_inductor4_4", null);
                 break;
+            case "east_2x2chip1_2_1_4":
+                //was facing east needs to face south
+                TypedArray south = res.obtainTypedArray(R.array.twoxtwocomponent_south);
+                for(i=0;i<2;i++)
+                {
+                    row = (TableRow) tableLayout.getChildAt(indexrow + i);
+                    counter = 0;
+                    for(j=0;j<8;j=j+2)
+                    {
+                        image = (ImageView) row.getChildAt(indexcolumn - counter);
+                        tag = findTag(south.getString(j+i));
+                        editImageView(image,south.getDrawable(j+i), tag, null);
+                        counter++;
+                    }
+                }
+                break;
+
+            case "south_2x2chip1_2_1_4":
+                //was facing south needs to face west
+                TypedArray west = res.obtainTypedArray(R.array.twoxtwocomponent_west);
+                counter = 0;
+                for(i=0;i<8;i=i+2)
+                {
+                    row = (TableRow)tableLayout.getChildAt(indexrow - counter);
+
+                    for(j=0;j<2;j++)
+                    {
+                        image = (ImageView) row.getChildAt(indexcolumn - j);
+                        tag = findTag(west.getString(j+i));
+                        editImageView(image, west.getDrawable(j + i), tag, null);
+                    }
+                    counter++;
+                }
+                break;
+
+            case "west_2x2chip1_2_1_4":
+                //was facing west needs to face north
+                TypedArray north = res.obtainTypedArray(R.array.twoxtwocomponent_north);
+                counter=0;
+                for(i=0;i<2;i++)
+                {
+                    row = (TableRow) tableLayout.getChildAt(indexrow - i);
+                    counter = 0;
+                    for(j=0;j<8;j=j+2)
+                    {
+                        image = (ImageView) row.getChildAt(indexcolumn + counter);
+                        tag = findTag(north.getString(j+i));
+                        editImageView(image,north.getDrawable(j+i), tag, null);
+                        counter++;
+                    }
+                }
+                break;
+
+            case "north_2x2chip1_2_1_4":
+                //was facing north needs to face east
+                TypedArray east = res.obtainTypedArray(R.array.twoxtwocomponent_east);
+                counter = 0;
+                for(i=0;i<8;i=i+2)
+                {
+                    row = (TableRow)tableLayout.getChildAt(indexrow + counter);
+
+                    for(j=0;j<2;j++)
+                    {
+                        image = (ImageView) row.getChildAt(indexcolumn + j -1);
+                        tag = findTag(east.getString(j+i));
+                        editImageView(image, east.getDrawable(j + i), tag, null);
+                    }
+                    counter++;
+                }
+                break;
         }
     }
     private String findClickable(ImageView imageView)
@@ -500,7 +589,7 @@ public class VectorBoardActivity extends AppCompatActivity {
                             else if(imageFile.contains("chip"))
                             {
                                 clear(image,"east",4,2);
-                                editImageView(temp, R.drawable.chip2x2_small_noback, "chip2x2_small_noback", (Component) image.getTag(R.id.component));
+                                editImageView(temp, R.drawable.chip2x2, "chip2x2", (Component) image.getTag(R.id.component));
                                 tray.addView(temp);
                                 break;
                             }
@@ -568,7 +657,7 @@ public class VectorBoardActivity extends AppCompatActivity {
             if(string.equals("resistorfinal") ||
                     string.equals("inductor") ||
                     string.equals("capacitorfinal") ||
-                    string.equals("chip2x2_small_noback")) {
+                    string.equals("chip2x2")) {
                 return true;
             }
             else {
@@ -703,7 +792,7 @@ public class VectorBoardActivity extends AppCompatActivity {
                     int indexrow = tableLayout.indexOfChild(row);
                     String image = (String)dropped.getTag(R.id.imageTag);
 
-//                    if (validMove(dropped,dropTarget)){
+                    if (validMove(dropped,dropTarget)){
                         switch (image)
                         {
                             //resistors
@@ -766,17 +855,29 @@ public class VectorBoardActivity extends AppCompatActivity {
                                 clear(dropped,"south", 1,4);
                                 setImageInd(dropTarget, row, indexcolumn, "south", (Component) dropped.getTag(R.id.component));
                                 break;
-                            case "chip2x2_small_noback":
-                                setImageTwo(dropTarget,row,indexcolumn, "east", (Component) dropped.getTag(R.id.component));
+                            case "chip2x2":
+                                setImageTwo(dropTarget, row, indexcolumn, "east", (Component) dropped.getTag(R.id.component));
                                 break;
-                            case "chip2x2_1_2_1_4":
+                            case "east_2x2chip1_2_1_4":
                                 clear(dropped,"east",4,2);
                                 setImageTwo(dropTarget,row,indexcolumn, "east", (Component) dropped.getTag(R.id.component));
+                                break;
+                            case "west_2x2chip1_2_1_4":
+                                clear(dropped,"west",4,2);
+                                setImageTwo(dropTarget,row,indexcolumn, "west", (Component) dropped.getTag(R.id.component));
+                                break;
+                            case "north_2x2chip1_2_1_4":
+                                clear(dropped,"north",4,2);
+                                setImageTwo(dropTarget,row,indexcolumn, "north", (Component) dropped.getTag(R.id.component));
+                                break;
+                            case "south_2x2chip1_2_1_4":
+                                clear(dropped,"south",4,2);
+                                setImageTwo(dropTarget,row,indexcolumn, "south", (Component) dropped.getTag(R.id.component));
                                 break;
                             default:
                                 view.setVisibility(View.VISIBLE);
                         }
-//                }
+                }
                     view.setVisibility(View.VISIBLE);
                     break;
                 default:
@@ -803,31 +904,44 @@ public class VectorBoardActivity extends AppCompatActivity {
                 if (imageFile.charAt(4) == '_') { //EAST WEST
                     direction = imageFile.substring(0, 4);
                     xlength = Integer.parseInt(imageFile.substring((imageFile.length()-1)));
-                    ylength = 1;  //TODO ADD IC SUPPORT
+                    if(imageFile.contains("chip")){
+                        ylength = xlength;
+                        xlength = Integer.parseInt(imageFile.substring(imageFile.length()-5,imageFile.length()-4));
+                    }
+                    else {
+                        ylength = 1;  // single row component
+                    }
 
                 } else {  // NORTH SOUTH
-
                     // TODO: 11/17/2015 fix for ics
                     direction = imageFile.substring(0, 5);
-                    xlength = Integer.parseInt(imageFile.substring((imageFile.length()-1)));
-                    ylength = 1;  //TODO ADD IC SUPPORT
+                    xlength = Integer.parseInt(imageFile.substring((imageFile.length() - 1)));
+                    if(imageFile.contains("chip")){
+                        ylength = xlength;
+                        xlength = Integer.parseInt(imageFile.substring(imageFile.length()-5,imageFile.length()-4));
+                    }
+                    else {
+                        ylength = 1;  // single row component
+                    }
                 }
             }
             else{
+                direction = "east";
                 if(imageFile.equals("resistorfinal")) { //TODO CHANGE FINALS TO INCLUDE THE STRING
-                    direction = "east";
                     xlength = 4;
                     ylength = 1;
                 }
                 if(imageFile.equals("capacitorfinal")) {
-                    direction = "east";
                     xlength = 2;
                     ylength = 1;
                 }
                 if(imageFile.equals("inductor")) {
-                    direction = "east";
                     xlength = 4;
                     ylength = 1;
+                }
+                if(imageFile.equals("chip2x2")){
+                    xlength = 2;
+                    ylength = 4;
                 }
             }
             switch (direction) {
@@ -1050,16 +1164,19 @@ public class VectorBoardActivity extends AppCompatActivity {
         private boolean setImageTwo(ImageView image, TableRow row, int colIndex, String direction, Component component)
         {
             int rowIndex = tableLayout.indexOfChild(row);
-            int j,i;
+            int j,i,counter;
             ImageView temp;
             String tag;
             Resources res = getResources();
             TypedArray east = res.obtainTypedArray(R.array.twoxtwocomponent_east);
+            TypedArray west = res.obtainTypedArray(R.array.twoxtwocomponent_west);
+            TypedArray north = res.obtainTypedArray(R.array.twoxtwocomponent_north);
+            TypedArray south = res.obtainTypedArray(R.array.twoxtwocomponent_south);
 
             switch(direction)
             {
                 case "east":
-                    int counter = 0;
+                    counter = 0;
                     for(i=0;i<8;i=i+2)
                     {
                         row = (TableRow)tableLayout.getChildAt(rowIndex + counter);
@@ -1073,10 +1190,56 @@ public class VectorBoardActivity extends AppCompatActivity {
                         counter++;
                     }
                     break;
+
+                case "west":
+                    counter = 0;
+                    for(i=0;i<8;i=i+2)
+                    {
+                        row = (TableRow)tableLayout.getChildAt(rowIndex - counter);
+
+                        for(j=0;j<2;j++)
+                        {
+                            temp = (ImageView) row.getChildAt(colIndex - j);
+                            tag = findTag(west.getString(j+i));
+                            editImageView(temp, west.getDrawable(j + i), tag, component);
+                        }
+                        counter++;
+                    }
+                    break;
+
+                case "north":
+                    for(i=0;i<2;i++)
+                    {
+                        row = (TableRow) tableLayout.getChildAt(rowIndex - i);
+                        counter = 0;
+                        for(j=0;j<8;j=j+2)
+                        {
+                            temp = (ImageView) row.getChildAt(colIndex + counter);
+                            tag = findTag(north.getString(j+i));
+                            editImageView(temp,north.getDrawable(j+i), tag, component);
+                            counter++;
+                        }
+                    }
+                    break;
+
+                case "south":
+                {
+                    for(i=0;i<2;i++)
+                    {
+                        row = (TableRow) tableLayout.getChildAt(rowIndex + i);
+                        counter=0;
+                        for(j=0;j<8;j=j+2)
+                        {
+                            temp = (ImageView) row.getChildAt(colIndex - counter);
+                            tag = findTag(south.getString(j+i));
+                            editImageView(temp,south.getDrawable(j+i), tag, component);
+                            counter++;
+                        }
+                    }
+                }
             }
             return true;
         }
-
     }
 
     private String findTag(String string) {
