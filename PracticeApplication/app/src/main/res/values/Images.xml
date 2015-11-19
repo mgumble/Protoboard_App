@@ -1,16 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <array name="twoxtwocomponent">
-        <item>@drawable/chip2x2_1_2_1_4</item>
-        <item>@drawable/chip2x2_2_2_1_4</item>
-        <item>@drawable/chip2x2_1_2_2_4</item>
-        <item>@drawable/chip2x2_2_2_2_4</item>
-        <item>@drawable/chip2x2_1_2_3_4</item>
-        <item>@drawable/chip2x2_2_2_3_4</item>
-        <item>@drawable/chip2x2_1_2_4_4</item>
-        <item>@drawable/chip2x2_2_2_4_4</item>
-
+    <array name="twoxtwocomponent_east">
+        <item>@drawable/east_2x2chip1_2_1_4</item>
+        <item>@drawable/east_2x2chip2_2_1_4</item>
+        <item>@drawable/east_2x2chip1_2_2_4</item>
+        <item>@drawable/east_2x2chip2_2_2_4</item>
+        <item>@drawable/east_2x2chip1_2_3_4</item>
+        <item>@drawable/east_2x2chip2_2_3_4</item>
+        <item>@drawable/east_2x2chip1_2_4_4</item>
+        <item>@drawable/east_2x2chip2_2_4_4</item>
     </array>
+
+    <array name="twoxtwocomponent_south">
+        <item>@drawable/south_2x2chip1_2_1_4</item>
+        <item>@drawable/south_2x2chip2_2_1_4</item>
+        <item>@drawable/south_2x2chip1_2_2_4</item>
+        <item>@drawable/south_2x2chip2_2_2_4</item>
+        <item>@drawable/south_2x2chip1_2_3_4</item>
+        <item>@drawable/south_2x2chip2_2_3_4</item>
+        <item>@drawable/south_2x2chip1_2_4_4</item>
+        <item>@drawable/south_2x2chip2_2_4_4</item>
+    </array>
+
+    <array name="twoxtwocomponent_west">
+        <item>@drawable/west_2x2chip1_2_1_4</item>
+        <item>@drawable/west_2x2chip2_2_1_4</item>
+        <item>@drawable/west_2x2chip1_2_2_4</item>
+        <item>@drawable/west_2x2chip2_2_2_4</item>
+        <item>@drawable/west_2x2chip1_2_3_4</item>
+        <item>@drawable/west_2x2chip2_2_3_4</item>
+        <item>@drawable/west_2x2chip1_2_4_4</item>
+        <item>@drawable/west_2x2chip2_2_4_4</item>
+    </array>
+
+    <array name="twoxtwocomponent_north">
+        <item>@drawable/north_2x2chip1_2_1_4</item>
+        <item>@drawable/north_2x2chip2_2_1_4</item>
+        <item>@drawable/north_2x2chip1_2_2_4</item>
+        <item>@drawable/north_2x2chip2_2_2_4</item>
+        <item>@drawable/north_2x2chip1_2_3_4</item>
+        <item>@drawable/north_2x2chip2_2_3_4</item>
+        <item>@drawable/north_2x2chip1_2_4_4</item>
+        <item>@drawable/north_2x2chip2_2_4_4</item>
+    </array>
+
     <array name="forward">
         <item>@drawable/east_res1_4</item> //0
         <item>@drawable/east_res2_4</item> //1
@@ -136,6 +169,11 @@
         <item>@drawable/west_res1_4</item>
         <item>@drawable/west_capacitor1_2</item>
         <item>@drawable/west_inductor1_4</item>
+        <item>@drawable/east_2x2chip1_2_1_4</item>
+        <item>@drawable/west_2x2chip1_2_1_4</item>
+        <item>@drawable/north_2x2chip1_2_1_4</item>
+        <item>@drawable/south_2x2chip1_2_1_4</item>
+        <item>@drawable/chip2x2</item>
     </array>
     <array name="wire_parts">
         <item>@drawable/east_west_wire</item>
