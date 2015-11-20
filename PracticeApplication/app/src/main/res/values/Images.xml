@@ -209,14 +209,10 @@
         <item>@drawable/south_capacitor1_2</item> //38
         <item>@drawable/south_capacitor2_2</item> //39
 
-        <item>@drawable/east_2x2chip1_2_1_4</item>
-        <item>@drawable/east_2x2chip2_2_1_4</item>
-        <item>@drawable/east_2x2chip1_2_2_4</item>
-        <item>@drawable/east_2x2chip2_2_2_4</item>
-        <item>@drawable/east_2x2chip1_2_3_4</item>
-        <item>@drawable/east_2x2chip2_2_3_4</item>
-        <item>@drawable/east_2x2chip1_2_4_4</item>
-        <item>@drawable/east_2x2chip2_2_4_4</item>
+        <item>@drawable/east_2x2chip1_2_1_4</item><item>@drawable/east_2x2chip2_2_1_4</item>
+        <item>@drawable/east_2x2chip1_2_2_4</item><item>@drawable/east_2x2chip2_2_2_4</item>
+        <item>@drawable/east_2x2chip1_2_3_4</item><item>@drawable/east_2x2chip2_2_3_4</item>
+        <item>@drawable/east_2x2chip1_2_4_4</item><item>@drawable/east_2x2chip2_2_4_4</item>
 
         <item>@drawable/south_2x2chip1_2_1_4</item>
         <item>@drawable/south_2x2chip2_2_1_4</item>
@@ -244,7 +240,52 @@
         <item>@drawable/north_2x2chip2_2_3_4</item>
         <item>@drawable/north_2x2chip1_2_4_4</item>
         <item>@drawable/north_2x2chip2_2_4_4</item>
+
+        <item>@drawable/east_3x3chip1_3_1_4</item><item>@drawable/east_3x3chip2_3_1_4</item><item>@drawable/east_3x3chip3_3_1_4</item>
+        <item>@drawable/east_3x3chip1_3_2_4</item><item>@drawable/east_3x3chip2_3_2_4</item><item>@drawable/east_3x3chip3_3_2_4</item>
+        <item>@drawable/east_3x3chip1_3_3_4</item><item>@drawable/east_3x3chip2_3_3_4</item><item>@drawable/east_3x3chip3_3_3_4</item>
+        <item>@drawable/east_3x3chip1_3_4_4</item><item>@drawable/east_3x3chip2_3_4_4</item><item>@drawable/east_3x3chip3_3_4_4</item>
+
+        <item>@drawable/south_3x3chip1_3_1_4</item>
+        <item>@drawable/south_3x3chip2_3_1_4</item>
+        <item>@drawable/south_3x3chip3_3_1_4</item>
+        <item>@drawable/south_3x3chip1_3_2_4</item>
+        <item>@drawable/south_3x3chip2_3_2_4</item>
+        <item>@drawable/south_3x3chip3_3_2_4</item>
+        <item>@drawable/south_3x3chip1_3_3_4</item>
+        <item>@drawable/south_3x3chip2_3_3_4</item>
+        <item>@drawable/south_3x3chip3_3_3_4</item>
+        <item>@drawable/south_3x3chip1_3_4_4</item>
+        <item>@drawable/south_3x3chip2_3_4_4</item>
+        <item>@drawable/south_3x3chip3_3_4_4</item>
+
+        <item>@drawable/west_3x3chip1_3_1_4</item>
+        <item>@drawable/west_3x3chip2_3_1_4</item>
+        <item>@drawable/west_3x3chip3_3_1_4</item>
+        <item>@drawable/west_3x3chip1_3_2_4</item>
+        <item>@drawable/west_3x3chip2_3_2_4</item>
+        <item>@drawable/west_3x3chip3_3_2_4</item>
+        <item>@drawable/west_3x3chip1_3_3_4</item>
+        <item>@drawable/west_3x3chip2_3_3_4</item>
+        <item>@drawable/west_3x3chip3_3_3_4</item>
+        <item>@drawable/west_3x3chip1_3_4_4</item>
+        <item>@drawable/west_3x3chip2_3_4_4</item>
+        <item>@drawable/west_3x3chip3_3_4_4</item>
+
+        <item>@drawable/north_3x3chip1_3_1_4</item>
+        <item>@drawable/north_3x3chip2_3_1_4</item>
+        <item>@drawable/north_3x3chip3_3_1_4</item>
+        <item>@drawable/north_3x3chip1_3_2_4</item>
+        <item>@drawable/north_3x3chip2_3_2_4</item>
+        <item>@drawable/north_3x3chip3_3_2_4</item>
+        <item>@drawable/north_3x3chip1_3_3_4</item>
+        <item>@drawable/north_3x3chip2_3_3_4</item>
+        <item>@drawable/north_3x3chip3_3_3_4</item>
+        <item>@drawable/north_3x3chip1_3_4_4</item>
+        <item>@drawable/north_3x3chip2_3_4_4</item>
+        <item>@drawable/north_3x3chip3_3_4_4</item>
     </array>
+
     <array name="backwards">
         <item>@drawable/east_res4_4under</item>
         <item>@drawable/east_res3_4under</item>
@@ -326,6 +367,44 @@
         <item>@drawable/north_2x2chip1_2_1_4under</item>
         <item>@drawable/north_2x2chip2_2_1_4under</item>
 
+
+        <item>@drawable/west_3x3chip1_3_4_4under</item><item>@drawable/west_3x3chip2_3_4_4under</item><item>@drawable/west_3x3chip3_3_4_4under</item>
+        <item>@drawable/west_3x3chip1_3_3_4under</item><item>@drawable/west_3x3chip2_3_3_4under</item><item>@drawable/west_3x3chip3_3_3_4under</item>
+        <item>@drawable/west_3x3chip1_3_2_4under</item><item>@drawable/west_3x3chip2_3_2_4under</item><item>@drawable/west_3x3chip3_3_2_4under</item>
+        <item>@drawable/west_3x3chip1_3_1_4under</item><item>@drawable/west_3x3chip2_3_1_4under</item><item>@drawable/west_3x3chip3_3_1_4under</item>
+
+
+        <item>@drawable/south_3x3chip1_3_4_4under</item>
+        <item>@drawable/south_3x3chip2_3_4_4under</item>
+        <item>@drawable/south_3x3chip3_3_4_4under</item>
+        <item>@drawable/south_3x3chip1_3_3_4under</item>
+        <item>@drawable/south_3x3chip2_3_3_4under</item>
+        <item>@drawable/south_3x3chip3_3_3_4under</item>
+        <item>@drawable/south_3x3chip1_3_2_4under</item>
+        <item>@drawable/south_3x3chip2_3_2_4under</item>
+        <item>@drawable/south_3x3chip3_3_2_4under</item>
+
+        <item>@drawable/south_3x3chip1_3_1_4under</item>
+        <item>@drawable/south_3x3chip2_3_1_4under</item>
+        <item>@drawable/south_3x3chip3_3_1_4under</item>
+
+        <item>@drawable/east_3x3chip1_3_4_4under</item><item>@drawable/east_3x3chip2_3_4_4under</item><item>@drawable/east_3x3chip3_3_4_4under</item>
+        <item>@drawable/east_3x3chip1_3_3_4under</item><item>@drawable/east_3x3chip2_3_3_4under</item><item>@drawable/east_3x3chip3_3_3_4under</item>
+        <item>@drawable/east_3x3chip1_3_2_4under</item><item>@drawable/east_3x3chip2_3_2_4under</item><item>@drawable/east_3x3chip3_3_2_4under</item>
+        <item>@drawable/east_3x3chip1_3_1_4under</item><item>@drawable/east_3x3chip2_3_1_4under</item><item>@drawable/east_3x3chip3_3_1_4under</item>
+
+        <item>@drawable/north_3x3chip1_3_4_4under</item>
+        <item>@drawable/north_3x3chip2_3_4_4under</item>
+        <item>@drawable/north_3x3chip3_3_4_4under</item>
+        <item>@drawable/north_3x3chip1_3_3_4under</item>
+        <item>@drawable/north_3x3chip2_3_3_4under</item>
+        <item>@drawable/north_3x3chip3_3_3_4under</item>
+        <item>@drawable/north_3x3chip1_3_2_4under</item>
+        <item>@drawable/north_3x3chip2_3_2_4under</item>
+        <item>@drawable/north_3x3chip3_3_2_4under</item>
+        <item>@drawable/north_3x3chip1_3_1_4under</item>
+        <item>@drawable/north_3x3chip2_3_1_4under</item>
+        <item>@drawable/north_3x3chip3_3_1_4under</item>
 
 
     </array>
