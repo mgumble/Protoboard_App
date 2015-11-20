@@ -895,13 +895,14 @@ public class VectorBoardActivity extends AppCompatActivity {
             south = (ImageView)((TableRow)tableLayout.getChildAt(columnindex+1)).getChildAt(rowindex);
         }
 
-        Drawable wire = findWireType(north, south, east, west);
-
-        image.setImageDrawable(wire);
-        image.setOnTouchListener(new MyTouchListener());
+        int wire = findWireType(north, south, east, west);
+        Resources res = getResources();
+        TypedArray wires = res.obtainTypedArray(R.array.wire_parts);
+        String tag = findTag(wires.getString(wire));
+        editImageView(image, wires.getDrawable(wire), tag, null);
     }
 
-    private Drawable findWireType(ImageView north, ImageView south, ImageView east, ImageView west) {
+    private int findWireType(ImageView north, ImageView south, ImageView east, ImageView west) {
         boolean[] answers = new boolean[4];
         int i,j,counter,total;
         total = counter = 0;
@@ -930,10 +931,10 @@ public class VectorBoardActivity extends AppCompatActivity {
             }
             if (counter == total)
             {
-                return wires.getDrawable(i);
+                return i;
             }
         }
-        return wires.getDrawable(0);
+        return 0;
     }
 
     private boolean ifConnectable(ImageView imageView, String key) {
@@ -1162,7 +1163,6 @@ public class VectorBoardActivity extends AppCompatActivity {
                     }
 
                 } else {  // NORTH SOUTH
-                    // TODO: 11/17/2015 fix for ics
                     direction = imageFile.substring(0, 5);
                     xlength = Integer.parseInt(imageFile.substring((imageFile.length() - 1)));
                     if(imageFile.contains("chip")){
