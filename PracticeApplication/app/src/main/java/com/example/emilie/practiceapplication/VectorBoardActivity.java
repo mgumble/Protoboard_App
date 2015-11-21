@@ -60,8 +60,16 @@ public class VectorBoardActivity extends AppCompatActivity {
             for(int j=0;j<columnMAX;j++)
             {
                 ImageView image = new ImageView(this);
-                image = editImageView(image, R.drawable.hole25x25, "hole", null);
-                row.addView(image,j);
+                if(i==0 && j==0)
+                {
+                    editImageView(image, R.drawable.hole25x25corner, "hole25x25corner" , null);
+                }
+                else
+                {
+                    editImageView(image, R.drawable.hole25x25, "hole", null);
+                }
+
+                row.addView(image, j);
             }
 
             tableLayout.addView(row, i);
@@ -218,13 +226,14 @@ public class VectorBoardActivity extends AppCompatActivity {
             case "east_west_wire":
                 editImageView(imageView, R.drawable.north_south_wire, "north_south_wire", null);
                 break;
-            case "north_south_wire.":
+            case "north_south_wire":
                 editImageView(imageView, R.drawable.east_west_wire, "east_west_wire", null);
                 break;
             default:
                 break;
         }
     }
+
     private void flip(ImageView imageView, String clicked)
     {
 
@@ -680,39 +689,46 @@ public class VectorBoardActivity extends AppCompatActivity {
         int indexcolumn = row.indexOfChild(dropped);
         int indexrow = tableLayout.indexOfChild(row);
         ImageView image = (ImageView) row.getChildAt(indexcolumn);
-        ImageView temp;
+        ImageView temp = new ImageView(this);
 
         editImageView(image, R.drawable.hole25x25, "hole", null);
         image.setVisibility(View.VISIBLE);
-
-        for(int i=0;i<x;i++)
+        String tag = (String)dropped.getTag(R.id.imageTag);
+        if(tag.contains("wire"))
         {
-            for(int j=0;j<y;j++)
+            editImageView(dropped,R.drawable.hole25x25,"hole",null);
+        }
+        else{
+            for(int i=0;i<x;i++)
             {
-                switch(rotation) {
-                    case "east":
-                        row = (TableRow)tableLayout.getChildAt(indexrow+i);
-                        temp = (ImageView) row.getChildAt(indexcolumn+j);
-                        editImageView(temp,R.drawable.hole25x25,"hole",null);
-                        break;
-                    case "west":
-                        row = (TableRow)tableLayout.getChildAt(indexrow-i); 
-                        temp = (ImageView) row.getChildAt(indexcolumn-j);
-                        editImageView(temp, R.drawable.hole25x25, "hole", null);
-                        break;
-                    case "north":
-                        row = (TableRow)tableLayout.getChildAt(indexrow-j);
-                        temp = (ImageView) row.getChildAt(indexcolumn+i);
-                        editImageView(temp, R.drawable.hole25x25, "hole", null);
-                        break;
-                    case "south":
-                        row = (TableRow)tableLayout.getChildAt(indexrow+j);
-                        temp = (ImageView) row.getChildAt(indexcolumn-i);
-                        editImageView(temp, R.drawable.hole25x25, "hole", null);
-                        break;
+                for(int j=0;j<y;j++)
+                {
+                    switch(rotation) {
+                        case "east":
+                            row = (TableRow)tableLayout.getChildAt(indexrow+i);
+                            temp = (ImageView) row.getChildAt(indexcolumn+j);
+                            editImageView(temp,R.drawable.hole25x25,"hole",null);
+                            break;
+                        case "west":
+                            row = (TableRow)tableLayout.getChildAt(indexrow-i);
+                            temp = (ImageView) row.getChildAt(indexcolumn-j);
+                            editImageView(temp, R.drawable.hole25x25, "hole", null);
+                            break;
+                        case "north":
+                            row = (TableRow)tableLayout.getChildAt(indexrow-j);
+                            temp = (ImageView) row.getChildAt(indexcolumn+i);
+                            editImageView(temp, R.drawable.hole25x25, "hole", null);
+                            break;
+                        case "south":
+                            row = (TableRow)tableLayout.getChildAt(indexrow+j);
+                            temp = (ImageView) row.getChildAt(indexcolumn-i);
+                            editImageView(temp, R.drawable.hole25x25, "hole", null);
+                            break;
+                    }
                 }
             }
         }
+
 
         return true;
     }
@@ -736,14 +752,13 @@ public class VectorBoardActivity extends AppCompatActivity {
                             ClipData data = ClipData.newPlainText("", "");
                             View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(v);
                             v.startDrag(data, shadowBuilder, v, 0);
-                            v.setVisibility(View.INVISIBLE);
-                            if (fromTray(v)) tray.removeViewAt(tray.indexOfChild(v));
                         }
 
                         break;
                     case "Rotate":
+
                         lastWired = null;
-                        if(!isHole && isclickable)
+                        if(!isHole && isclickable && validRotate(image,image))
                         {
                             rotate(v);
                         }
@@ -893,6 +908,7 @@ public class VectorBoardActivity extends AppCompatActivity {
             else return false;
 
         }
+    }
 
         private boolean connectTerminals(ImageView terminalA, ImageView terminalB) {
             TableRow rowTerminalA = (TableRow) terminalA.getParent();
@@ -951,20 +967,19 @@ public class VectorBoardActivity extends AppCompatActivity {
             return true;
         }
 
-        private boolean fromTray(View v) {
-            String string = findClickable((ImageView) v);
-            assert string != null;
-            if(string.equals("resistorfinal") ||
-                    string.equals("inductor") ||
-                    string.equals("capacitorfinal") ||
-                    string.equals("chip2x2")||
-                    string.equals("chip3x3") ||
-                    string.equals("chip4x4")) {
-                return true;
-            }
-            else {
-                return false;
-            }
+    private boolean fromTray(View v) {
+        String string = findClickable((ImageView) v);
+        assert string != null;
+        if(string.equals("resistorfinal") ||
+                string.equals("inductor") ||
+                string.equals("capacitorfinal") ||
+                string.equals("chip2x2")||
+                string.equals("chip3x3") ||
+                string.equals("chip4x4")) {
+            return true;
+        }
+        else {
+            return false;
         }
     }
 
@@ -1000,8 +1015,8 @@ public class VectorBoardActivity extends AppCompatActivity {
         }
         editImageView(image,wires.getDrawable(wire),findTag(wires.getString(wire)),null);
     }
-    private boolean[] findWireCode(ImageView north, ImageView south, ImageView east, ImageView west)
-    {
+
+    private boolean[] findWireCode(ImageView north, ImageView south, ImageView east, ImageView west) {
         boolean[] answers = new boolean[4];
         answers[0] = ifConnectable(north, "south");
         answers[1] = ifConnectable(south, "north");
@@ -1013,11 +1028,9 @@ public class VectorBoardActivity extends AppCompatActivity {
 
         int i,j,counter,total;
         total = counter = 0;
-
         for(i=0;i<answers.length;i++)
         {
             if (answers[i]) total++;
-
         }
         Resources res = getResources();
         TypedArray wires = res.obtainTypedArray(R.array.wire_parts);
@@ -1038,7 +1051,7 @@ public class VectorBoardActivity extends AppCompatActivity {
                 }
             }
         }
-        return -1;
+        return 0;
     }
 
     private boolean ifConnectable(ImageView imageView, String key) {
@@ -1060,6 +1073,109 @@ public class VectorBoardActivity extends AppCompatActivity {
             }
         }
         return false;
+    }
+
+    private boolean validRotate(ImageView DroppedImage, ImageView TargetImage) {
+        if(fromTray(TargetImage)) return false;
+        TableRow row = (TableRow) TargetImage.getParent();
+        int indexColumn = row.indexOfChild(TargetImage);
+        int indexRow = tableLayout.indexOfChild(row);
+        //ImageView hole = new ImageView(getApplicationContext());
+        //hole.setImageResource(R.drawable.hole25x25);
+        String direction = "";
+        int xlength = 0;
+        int ylength = 0;
+        String imageFile = findClickable(DroppedImage);
+
+        if(imageFile.contains("wire")) return true;
+        if(imageFile.endsWith("under")){
+            return false;                             //checks to see if the image is under the board
+        }
+        if (imageFile.contains("_")) {//Not a final image
+            if (imageFile.charAt(4) == '_') { //EAST WEST
+                direction = imageFile.substring(0, 4);
+                xlength = Integer.parseInt(imageFile.substring((imageFile.length()-1)));
+                if(imageFile.contains("chip")){
+                    ylength = xlength;
+                    xlength = Integer.parseInt(imageFile.substring(imageFile.length()-5,imageFile.length()-4));
+                }
+                else {
+                    ylength = 1;  // single row component
+                }
+
+            } else {  // NORTH SOUTH
+                direction = imageFile.substring(0, 5);
+                xlength = Integer.parseInt(imageFile.substring((imageFile.length() - 1)));
+                if(imageFile.contains("chip")){
+                    ylength = xlength;
+                    xlength = Integer.parseInt(imageFile.substring(imageFile.length()-5,imageFile.length()-4));
+                }
+                else {
+                    ylength = 1;  // single row component
+                }
+            }
+        }
+        else{
+           return false;
+        }
+        switch (direction) {
+            case "west": //needs to be west
+                //Am I within the bounds?
+                if( ylength + indexColumn > columnMAX ) return false;
+                if(-(xlength - 1) + indexRow < 0 ) return false;
+                //is the Path Clear
+                for (int x = 0 ; x < xlength ; x++) {
+                    for (int y =1 ; y <= ylength ;y++){
+                        TableRow temp = (TableRow) tableLayout.getChildAt(indexRow - x);
+                        String s = (String) row.getChildAt(indexColumn + y).getTag(R.id.imageTag);
+                        if(!(s.equals("hole")))
+                            return false;
+                    }
+                }
+
+                break;
+            case "east": //needs to be east
+                //Am I within the bounds
+                if(-(ylength - 1) + indexColumn < 0 ) return false;
+                if(xlength + indexRow > rowMAX ) return false;
+                //is the Path Clear
+                for (int x = 0 ; x < xlength ; x++) {
+                    for (int y =1 ; y <= ylength ;y++){
+                        TableRow temp = (TableRow) tableLayout.getChildAt(indexRow + x);
+                        if(!(temp.getChildAt(indexColumn - y).getTag(R.id.imageTag).equals("hole")))
+                            return false;
+                    }
+                }
+                break;
+            case "north": //needs to be north
+                //Am I within the bounds
+                if(xlength + indexColumn > columnMAX ) return false;
+                if(ylength + indexRow > rowMAX ) return false;
+                //is the Path Clear
+                for (int x = 1 ; x <= xlength ; x++) {
+                    for (int y =0 ; y < ylength ;y++){
+                        TableRow temp = (TableRow) tableLayout.getChildAt(indexRow + y);
+                        if(!((temp.getChildAt(indexColumn + x).getTag(R.id.imageTag).equals("hole"))))
+                            return false;
+                    }
+                }
+                break;
+            case "south": //needs to be south
+                //Am I within Bounds
+                if(-(xlength - 1) + indexColumn < 0) return false;
+                if(-(ylength - 1) + indexRow < 0 ) return false;
+                //is the path clear
+                //is the Path Clear
+                for (int x = 1 ; x <= xlength ; x++) {
+                    for (int y =0 ; y < ylength ;y++){
+                        TableRow temp = (TableRow) tableLayout.getChildAt(indexRow - y);
+                        if(!(temp.getChildAt(indexColumn - x).getTag(R.id.imageTag).equals("hole")))
+                            return false;
+                    }
+                }
+                break;
+        }
+        return true;
     }
 
     private class MyDragListener implements View.OnDragListener {
@@ -1107,6 +1223,7 @@ public class VectorBoardActivity extends AppCompatActivity {
                     String image = (String)dropped.getTag(R.id.imageTag);
 
                     if (validMove(dropped,dropTarget)){
+                        if (fromTray(dropped)) tray.removeViewAt(tray.indexOfChild(dropped));
                         switch (image)
                         {
                             //resistors
@@ -1231,10 +1348,13 @@ public class VectorBoardActivity extends AppCompatActivity {
                             default:
                                 view.setVisibility(View.VISIBLE);
                         }
+
                 }
+
                     view.setVisibility(View.VISIBLE);
                     break;
                 default:
+
                     break;
             }
             return true;
@@ -1267,7 +1387,6 @@ public class VectorBoardActivity extends AppCompatActivity {
                     }
 
                 } else {  // NORTH SOUTH
-                    // TODO: 11/17/2015 fix for ics
                     direction = imageFile.substring(0, 5);
                     xlength = Integer.parseInt(imageFile.substring((imageFile.length() - 1)));
                     if(imageFile.contains("chip")){
@@ -1822,44 +1941,44 @@ public class VectorBoardActivity extends AppCompatActivity {
                     break;
             }
         }
+    }
 
-        private ImageView findReverseImage(ImageView imageView)
+    private ImageView findReverseImage(ImageView imageView)
+    {
+        Resources res = getResources();
+        TypedArray forward = res.obtainTypedArray(R.array.forward);
+        TypedArray backwards = res.obtainTypedArray(R.array.backwards);
+        for(int i=0;i<forward.length();i++)
         {
-            Resources res = getResources();
-            TypedArray forward = res.obtainTypedArray(R.array.forward);
-            TypedArray backwards = res.obtainTypedArray(R.array.backwards);
-            for(int i=0;i<forward.length();i++)
+            ImageView temp = new ImageView(getApplicationContext());
+            String fileName = forward.getString(i);
+            fileName = fileName.substring(13);  // removes the res/drawables
+            fileName = fileName.substring(0,fileName.length()-4); //removes .png
+            if(fileName.equals(imageView.getTag(R.id.imageTag)))
             {
-                ImageView temp = new ImageView(getApplicationContext());
-                String fileName = forward.getString(i);
-                fileName = fileName.substring(13);  // removes the res/drawables
-                fileName = fileName.substring(0,fileName.length()-4); //removes .png
-                if(fileName.equals(imageView.getTag(R.id.imageTag)))
-                {
-                    String tag = backwards.getString(i);
-                    tag = findTag(tag);
-                    editImageView(imageView,backwards.getDrawable(i),tag,null);
-                    temp.setImageDrawable(backwards.getDrawable(i));
-                    return temp;
-                }
+                String tag = backwards.getString(i);
+                tag = findTag(tag);
+                editImageView(imageView,backwards.getDrawable(i),tag,null);
+                temp.setImageDrawable(backwards.getDrawable(i));
+                return temp;
             }
-            for(int i=0;i<backwards.length();i++)
-            {
-                ImageView temp = new ImageView(getApplicationContext());
-                String fileName = backwards.getString(i);
-                fileName = fileName.substring(13);  // removes the res/drawables
-                fileName = fileName.substring(0,fileName.length()-4); //removes .png
-                if(fileName.equals(imageView.getTag(R.id.imageTag)))
-                {
-                    String tag = forward.getString(i);
-                    tag = findTag(tag);
-                    editImageView(imageView, forward.getDrawable(i),tag, null);
-                    temp.setImageDrawable(forward.getDrawable(i));
-                    return temp;
-                }
-            }
-            return imageView;
         }
+        for(int i=0;i<backwards.length();i++)
+        {
+            ImageView temp = new ImageView(getApplicationContext());
+            String fileName = backwards.getString(i);
+            fileName = fileName.substring(13);  // removes the res/drawables
+            fileName = fileName.substring(0,fileName.length()-4); //removes .png
+            if(fileName.equals(imageView.getTag(R.id.imageTag)))
+            {
+                String tag = forward.getString(i);
+                tag = findTag(tag);
+                editImageView(imageView, forward.getDrawable(i),tag, null);
+                temp.setImageDrawable(forward.getDrawable(i));
+                return temp;
+            }
+        }
+        return imageView;
     }
 
     private ImageView editImageView(ImageView current, int drawable, String tag, Component component)
