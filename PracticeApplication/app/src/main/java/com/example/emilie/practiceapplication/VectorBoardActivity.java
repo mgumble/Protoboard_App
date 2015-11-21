@@ -58,8 +58,16 @@ public class VectorBoardActivity extends AppCompatActivity {
             for(int j=0;j<columnMAX;j++)
             {
                 ImageView image = new ImageView(this);
-                image = editImageView(image, R.drawable.hole25x25, "hole", null);
-                row.addView(image,j);
+                if(i==0 && j==0)
+                {
+                    editImageView(image, R.drawable.hole25x25corner, "hole25x25corner" , null);
+                }
+                else
+                {
+                    editImageView(image, R.drawable.hole25x25, "hole", null);
+                }
+
+                row.addView(image, j);
             }
 
             tableLayout.addView(row, i);

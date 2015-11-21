@@ -157,6 +157,7 @@
     </array>
 
     <array name="forward">
+
         <item>@drawable/east_res1_4</item> //0
         <item>@drawable/east_res2_4</item> //1
         <item>@drawable/east_res3_4</item> //2
@@ -340,9 +341,17 @@
         <item>@drawable/north_4x4chip2_4_4_4</item>
         <item>@drawable/north_4x4chip3_4_4_4</item>
         <item>@drawable/north_4x4chip4_4_4_4</item>
+        <item>@drawable/hole25x25corner</item>
+        <item>@drawable/north_east_wire</item>
+        <item>@drawable/north_west_wire</item>
+        <item>@drawable/south_east_wire</item>
+        <item>@drawable/south_west_wire</item>
+        <item>@drawable/west_north_south_wire</item>
+        <item>@drawable/east_north_south_wire</item>
     </array>
 
     <array name="backwards">
+
         <item>@drawable/east_res4_4under</item>
         <item>@drawable/east_res3_4under</item>
         <item>@drawable/east_res2_4under</item>
@@ -505,6 +514,13 @@
         <item>@drawable/north_4x4chip2_4_1_4under</item>
         <item>@drawable/north_4x4chip3_4_1_4under</item>
         <item>@drawable/north_4x4chip4_4_1_4under</item>
+        <item>@drawable/hole25x25backcorner</item>
+        <item>@drawable/north_west_wire</item>
+        <item>@drawable/north_east_wire</item>
+        <item>@drawable/south_west_wire</item>
+        <item>@drawable/south_east_wire</item>
+        <item>@drawable/east_north_south_wire</item>
+        <item>@drawable/west_north_south_wire</item>
     </array>
     <array name="clickable_parts">
         <item>@drawable/hole25x25</item>
