@@ -722,8 +722,6 @@ public class VectorBoardActivity extends AppCompatActivity {
                             ClipData data = ClipData.newPlainText("", "");
                             View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(v);
                             v.startDrag(data, shadowBuilder, v, 0);
-                            v.setVisibility(View.INVISIBLE);
-                            if (fromTray(v)) tray.removeViewAt(tray.indexOfChild(v));
                         }
 
                         break;
@@ -1107,6 +1105,7 @@ public class VectorBoardActivity extends AppCompatActivity {
                     String image = (String)dropped.getTag(R.id.imageTag);
 
                     if (validMove(dropped,dropTarget)){
+                        if (fromTray(dropped)) tray.removeViewAt(tray.indexOfChild(dropped));
                         switch (image)
                         {
                             //resistors
@@ -1231,10 +1230,13 @@ public class VectorBoardActivity extends AppCompatActivity {
                             default:
                                 view.setVisibility(View.VISIBLE);
                         }
+
                 }
+
                     view.setVisibility(View.VISIBLE);
                     break;
                 default:
+
                     break;
             }
             return true;
