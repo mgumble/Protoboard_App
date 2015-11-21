@@ -988,18 +988,17 @@ public class VectorBoardActivity extends AppCompatActivity {
             south = (ImageView)((TableRow)tableLayout.getChildAt(columnindex+1)).getChildAt(rowindex);
         }
 
-        Drawable wire = findWireType(findWireCode(north, south, east, west));
-        if (wire == null) {
+        int wire = findWireType(findWireCode(north, south, east, west));
+        Resources res = getResources();
+        TypedArray wires = res.obtainTypedArray(R.array.wire_parts);
+        if (wire == -1) {
             if (wireType != null) {
                 wire = findWireType(wireType);
             } else {
-                Resources res = getResources();
-                TypedArray wires = res.obtainTypedArray(R.array.wire_parts);
-                wire = wires.getDrawable(0);
+                wire = 0;
             }
         }
-        image.setImageDrawable(wire);
-        image.setOnTouchListener(new MyTouchListener());
+        editImageView(image,wires.getDrawable(wire),findTag(wires.getString(wire)),null);
     }
     private boolean[] findWireCode(ImageView north, ImageView south, ImageView east, ImageView west)
     {
@@ -1010,7 +1009,7 @@ public class VectorBoardActivity extends AppCompatActivity {
         answers[3] = ifConnectable(west, "east");
         return answers;
     }
-    private Drawable findWireType(boolean[] answers) {
+    private int findWireType(boolean[] answers) {
 
         int i,j,counter,total;
         total = counter = 0;
@@ -1024,7 +1023,7 @@ public class VectorBoardActivity extends AppCompatActivity {
         TypedArray wires = res.obtainTypedArray(R.array.wire_parts);
         if (total == 0)
         {
-            return null;
+            return -1;
         } else {
             for (i = 0; i < wires.length(); i++) {
                 String fileName = wires.getString(i);
@@ -1035,11 +1034,11 @@ public class VectorBoardActivity extends AppCompatActivity {
                     }
                 }
                 if (counter == total) {
-                    return wires.getDrawable(i);
+                    return i;
                 }
             }
         }
-        return null;
+        return -1;
     }
 
     private boolean ifConnectable(ImageView imageView, String key) {
