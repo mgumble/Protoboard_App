@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class  Component implements Serializable{
+public class  Component implements Serializable,Comparable{
 	public String Name;
     public String type;
 	public List<Net> NetList;
@@ -100,4 +100,8 @@ public class  Component implements Serializable{
 		Terminals = terminals;
 	}
 
+	@Override
+	public int compareTo(Object another) {
+		return this.Name.compareTo(((Component)another).Name);
+	}
 }

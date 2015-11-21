@@ -216,13 +216,14 @@ public class VectorBoardActivity extends AppCompatActivity {
             case "east_west_wire":
                 editImageView(imageView, R.drawable.north_south_wire, "north_south_wire", null);
                 break;
-            case "north_south_wire.":
+            case "north_south_wire":
                 editImageView(imageView, R.drawable.east_west_wire, "east_west_wire", null);
                 break;
             default:
                 break;
         }
     }
+
     private void flip(ImageView imageView, String clicked)
     {
 
@@ -667,39 +668,46 @@ public class VectorBoardActivity extends AppCompatActivity {
         int indexcolumn = row.indexOfChild(dropped);
         int indexrow = tableLayout.indexOfChild(row);
         ImageView image = (ImageView) row.getChildAt(indexcolumn);
-        ImageView temp;
+        ImageView temp = new ImageView(this);
 
         editImageView(image, R.drawable.hole25x25, "hole", null);
         image.setVisibility(View.VISIBLE);
-
-        for(int i=0;i<x;i++)
+        String tag = (String)dropped.getTag(R.id.imageTag);
+        if(tag.contains("wire"))
         {
-            for(int j=0;j<y;j++)
+            editImageView(dropped,R.drawable.hole25x25,"hole",null);
+        }
+        else{
+            for(int i=0;i<x;i++)
             {
-                switch(rotation) {
-                    case "east":
-                        row = (TableRow)tableLayout.getChildAt(indexrow+i);
-                        temp = (ImageView) row.getChildAt(indexcolumn+j);
-                        editImageView(temp,R.drawable.hole25x25,"hole",null);
-                        break;
-                    case "west":
-                        row = (TableRow)tableLayout.getChildAt(indexrow-i); 
-                        temp = (ImageView) row.getChildAt(indexcolumn-j);
-                        editImageView(temp, R.drawable.hole25x25, "hole", null);
-                        break;
-                    case "north":
-                        row = (TableRow)tableLayout.getChildAt(indexrow-j);
-                        temp = (ImageView) row.getChildAt(indexcolumn+i);
-                        editImageView(temp, R.drawable.hole25x25, "hole", null);
-                        break;
-                    case "south":
-                        row = (TableRow)tableLayout.getChildAt(indexrow+j);
-                        temp = (ImageView) row.getChildAt(indexcolumn-i);
-                        editImageView(temp, R.drawable.hole25x25, "hole", null);
-                        break;
+                for(int j=0;j<y;j++)
+                {
+                    switch(rotation) {
+                        case "east":
+                            row = (TableRow)tableLayout.getChildAt(indexrow+i);
+                            temp = (ImageView) row.getChildAt(indexcolumn+j);
+                            editImageView(temp,R.drawable.hole25x25,"hole",null);
+                            break;
+                        case "west":
+                            row = (TableRow)tableLayout.getChildAt(indexrow-i);
+                            temp = (ImageView) row.getChildAt(indexcolumn-j);
+                            editImageView(temp, R.drawable.hole25x25, "hole", null);
+                            break;
+                        case "north":
+                            row = (TableRow)tableLayout.getChildAt(indexrow-j);
+                            temp = (ImageView) row.getChildAt(indexcolumn+i);
+                            editImageView(temp, R.drawable.hole25x25, "hole", null);
+                            break;
+                        case "south":
+                            row = (TableRow)tableLayout.getChildAt(indexrow+j);
+                            temp = (ImageView) row.getChildAt(indexcolumn-i);
+                            editImageView(temp, R.drawable.hole25x25, "hole", null);
+                            break;
+                    }
                 }
             }
         }
+
 
         return true;
     }
@@ -855,8 +863,6 @@ public class VectorBoardActivity extends AppCompatActivity {
             else return false;
 
         }
-
-
     }
 
     private boolean fromTray(View v) {
@@ -970,6 +976,7 @@ public class VectorBoardActivity extends AppCompatActivity {
         int ylength = 0;
         String imageFile = findClickable(DroppedImage);
 
+        if(imageFile.contains("wire")) return true;
         if(imageFile.endsWith("under")){
             return false;                             //checks to see if the image is under the board
         }
@@ -1799,45 +1806,46 @@ public class VectorBoardActivity extends AppCompatActivity {
                     break;
             }
         }
-
-        private ImageView findReverseImage(ImageView imageView)
-        {
-            Resources res = getResources();
-            TypedArray forward = res.obtainTypedArray(R.array.forward);
-            TypedArray backwards = res.obtainTypedArray(R.array.backwards);
-            for(int i=0;i<forward.length();i++)
-            {
-                ImageView temp = new ImageView(getApplicationContext());
-                String fileName = forward.getString(i);
-                fileName = fileName.substring(13);  // removes the res/drawables
-                fileName = fileName.substring(0,fileName.length()-4); //removes .png
-                if(fileName.equals(imageView.getTag(R.id.imageTag)))
-                {
-                    String tag = backwards.getString(i);
-                    tag = findTag(tag);
-                    editImageView(imageView,backwards.getDrawable(i),tag,null);
-                    temp.setImageDrawable(backwards.getDrawable(i));
-                    return temp;
-                }
-            }
-            for(int i=0;i<backwards.length();i++)
-            {
-                ImageView temp = new ImageView(getApplicationContext());
-                String fileName = backwards.getString(i);
-                fileName = fileName.substring(13);  // removes the res/drawables
-                fileName = fileName.substring(0,fileName.length()-4); //removes .png
-                if(fileName.equals(imageView.getTag(R.id.imageTag)))
-                {
-                    String tag = forward.getString(i);
-                    tag = findTag(tag);
-                    editImageView(imageView, forward.getDrawable(i),tag, null);
-                    temp.setImageDrawable(forward.getDrawable(i));
-                    return temp;
-                }
-            }
-            return imageView;
-        }
     }
+
+    private ImageView findReverseImage(ImageView imageView)
+    {
+        Resources res = getResources();
+        TypedArray forward = res.obtainTypedArray(R.array.forward);
+        TypedArray backwards = res.obtainTypedArray(R.array.backwards);
+        for(int i=0;i<forward.length();i++)
+        {
+            ImageView temp = new ImageView(getApplicationContext());
+            String fileName = forward.getString(i);
+            fileName = fileName.substring(13);  // removes the res/drawables
+            fileName = fileName.substring(0,fileName.length()-4); //removes .png
+            if(fileName.equals(imageView.getTag(R.id.imageTag)))
+            {
+                String tag = backwards.getString(i);
+                tag = findTag(tag);
+                editImageView(imageView,backwards.getDrawable(i),tag,null);
+                temp.setImageDrawable(backwards.getDrawable(i));
+                return temp;
+            }
+        }
+        for(int i=0;i<backwards.length();i++)
+        {
+            ImageView temp = new ImageView(getApplicationContext());
+            String fileName = backwards.getString(i);
+            fileName = fileName.substring(13);  // removes the res/drawables
+            fileName = fileName.substring(0,fileName.length()-4); //removes .png
+            if(fileName.equals(imageView.getTag(R.id.imageTag)))
+            {
+                String tag = forward.getString(i);
+                tag = findTag(tag);
+                editImageView(imageView, forward.getDrawable(i),tag, null);
+                temp.setImageDrawable(forward.getDrawable(i));
+                return temp;
+            }
+        }
+        return imageView;
+    }
+
     private ImageView editImageView(ImageView current, int drawable, String tag, Component component)
     {
         current.setImageResource(drawable);
