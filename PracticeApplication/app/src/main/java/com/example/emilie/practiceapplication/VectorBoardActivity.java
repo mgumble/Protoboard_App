@@ -728,7 +728,7 @@ public class VectorBoardActivity extends AppCompatActivity {
 
                         break;
                     case "Rotate":
-                        if(!isHole && isclickable)
+                        if(!isHole && isclickable && validRotate(image,image))
                         {
                             rotate(v);
                         }
@@ -858,20 +858,22 @@ public class VectorBoardActivity extends AppCompatActivity {
 
         }
 
-        private boolean fromTray(View v) {
-            String string = findClickable((ImageView) v);
-            assert string != null;
-            if(string.equals("resistorfinal") ||
-                    string.equals("inductor") ||
-                    string.equals("capacitorfinal") ||
-                    string.equals("chip2x2")||
-                    string.equals("chip3x3") ||
-                    string.equals("chip4x4")) {
-                return true;
-            }
-            else {
-                return false;
-            }
+
+    }
+
+    private boolean fromTray(View v) {
+        String string = findClickable((ImageView) v);
+        assert string != null;
+        if(string.equals("resistorfinal") ||
+                string.equals("inductor") ||
+                string.equals("capacitorfinal") ||
+                string.equals("chip2x2")||
+                string.equals("chip3x3") ||
+                string.equals("chip4x4")) {
+            return true;
+        }
+        else {
+            return false;
         }
     }
 
@@ -956,6 +958,108 @@ public class VectorBoardActivity extends AppCompatActivity {
             }
         }
         return false;
+    }
+
+    private boolean validRotate(ImageView DroppedImage, ImageView TargetImage) {
+        if(fromTray(TargetImage)) return false;
+        TableRow row = (TableRow) TargetImage.getParent();
+        int indexColumn = row.indexOfChild(TargetImage);
+        int indexRow = tableLayout.indexOfChild(row);
+        //ImageView hole = new ImageView(getApplicationContext());
+        //hole.setImageResource(R.drawable.hole25x25);
+        String direction = "";
+        int xlength = 0;
+        int ylength = 0;
+        String imageFile = findClickable(DroppedImage);
+
+        if(imageFile.endsWith("under")){
+            return false;                             //checks to see if the image is under the board
+        }
+        if (imageFile.contains("_")) {//Not a final image
+            if (imageFile.charAt(4) == '_') { //EAST WEST
+                direction = imageFile.substring(0, 4);
+                xlength = Integer.parseInt(imageFile.substring((imageFile.length()-1)));
+                if(imageFile.contains("chip")){
+                    ylength = xlength;
+                    xlength = Integer.parseInt(imageFile.substring(imageFile.length()-5,imageFile.length()-4));
+                }
+                else {
+                    ylength = 1;  // single row component
+                }
+
+            } else {  // NORTH SOUTH
+                direction = imageFile.substring(0, 5);
+                xlength = Integer.parseInt(imageFile.substring((imageFile.length() - 1)));
+                if(imageFile.contains("chip")){
+                    ylength = xlength;
+                    xlength = Integer.parseInt(imageFile.substring(imageFile.length()-5,imageFile.length()-4));
+                }
+                else {
+                    ylength = 1;  // single row component
+                }
+            }
+        }
+        else{
+           return false;
+        }
+        switch (direction) {
+            case "west": //needs to be west
+                //Am I within the bounds?
+                if( ylength + indexColumn > columnMAX ) return false;
+                if(-(xlength - 1) + indexRow < 0 ) return false;
+                //is the Path Clear
+                for (int x = 0 ; x < xlength ; x++) {
+                    for (int y =1 ; y <= ylength ;y++){
+                        TableRow temp = (TableRow) tableLayout.getChildAt(indexRow - x);
+                        String s = (String) row.getChildAt(indexColumn + y).getTag(R.id.imageTag);
+                        if(!(s.equals("hole")))
+                            return false;
+                    }
+                }
+
+                break;
+            case "east": //needs to be east
+                //Am I within the bounds
+                if(-(ylength - 1) + indexColumn < 0 ) return false;
+                if(xlength + indexRow > rowMAX ) return false;
+                //is the Path Clear
+                for (int x = 0 ; x < xlength ; x++) {
+                    for (int y =1 ; y <= ylength ;y++){
+                        TableRow temp = (TableRow) tableLayout.getChildAt(indexRow + x);
+                        if(!(temp.getChildAt(indexColumn - y).getTag(R.id.imageTag).equals("hole")))
+                            return false;
+                    }
+                }
+                break;
+            case "north": //needs to be north
+                //Am I within the bounds
+                if(xlength + indexColumn > columnMAX ) return false;
+                if(ylength + indexRow > rowMAX ) return false;
+                //is the Path Clear
+                for (int x = 1 ; x <= xlength ; x++) {
+                    for (int y =0 ; y < ylength ;y++){
+                        TableRow temp = (TableRow) tableLayout.getChildAt(indexRow + y);
+                        if(!((temp.getChildAt(indexColumn + x).getTag(R.id.imageTag).equals("hole"))))
+                            return false;
+                    }
+                }
+                break;
+            case "south": //needs to be south
+                //Am I within Bounds
+                if(-(xlength - 1) + indexColumn < 0) return false;
+                if(-(ylength - 1) + indexRow < 0 ) return false;
+                //is the path clear
+                //is the Path Clear
+                for (int x = 1 ; x <= xlength ; x++) {
+                    for (int y =0 ; y < ylength ;y++){
+                        TableRow temp = (TableRow) tableLayout.getChildAt(indexRow - y);
+                        if(!(temp.getChildAt(indexColumn - x).getTag(R.id.imageTag).equals("hole")))
+                            return false;
+                    }
+                }
+                break;
+        }
+        return true;
     }
 
     private class MyDragListener implements View.OnDragListener {
