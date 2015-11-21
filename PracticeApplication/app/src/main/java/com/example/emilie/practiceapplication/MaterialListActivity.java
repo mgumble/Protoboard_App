@@ -19,6 +19,7 @@ import com.example.emilie.practiceapplication.Parser.Component;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class MaterialListActivity extends AppCompatActivity {
 
@@ -28,11 +29,11 @@ public class MaterialListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_material_list);
-
         Intent intent = getIntent();
         serializedList = intent.getSerializableExtra("ComponentList");
         componentList = (ArrayList<Component>) serializedList;
-
+        Collections.sort(componentList);
+        
         LinearLayout linearLayout = (LinearLayout) findViewById(R.id.BOM);
 
         for(Component component:componentList)
